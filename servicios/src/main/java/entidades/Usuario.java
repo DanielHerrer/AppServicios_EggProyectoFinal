@@ -4,6 +4,7 @@
  */
 package entidades;
 
+import enumeraciones.Rol;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
