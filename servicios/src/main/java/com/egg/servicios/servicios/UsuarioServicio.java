@@ -1,9 +1,8 @@
 
-
-
-import entidades.Imagen;
-import entidades.Usuario;
-import enumeraciones.Rol;
+import com.egg.servicios.entidades.Imagen;
+import com.egg.servicios.entidades.Usuario;
+import com.egg.servicios.enumeraciones.Rol;
+import com.egg.servicios.servicios.ImagenServicio;
 import excepciones.MiException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
-import repositorios.UsuarioRepositorio;
-import servicios.ImagenServicio;
+
 
 /**
  *
@@ -103,7 +101,7 @@ public class UsuarioServicio implements UserDetailsService {
                 idImagen = usuario.getImagen().getId();
             }
 
-            Imagen imagen = imagenServicio.actualizar(archivo, idImagen);
+            Imagen imagen = (Imagen) imagenServicio.actualizar(archivo, idImagen);
 
             usuario.setImagen(imagen);
 
@@ -113,13 +111,13 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     public Usuario getOne(String id) {
-        return usuarioRepositorio.getOne(id);
+        return (Usuario) usuarioRepositorio.getOne(id);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Usuario usuario = usuarioRepositorio.buscarPorEmail(email);
+        Usuario usuario = (Usuario) usuarioRepositorio.buscarPorEmail(email);
 
         if (usuario != null) {
 

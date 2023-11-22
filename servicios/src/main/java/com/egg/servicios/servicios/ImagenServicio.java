@@ -1,10 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package servicios;
+package com.egg.servicios.servicios;
 
-import entidades.Imagen;
+
+
+
+
+import com.egg.servicios.repositorios.ImagenRepositorio;
+import com.egg.servicios.entidades.Imagen;
 import excepciones.MiException;
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import repositorios.ImagenRepositorio;
+
 
 /**
  *
@@ -36,6 +37,7 @@ public class ImagenServicio {
                 
                 imagen.setContenido(archivo.getBytes());
                 
+                
                 return (Imagen) imagenRepositorio.save(imagen);
                 
             } catch (Exception e) {
@@ -52,7 +54,7 @@ public class ImagenServicio {
                 Imagen imagen = new Imagen();
                 
                 if (idImagen != null) {
-                    Optional<Imagen> respuesta = imagenRepositorio.findById(idImagen);
+                    Optional <Imagen> respuesta = imagenRepositorio.findById(idImagen);
                     
                     if (respuesta.isPresent()) {
                         imagen = respuesta.get();
