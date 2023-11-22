@@ -39,7 +39,7 @@ public class UsuarioServicio implements UserDetailsService {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void registrar(MultipartFile archivo,String accUsuario, String nombre, String email,String ubicacion, String password, String password2) throws MiException {
+    public void registrar(MultipartFile archivo,String accUsuario, Rol rol, String nombre, String email,String ubicacion, String password, String password2) throws MiException {
 
         validar(nombre, email, password, password2);
 
@@ -53,7 +53,7 @@ public class UsuarioServicio implements UserDetailsService {
 
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
 
-        usuario.setRol(Rol.CLIENTE);
+        usuario.setRol(rol);
 
         Imagen imagen = imagenServicio.guardar(archivo);
 
@@ -81,7 +81,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void actualizar(MultipartFile archivo,String idUsuario, String ubicacion, String nombre, String email, String password, String password2) throws MiException {
+    public void actualizar(MultipartFile archivo,String idUsuario,Rol rol, String ubicacion, String nombre, String email, String password, String password2) throws MiException {
 
         validar(nombre, email, password, password2);
 
@@ -95,7 +95,7 @@ public class UsuarioServicio implements UserDetailsService {
             
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
 
-            usuario.setRol(Rol.CLIENTE);
+            usuario.setRol(rol);
 
             String idImagen = null;
 
