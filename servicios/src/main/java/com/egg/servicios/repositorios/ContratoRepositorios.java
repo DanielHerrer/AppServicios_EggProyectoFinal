@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
  * @author joaquin
  */
 @Repository
-public interface ContratoRepositorio extends JpaRepository<Contrato,String> {
-    
+public interface ContratoRepositorios extends JpaRepository<Contrato,String> {
+
+   
 }
