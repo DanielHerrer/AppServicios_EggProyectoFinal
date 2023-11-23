@@ -18,20 +18,30 @@ public class CategoriaServicio {
     public void crearCategoria(String nombre) throws MiException{
 
         validar(nombre, nombre);
-        
+
+        try {
+            
         Categoria categoria = new Categoria();
 
         categoria.setNombre(nombre);
         categoria.setAlta(true);
 
         categoriaRepositorio.save(categoria);
-
+        
+        } catch (Exception e) {
+            
+            throw new MiException(e.getMessage());
+            
+        }
+        
     }
 
     public void modificarCategoria(String ID_categoria, String nombre) throws MiException {
 
         validar(nombre, nombre);
         
+        try {
+
         Optional<Categoria>resultado = categoriaRepositorio.findById(ID_categoria);
         
         if (resultado.isPresent()) {
@@ -39,6 +49,12 @@ public class CategoriaServicio {
             Categoria categoria = resultado.get();
             categoria.setNombre(nombre);
             categoriaRepositorio.save(categoria);
+            
+        }
+                
+        } catch (Exception e) {
+            
+            throw new MiException(e.getMessage());
             
         }
         
