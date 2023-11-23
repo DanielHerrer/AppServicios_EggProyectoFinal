@@ -1,9 +1,10 @@
+package com.egg.servicios.servicios;
 
 import com.egg.servicios.entidades.Imagen;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.servicios.ImagenServicio;
-import excepciones.MiException;
+import com.egg.servicios.excepciones.MiException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
-
 
 /**
  *
