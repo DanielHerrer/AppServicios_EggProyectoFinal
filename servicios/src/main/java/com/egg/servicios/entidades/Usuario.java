@@ -25,7 +25,7 @@ public class Usuario {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
     
-    private String usuario;
+    private String accUsuario;
     private String password;
     private String nombre;
     
@@ -42,9 +42,9 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String id, String usuario, String password, String nombre, Imagen imagen, String email, String ubicacion, Rol rol, boolean alta) {
+    public Usuario(String id, String accUsuario, String password, String nombre, Imagen imagen, String email, String ubicacion, Rol rol, boolean alta) {
         this.id = id;
-        this.usuario = usuario;
+        this.accUsuario = accUsuario;
         this.password = password;
         this.nombre = nombre;
         this.imagen = imagen;
@@ -62,12 +62,12 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getAccUsuario() {
+        return accUsuario;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setAccUsuario(String accUsuario) {
+        this.accUsuario = accUsuario;
     }
 
     public String getPassword() {
@@ -125,7 +125,5 @@ public class Usuario {
     public void setAlta(boolean alta) {
         this.alta = alta;
     }
-    
-    
-    
+
 }

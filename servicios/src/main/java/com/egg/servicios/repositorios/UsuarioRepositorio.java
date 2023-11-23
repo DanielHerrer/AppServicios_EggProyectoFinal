@@ -1,36 +1,33 @@
 package com.egg.servicios.repositorios;
 
-import com.egg.servicios.entidades.Servicio;
+import com.egg.servicios.entidades.Usuario;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 /**
  *
- * @author Daniel
+ * @author Nico
  */
 @Repository
-public interface ServicioRepositorio extends JpaRepository<Servicio, String> {
+public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
+
+    @Query("SELECT u FROM Usuario u WHERE u.email= :email")
+    public Usuario buscarPorEmail(@Param("email") String email);
 
     @Query("""
             SELECT s FROM Servicio s
             WHERE s.activo = true
             """)
-    public List<Servicio> listarServiciosActivos();
+    public List<Usuario> listarUsuariosActivos();
 
     @Query("""
             SELECT s FROM Servicio s
             WHERE s.activo = false
             """)
-    public List<Servicio> listarServiciosInactivos();
-
-    @Query("""
-            SELECT s FROM Servicio s
-            WHERE s.descripcion = :descripcion
-            """)
-    public List<Servicio> buscarPorDescripcion(@Param("descripcion") String descripcion);
+    public List<Usuario> listarUsuariosInactivos();
 
 }
