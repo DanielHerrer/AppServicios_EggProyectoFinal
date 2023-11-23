@@ -8,9 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ *
+ * @author Daniel
+ */
 @Service
 public class ServicioServicio {
 
@@ -20,9 +25,10 @@ public class ServicioServicio {
     @Autowired
     private ImagenServicio imagenServicio;
 
+    @Transactional
     public void crearServicio(String descripcion, MultipartFile archivo, String idCategoria, String idUsuario) throws Exception {
 
-        validar(descripcion, idCategoria);
+        validar(descripcion, idCategoria, archivo);
 
         Servicio servicio = new Servicio();
 
@@ -41,9 +47,10 @@ public class ServicioServicio {
     }
 
     // Permite actualizar descripcion, categoria y/o matricula
+    @Transactional
     public void actualizarServicio(String idServicio, String descripcion, MultipartFile archivo, String idCategoria) throws Exception {
 
-        validar(descripcion, idCategoria);
+        validar(descripcion, idCategoria, archivo);
 
         Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
 
@@ -77,10 +84,10 @@ public class ServicioServicio {
     }
 
     public List<Servicio> listarServicios() {
-        return servicioRepositorio.findAll();
+        return servicioRepositorio.listarServiciosActivos();
     }
 
-    public void validar(String descripcion, String idCategoria) throws Exception {
+    public void validar(String descripcion, String idCategoria, MultipartFile archivo) throws Exception {
 
         if (descripcion.trim().isEmpty() || descripcion == null) {
             throw new Exception("La descripcion no puede ser nula o estar vacia.");
@@ -90,6 +97,9 @@ public class ServicioServicio {
         }
         if(idCategoria.trim().isEmpty() || idCategoria == null){
             throw new Exception("La categoria no puede ser nula o estar vacia.");
+        }
+        if(archivo.isEmpty() || archivo == null) {
+            throw new Exception("El archivo no puede ser nulo o estar vacio.");
         }
     }
 

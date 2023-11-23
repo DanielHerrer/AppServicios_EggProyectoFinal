@@ -126,6 +126,4 @@ public class Usuario {
         this.alta = alta;
     }
     
-    
-    
 }

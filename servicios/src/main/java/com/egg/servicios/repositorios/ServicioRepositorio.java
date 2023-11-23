@@ -8,8 +8,24 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ *
+ * @author Daniel
+ */
 @Repository
 public interface ServicioRepositorio extends JpaRepository<Servicio, String> {
+
+    @Query("""
+            SELECT s FROM Servicio s
+            WHERE s.activo = true
+            """)
+    public List<Servicio> listarServiciosActivos();
+
+    @Query("""
+            SELECT s FROM Servicio s
+            WHERE s.activo = false
+            """)
+    public List<Servicio> listarServiciosInactivos();
 
     @Query("""
             SELECT s FROM Servicio s
