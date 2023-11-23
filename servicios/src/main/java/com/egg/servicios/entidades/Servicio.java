@@ -13,9 +13,11 @@ public class Servicio {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id_servicio;
+    private String id;
 
     private String descripcion;
+
+    private Double honorariosHora;
 
     @OneToOne
     private Imagen matricula;
@@ -31,20 +33,21 @@ public class Servicio {
         this.activo = true;
     }
 
-    public Servicio(String descripcion, Imagen matricula, Categoria categoria, Usuario proveedor) {
+    public Servicio(String descripcion, Double honorariosHora, Imagen matricula, Categoria categoria, Usuario proveedor) {
         this.descripcion = descripcion;
+        this.honorariosHora = honorariosHora;
         this.matricula = matricula;
         this.categoria = categoria;
         this.proveedor = proveedor;
         this.activo = true;
     }
 
-    public String getId_servicio() {
-        return id_servicio;
+    public String getId() {
+        return id;
     }
 
-    public void setId_servicio(String id_servicio) {
-        this.id_servicio = id_servicio;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescripcion() {
@@ -53,6 +56,14 @@ public class Servicio {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Double getHonorariosHora() {
+        return honorariosHora;
+    }
+
+    public void setHonorariosPorHora(Double honorariosHora) {
+        this.honorariosHora = honorariosHora;
     }
 
     public Imagen getMatricula() {
