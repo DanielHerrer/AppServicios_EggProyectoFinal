@@ -5,8 +5,10 @@
 package com.egg.servicios.servicios;
 
 import com.egg.servicios.entidades.Contrato;
+import com.egg.servicios.enumeraciones.Estados;
 import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.repositorios.ContratoRepositorios;
+import excepciones.MiException;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,18 +32,19 @@ public class ContratoServicios {
     }
 
     @Transactional
-    public void guardarContrato(Rol estados, Oferta ofertas, Calificacion aptitud) {
+    public void guardarContrato(Estados state, Oferta ofertas, Calificacion aptitud) throws MiException {
         try {
+            validar(state);
             Contrato contrato = new Contrato();
             contrato.setAptitud(aptitud);
             contrato.setOferta(ofertas);
             contratoRepo.save(contrato);
-        } catch (MiException e) {
-            System.out.println(e.getMessege());
+         } catch (Exception e) {
+            throw new MiException(e.getMessage());
         }
     }
 
-    public void actualizarContrato(String id, Rol state) {
+    public void actualizarContrato(String id, Rol state) throws MiException {
         try {
             Optional<Contrato> presente = contratoRepo.findById(id);
             if (presente.isPresent()) {
@@ -49,12 +52,12 @@ public class ContratoServicios {
                 c.setEstado_trabajo(state);
                 contratoRepo.save(c);
             }
-        } catch (MiException e) {
-            System.out.println(e.getMessege());
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
         }
     }
 
-    public void actualizarContrato(String id, Rol state, Integer puntaje) {
+    public void actualizarContrato(String id, Rol state, Integer puntaje) throws MiException {
         try {
             Optional<Contrato> presente = contratoRepo.findById(id);
             if (presente.isPresent()) {
@@ -63,12 +66,12 @@ public class ContratoServicios {
                 c.setAptitud(id);
                 contratoRepo.save(c);
             }
-        } catch (MiException e) {
-            System.out.println(e.getMessege());
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
         }
     }
 
-    public void eliminarContrato(String id) {
+    public void eliminarContrato(String id) throws MiException {
         try {
             Optional<Contrato> presente = contratoRepo.findById(id);
             if (presente.isPresent()) {
@@ -76,10 +79,22 @@ public class ContratoServicios {
                 c.setAlta(false);
                 contratoRepo.save(c);
             }
-        } catch (MiException e) {
-            System.out.println(e.getMessege());
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
+    public void validar(Estados state) throws MiException {
+
+        if (state.equals(null) || state == null) {
+            throw new MiException("El Estado no puede ser nulo !");
+
         }
 
+    }
+
+    public Contrato getOne(String id) {
+        return contratoRepo.getOne(id);
     }
 
 }
