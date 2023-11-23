@@ -4,13 +4,21 @@ import com.egg.servicios.entidades.Imagen;
 import com.egg.servicios.entidades.Servicio;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.repositorios.ServicioRepositorio;
+import com.egg.servicios.excepciones.MiException;
+
+import com.egg.servicios.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ *
+ * @author Daniel
+ */
 @Service
 public class ServicioServicio {
 
@@ -18,58 +26,73 @@ public class ServicioServicio {
     private ServicioRepositorio servicioRepositorio;
 
     @Autowired
+    private UsuarioRepositorio usuarioRepositorio;
+
+    @Autowired
     private ImagenServicio imagenServicio;
 
-    public void crearServicio(String descripcion, MultipartFile archivo, String idCategoria, String idUsuario) throws Exception {
+    @Transactional
+    public void crearServicio(String descripcion, MultipartFile archivo, String idCategoria, String idUsuario) throws MiException {
 
-        validar(descripcion, idCategoria);
+        validar(descripcion, idCategoria, archivo);
 
-        Servicio servicio = new Servicio();
+        try {
+            Servicio servicio = new Servicio();
 
-        servicio.setDescripcion(descripcion);
+            servicio.setDescripcion(descripcion);
 
-        Imagen matricula = imagenServicio.guardar(archivo);
-        servicio.setMatricula(matricula);
+            Imagen matricula = imagenServicio.guardar(archivo);
+            servicio.setMatricula(matricula);
 
-        Categoria categoria = categoriaRepository.findById(idCategoria).get();
-        servicio.setCategoria(categoria);
+            Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
+            servicio.setCategoria(categoria);
 
-        Usuario proveedor = usuarioRepository.findById(idUsuario).get();
-        servicio.setProveedor(proveedor);
+            Usuario proveedor = usuarioRepositorio.findById(idUsuario).get();
+            servicio.setProveedor(proveedor);
 
-        servicioRepositorio.save(servicio);
+            servicioRepositorio.save(servicio);
+
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
     }
 
     // Permite actualizar descripcion, categoria y/o matricula
-    public void actualizarServicio(String idServicio, String descripcion, MultipartFile archivo, String idCategoria) throws Exception {
+    @Transactional
+    public void actualizarServicio(String idServicio, String descripcion, MultipartFile archivo, String idCategoria) throws MiException {
 
-        validar(descripcion, idCategoria);
+        validar(descripcion, idCategoria, archivo);
 
-        Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
+        try {
+            Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
 
-        if(respuesta.isPresent()) {
+            if(respuesta.isPresent()) {
 
-            Servicio servicio = respuesta.get();
+                Servicio servicio = respuesta.get();
 
-            servicio.setDescripcion(descripcion);
-            servicio.setCategoria(categoria);
+                servicio.setDescripcion(descripcion);
 
-            // --------------------
+                Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
+                servicio.setCategoria(categoria);
 
-            String idImagen = null;
+                // --------------------
 
-            if (servicio.getMatricula() != null) {
-                idImagen = servicio.getMatricula().getId();
+                String idImagen = null;
+
+                if (servicio.getMatricula() != null) {
+                    idImagen = servicio.getMatricula().getId();
+                }
+
+                Imagen matricula = imagenServicio.actualizar(archivo, idImagen);
+                servicio.setMatricula(matricula);
+
+                // --------------------
+
+                servicioRepositorio.save(servicio);
             }
-
-            Imagen matricula = imagenServicio.actualizar(archivo, idImagen);
-            servicio.setMatricula(matricula);
-
-            // --------------------
-
-            servicioRepositorio.save(servicio);
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
         }
-
     }
 
     public Servicio listarPorId(String idServicio) {
@@ -77,19 +100,22 @@ public class ServicioServicio {
     }
 
     public List<Servicio> listarServicios() {
-        return servicioRepositorio.findAll();
+        return servicioRepositorio.listarServiciosActivos();
     }
 
-    public void validar(String descripcion, String idCategoria) throws Exception {
+    public void validar(String descripcion, String idCategoria, MultipartFile archivo) throws MiException {
 
         if (descripcion.trim().isEmpty() || descripcion == null) {
-            throw new Exception("La descripcion no puede ser nula o estar vacia.");
+            throw new MiException("La descripcion no puede ser nula o estar vacia.");
         }
         if (servicioRepositorio.buscarPorDescripcion(descripcion) != null) {
-            throw new Exception("Existe un servicio publicado con la misma descripcion!");
+            throw new MiException("Existe un servicio publicado con la misma descripcion!");
         }
         if(idCategoria.trim().isEmpty() || idCategoria == null){
-            throw new Exception("La categoria no puede ser nula o estar vacia.");
+            throw new MiException("La categoria no puede ser nula o estar vacia.");
+        }
+        if(archivo.isEmpty() || archivo == null) {
+            throw new MiException("El archivo no puede ser nulo o estar vacio.");
         }
     }
 
