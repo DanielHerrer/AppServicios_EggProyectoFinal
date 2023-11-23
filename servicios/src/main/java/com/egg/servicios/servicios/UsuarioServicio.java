@@ -1,7 +1,10 @@
+package com.egg.servicios.servicios;
+
 
 import com.egg.servicios.entidades.Imagen;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
+import com.egg.servicios.repositorios.UsuarioRepositorio;
 import com.egg.servicios.servicios.ImagenServicio;
 import excepciones.MiException;
 import java.util.ArrayList;
