@@ -1,14 +1,8 @@
-
 package com.egg.servicios.entidades;
 
-
 import javax.persistence.*;
-
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.Entity;
-
-
 
 /**
  *

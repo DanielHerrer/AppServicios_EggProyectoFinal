@@ -1,19 +1,15 @@
 package com.egg.servicios.servicios;
 
-
-
-
-
 import com.egg.servicios.repositorios.ImagenRepositorio;
 import com.egg.servicios.entidades.Imagen;
-import excepciones.MiException;
+import com.egg.servicios.excepciones.MiException;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 
 /**
  *
