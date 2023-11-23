@@ -22,6 +22,7 @@ public class Servicio {
     @OneToOne
     private Imagen matricula;
 
+    @ManyToOne
     private Categoria categoria;
 
     @ManyToOne
