@@ -2,24 +2,27 @@ package com.egg.servicios.entidades;
 
 import com.egg.servicios.enumeraciones.Rol;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import org.hibernate.annotations.GenericGenerator;
+
 
 /**
  *
  * @author joaquin
  */
 @Entity
+@Table(name = "contratos")
 public class Contrato {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    private Rol estado_trabajo;
+    private Rol estadoTrabajo;
+    @OneToOne
     private Oferta oferta;
+    @OneToOne
     private Calificacion aptitud;
     private boolean alta;
 
@@ -28,11 +31,12 @@ public class Contrato {
     }
     
 
-    public Contrato(String id, Rol estado_trabajo, Oferta oferta, Calificacion aptitud) {
+    public Contrato(String id, Rol estadoTrabajo, Oferta oferta, Calificacion aptitud) {
         this.id = id;
-        this.estado_trabajo = estado_trabajo;
+        this.estadoTrabajo = estadoTrabajo;
         this.oferta = oferta;
         this.aptitud = aptitud;
+        this.alta = true;
     }
 
     public String getId() {
@@ -44,11 +48,11 @@ public class Contrato {
     }
 
     public Rol getEstado_trabajo() {
-        return estado_trabajo;
+        return estadoTrabajo;
     }
 
-    public void setEstado_trabajo(Rol estado_trabajo) {
-        this.estado_trabajo = estado_trabajo;
+    public void setEstadoTrabajo(Rol estadoTrabajo) {
+        this.estadoTrabajo = estadoTrabajo;
     }
 
     public Oferta getOferta() {
