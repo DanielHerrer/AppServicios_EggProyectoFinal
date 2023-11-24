@@ -7,6 +7,10 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ *
+ * @author martin
+ */
 @Entity
 @Table(name = "categorias")
 public class Categoria {

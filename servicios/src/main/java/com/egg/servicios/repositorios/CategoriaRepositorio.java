@@ -7,6 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+/**
+ *
+ * @author Martin
+ */
 @Repository
 public interface CategoriaRepositorio extends JpaRepository<Categoria, String> {
     
