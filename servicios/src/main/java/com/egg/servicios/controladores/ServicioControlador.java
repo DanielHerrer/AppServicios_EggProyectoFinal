@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  * @author Daniel
  */
-@Controller
-@RequestMapping("/servicio")
-public class ServicioControlador {
-
-
-
-}
+//@Controller
+//@RequestMapping("/servicio")
+//public class ServicioControlador {
+//
+//
+//
+//}

@@ -3,28 +3,32 @@ package com.egg.servicios.entidades;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
+@Table(name = "categorias")
 public class Categoria {
     
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name= "uuid", strategy = "uuid2")
-    private String ID_categorio;
+    private String id;
     
     private String nombre;
     private boolean alta;
 
     public Categoria() {
+        this.alta = true;
     }
 
-    public String getID_categorio() {
-        return ID_categorio;
+    public String getId() {
+        return id;
     }
 
-    public void setID_categorio(String ID_categorio) {
-        this.ID_categorio = ID_categorio;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNombre() {

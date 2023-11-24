@@ -55,7 +55,7 @@ public class ContratoServicios {
             Optional<Contrato> presente = contratoRepo.findById(id);
             if (presente.isPresent()) {
                 Contrato c = presente.get();
-                c.setEstado_trabajo(state);
+                c.setEstadoTrabajo(state);
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
@@ -69,7 +69,7 @@ public class ContratoServicios {
             Optional<Contrato> presente = contratoRepo.findById(id);
             if (presente.isPresent()) {
                 Contrato c = presente.get();
-                c.setEstado_trabajo(state);
+                c.setEstadoTrabajo(state);
                 c.setAptitud(aptitud);
                 contratoRepo.save(c);
             }

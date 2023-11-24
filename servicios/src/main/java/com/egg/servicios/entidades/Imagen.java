@@ -9,6 +9,7 @@ import javax.persistence.Entity;
  * @author Nico
  */
 @Entity
+@Table(name = "imagenes")
 public class Imagen {
     @Id
     @GeneratedValue(generator = "uuid")
