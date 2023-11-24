@@ -20,13 +20,13 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
 
     @Query("""
             SELECT s FROM Servicio s
-            WHERE s.activo = true
+            WHERE s.alta = true
             """)
     public List<Usuario> listarUsuariosActivos();
 
     @Query("""
             SELECT s FROM Servicio s
-            WHERE s.activo = false
+            WHERE s.alta = false
             """)
     public List<Usuario> listarUsuariosInactivos();
 
