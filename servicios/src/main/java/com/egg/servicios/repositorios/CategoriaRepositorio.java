@@ -13,7 +13,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CategoriaRepositorio extends JpaRepository<Categoria, String> {
-    
+
+    public void miraQueLindura();
+
     @Query
     ("SELECT c FROM Categoria c WHERE c.nombre = :nombre")
     public List<Categoria> listarCategoriasNombre(@Param("nombre") String nombre);
