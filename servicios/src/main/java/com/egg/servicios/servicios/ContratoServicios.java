@@ -2,10 +2,14 @@ package com.egg.servicios.servicios;
 
 import com.egg.servicios.entidades.Calificacion;
 import com.egg.servicios.entidades.Contrato;
+
 import com.egg.servicios.entidades.Oferta;
+import com.egg.servicios.enumeraciones.Estados;
+
 import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.ContratoRepositorios;
+
 
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -32,12 +36,15 @@ public class ContratoServicios {
     }
 
     @Transactional
-    public void guardarContrato(Rol estados, Oferta oferta, Calificacion aptitud) throws MiException {
+    public void guardarContrato(Estados estados, Oferta oferta, Calificacion aptitud) throws MiException {
+
         try {
+            validar(estados);
             Contrato contrato = new Contrato();
             contrato.setAptitud(aptitud);
             contrato.setOferta(oferta);
             contratoRepo.save(contrato);
+
         } catch (Exception e) {
             throw new MiException(e.getMessage());
         }
@@ -48,7 +55,7 @@ public class ContratoServicios {
             Optional<Contrato> presente = contratoRepo.findById(id);
             if (presente.isPresent()) {
                 Contrato c = presente.get();
-                c.setEstado_trabajo(state);
+                c.setEstadoTrabajo(state);
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
@@ -57,11 +64,12 @@ public class ContratoServicios {
     }
 
     public void actualizarContrato(String id, Rol state, Calificacion aptitud) throws MiException {
+
         try {
             Optional<Contrato> presente = contratoRepo.findById(id);
             if (presente.isPresent()) {
                 Contrato c = presente.get();
-                c.setEstado_trabajo(state);
+                c.setEstadoTrabajo(state);
                 c.setAptitud(aptitud);
                 contratoRepo.save(c);
             }
@@ -81,7 +89,18 @@ public class ContratoServicios {
         } catch (Exception e) {
             throw new MiException(e.getMessage());
         }
+    }
 
+    public void validar(Estados state) throws MiException {
+
+        if (state.equals(null) || state == null) {
+            throw new MiException("El Estado no puede ser nulo !");
+        }
+
+    }
+
+    public Contrato getOne(String id) {
+        return contratoRepo.getOne(id);
     }
 
 }

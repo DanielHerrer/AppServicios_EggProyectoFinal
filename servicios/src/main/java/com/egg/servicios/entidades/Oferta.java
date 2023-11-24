@@ -1,3 +1,4 @@
+
 package com.egg.servicios.entidades;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -9,6 +10,7 @@ import javax.persistence.*;
  * @author Daniel
  */
 @Entity
+@Table(name = "ofertas")
 public class Oferta {
 
     @Id

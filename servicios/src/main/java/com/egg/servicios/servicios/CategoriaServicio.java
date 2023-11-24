@@ -24,7 +24,6 @@ public class CategoriaServicio {
         Categoria categoria = new Categoria();
 
         categoria.setNombre(nombre);
-        categoria.setAlta(true);
 
         categoriaRepositorio.save(categoria);
         

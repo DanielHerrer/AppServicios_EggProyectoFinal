@@ -36,13 +36,13 @@ public interface OfertaRepositorio extends JpaRepository<Oferta, String> {
 
     @Query("""
             SELECT o FROM Oferta o
-            WHERE o.id_servicio = (SELECT s.id FROM Servicio s WHERE s.id_proovedor = :id_proveedor)
+            WHERE o.servicio.id = (SELECT s.id FROM Servicio s WHERE s.proveedor.id = :id_proveedor)
             """)
     public List<Oferta> listarOfertasPorIdProveedor(@Param("id_proveedor") String idProveedor);
 
     @Query("""
             SELECT o FROM Oferta o
-            WHERE o.id_cliente = :id_cliente
+            WHERE o.cliente.id = :id_cliente
             """)
     public List<Oferta> listarOfertasPorIdCliente(@Param("id_cliente") String idCliente);
 
