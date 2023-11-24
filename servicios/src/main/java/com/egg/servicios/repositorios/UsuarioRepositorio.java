@@ -1,5 +1,6 @@
 package com.egg.servicios.repositorios;
 
+
 import com.egg.servicios.entidades.Usuario;
 
 import java.util.List;
