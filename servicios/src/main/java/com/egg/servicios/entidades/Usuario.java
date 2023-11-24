@@ -104,7 +104,7 @@ public class Usuario {
     public String getUbicacion() {
         return ubicacion;
     }
-
+g
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
