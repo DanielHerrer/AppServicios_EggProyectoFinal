@@ -1,8 +1,4 @@
 package com.egg.servicios.servicios;
-<<<<<<< HEAD
-
-=======
->>>>>>> 357af3737a0e96fadf6bd5c4d6862d39386039fe
 
 import com.egg.servicios.entidades.Imagen;
 import com.egg.servicios.entidades.Usuario;

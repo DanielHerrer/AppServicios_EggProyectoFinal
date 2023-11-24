@@ -1,11 +1,5 @@
 package com.egg.servicios.repositorios;
-<<<<<<< HEAD
 
-
-
-
-=======
->>>>>>> 357af3737a0e96fadf6bd5c4d6862d39386039fe
 
 import com.egg.servicios.entidades.Usuario;
 
