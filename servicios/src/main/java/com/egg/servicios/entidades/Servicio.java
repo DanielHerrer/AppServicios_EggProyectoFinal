@@ -28,10 +28,10 @@ public class Servicio {
     @ManyToOne
     private Usuario proveedor;
 
-    private Boolean activo;
+    private Boolean alta;
 
     public Servicio() {
-        this.activo = true;
+        this.alta = true;
     }
 
     public Servicio(String descripcion, Double honorariosHora, Imagen matricula, Categoria categoria, Usuario proveedor) {
@@ -40,7 +40,7 @@ public class Servicio {
         this.matricula = matricula;
         this.categoria = categoria;
         this.proveedor = proveedor;
-        this.activo = true;
+        this.alta = true;
     }
 
     public String getId() {
@@ -91,11 +91,11 @@ public class Servicio {
         this.proveedor = proveedor;
     }
 
-    public Boolean getActivo() {
-        return activo;
+    public Boolean getAlta() {
+        return alta;
     }
 
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
+    public void setAlta(Boolean alta) {
+        this.alta = alta;
     }
 }

@@ -17,19 +17,19 @@ public interface ServicioRepositorio extends JpaRepository<Servicio, String> {
 
     @Query("""
             SELECT s FROM Servicio s
-            WHERE s.activo = true
+            WHERE s.alta = true
             """)
     public List<Servicio> listarServiciosActivos();
 
     @Query("""
             SELECT s FROM Servicio s
-            WHERE s.activo = false
+            WHERE s.alta = false
             """)
     public List<Servicio> listarServiciosInactivos();
 
     @Query("""
             SELECT s FROM Servicio s
-            WHERE s.descripcion = :descripcion
+            WHERE s.descripcion LIKE :descripcion
             """)
     public List<Servicio> buscarPorDescripcion(@Param("descripcion") String descripcion);
 

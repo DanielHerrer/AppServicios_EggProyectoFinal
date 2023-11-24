@@ -1,8 +1,10 @@
 package com.egg.servicios.servicios;
 
+import com.egg.servicios.entidades.Categoria;
 import com.egg.servicios.entidades.Imagen;
 import com.egg.servicios.entidades.Servicio;
 import com.egg.servicios.entidades.Usuario;
+import com.egg.servicios.repositorios.CategoriaRepositorio;
 import com.egg.servicios.repositorios.ServicioRepositorio;
 import com.egg.servicios.excepciones.MiException;
 
@@ -30,24 +32,28 @@ public class ServicioServicio {
 
     @Autowired
     private ImagenServicio imagenServicio;
+    @Autowired
+    private CategoriaRepositorio categoriaRepositorio;
 
     @Transactional
-    public void crearServicio(String descripcion, MultipartFile archivo, String idCategoria, String idUsuario) throws MiException {
+    public void crearServicio(MultipartFile archivo, String descripcion, Double honorariosHora, String idCategoria, String idProveedor) throws MiException {
 
-        validar(descripcion, idCategoria, archivo);
+        validar(archivo, descripcion, honorariosHora, idCategoria, idProveedor);
 
         try {
             Servicio servicio = new Servicio();
 
-            servicio.setDescripcion(descripcion);
-
             Imagen matricula = imagenServicio.guardar(archivo);
             servicio.setMatricula(matricula);
+
+            servicio.setDescripcion(descripcion);
+
+            servicio.setHonorariosPorHora(honorariosHora);
 
             Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
             servicio.setCategoria(categoria);
 
-            Usuario proveedor = usuarioRepositorio.findById(idUsuario).get();
+            Usuario proveedor = usuarioRepositorio.findById(idProveedor).get();
             servicio.setProveedor(proveedor);
 
             servicioRepositorio.save(servicio);
@@ -57,11 +63,10 @@ public class ServicioServicio {
         }
     }
 
-    // Permite actualizar descripcion, categoria y/o matricula
     @Transactional
-    public void actualizarServicio(String idServicio, String descripcion, MultipartFile archivo, String idCategoria) throws MiException {
+    public void actualizarServicio(String idServicio, MultipartFile archivo, String descripcion, Double honorariosHora, String idCategoria, String idProveedor) throws MiException {
 
-        validar(descripcion, idCategoria, archivo);
+        validar(archivo, descripcion, honorariosHora, idCategoria, idProveedor);
 
         try {
             Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
@@ -70,23 +75,22 @@ public class ServicioServicio {
 
                 Servicio servicio = respuesta.get();
 
+                String idImagen = null;
+                if (servicio.getMatricula() != null) {
+                    idImagen = servicio.getMatricula().getId();
+                }
+                Imagen matricula = imagenServicio.actualizar(archivo, idImagen);
+                servicio.setMatricula(matricula);
+
                 servicio.setDescripcion(descripcion);
+
+                servicio.setHonorariosPorHora(honorariosHora);
 
                 Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
                 servicio.setCategoria(categoria);
 
-                // --------------------
-
-                String idImagen = null;
-
-                if (servicio.getMatricula() != null) {
-                    idImagen = servicio.getMatricula().getId();
-                }
-
-                Imagen matricula = imagenServicio.actualizar(archivo, idImagen);
-                servicio.setMatricula(matricula);
-
-                // --------------------
+                Usuario proveedor = usuarioRepositorio.findById(idProveedor).get();
+                servicio.setProveedor(proveedor);
 
                 servicioRepositorio.save(servicio);
             }
@@ -103,20 +107,52 @@ public class ServicioServicio {
         return servicioRepositorio.listarServiciosActivos();
     }
 
-    public void validar(String descripcion, String idCategoria, MultipartFile archivo) throws MiException {
+    @Transactional
+    public void eliminarServicio(String idServicio) throws MiException {
 
+        Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
+
+        try {
+            if (respuesta.isPresent()) {
+
+                Servicio servicio = respuesta.get();
+                servicio.setAlta(false);
+                servicioRepositorio.save(servicio);
+
+            } else {
+                throw new MiException("El ID Servicio no corresponde a ningun servicio existente.");
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+
+    }
+
+    public void validar(MultipartFile archivo, String descripcion, Double honorariosHora, String idCategoria, String idProveedor) throws MiException {
+
+        if(archivo.isEmpty() || archivo == null) {
+            throw new MiException("El archivo no puede ser nulo o estar vacio.");
+        }
         if (descripcion.trim().isEmpty() || descripcion == null) {
             throw new MiException("La descripcion no puede ser nula o estar vacia.");
+        }
+        if (honorariosHora.isNaN() || honorariosHora == null) {
+            throw new MiException("Los honorarios no deben ser nulos y deben ser un numero valido.");
+        }
+        if (idCategoria.trim().isEmpty() || idCategoria == null){
+            throw new MiException("El ID Categoria no puede ser nulo o estar vacio.");
+        } else if (!categoriaRepositorio.findById(idCategoria).isPresent()) {
+            throw new MiException("El ID Categoria no corresponde a ninguna categoria existente.");
+        }
+        if (idProveedor.trim().isEmpty() || idProveedor == null){
+            throw new MiException("El ID Proveedor no puede ser nulo o estar vacio.");
+        } else if (!usuarioRepositorio.findById(idProveedor).isPresent()) {
+            throw new MiException("El ID Proveedor no corresponde a ningun proveedor existente.");
         }
         if (servicioRepositorio.buscarPorDescripcion(descripcion) != null) {
             throw new MiException("Existe un servicio publicado con la misma descripcion!");
         }
-        if(idCategoria.trim().isEmpty() || idCategoria == null){
-            throw new MiException("La categoria no puede ser nula o estar vacia.");
-        }
-        if(archivo.isEmpty() || archivo == null) {
-            throw new MiException("El archivo no puede ser nulo o estar vacio.");
-        }
+
     }
 
 }
