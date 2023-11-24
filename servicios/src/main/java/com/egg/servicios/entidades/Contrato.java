@@ -29,7 +29,6 @@ public class Contrato {
     public Contrato() {
         this.alta = true;
     }
-    
 
     public Contrato(String id, Rol estadoTrabajo, Oferta oferta, Calificacion aptitud) {
         this.id = id;
@@ -47,7 +46,7 @@ public class Contrato {
         this.id = id;
     }
 
-    public Rol getEstado_trabajo() {
+    public Rol getEstadoTrabajo() {
         return estadoTrabajo;
     }
 

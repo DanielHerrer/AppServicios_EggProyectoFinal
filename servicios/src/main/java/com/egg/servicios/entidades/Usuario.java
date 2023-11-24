@@ -41,7 +41,7 @@ public class Usuario {
         this.alta = true;
     }
 
-    public Usuario(String id, String accUsuario, String password, String nombre, Imagen imagen, String email, String ubicacion, Rol rol, boolean alta) {
+    public Usuario(String id, String accUsuario, String password, String nombre, Imagen imagen, String email, String ubicacion, Rol rol) {
         this.id = id;
         this.accUsuario = accUsuario;
         this.password = password;
@@ -50,7 +50,7 @@ public class Usuario {
         this.email = email;
         this.ubicacion = ubicacion;
         this.rol = rol;
-        this.alta = alta;
+        this.alta = true;
     }
 
     public String getId() {
