@@ -50,7 +50,7 @@ public class ContratoServicios {
         }
     }
 
-    public void actualizarContrato(String id, Rol state) throws MiException {
+    public void actualizarContrato(String id, Estados state) throws MiException {
         try {
             Optional<Contrato> presente = contratoRepo.findById(id);
             if (presente.isPresent()) {
@@ -63,7 +63,7 @@ public class ContratoServicios {
         }
     }
 
-    public void actualizarContrato(String id, Rol state, Calificacion aptitud) throws MiException {
+    public void actualizarContrato(String id, Estados state, Calificacion aptitud) throws MiException {
 
         try {
             Optional<Contrato> presente = contratoRepo.findById(id);

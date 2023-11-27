@@ -35,6 +35,7 @@ public class ServicioServicio {
     @Autowired
     private CategoriaRepositorio categoriaRepositorio;
 
+    private CategoriaRepositorio categoriaRepositorio;
     @Transactional
     public void crearServicio(String descripcion, MultipartFile archivo, String idCategoria, String idUsuario) throws MiException {
 
