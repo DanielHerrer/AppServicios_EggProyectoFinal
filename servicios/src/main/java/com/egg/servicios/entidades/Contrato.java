@@ -3,24 +3,29 @@ package com.egg.servicios.entidades;
 import com.egg.servicios.enumeraciones.Estados;
 import com.egg.servicios.enumeraciones.Rol;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import org.hibernate.annotations.GenericGenerator;
+
 
 /**
  *
  * @author joaquin
  */
 @Entity
+@Table(name = "contratos")
 public class Contrato {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    private Estados estado_trabajo;
+
+    private Estados estadoTrabajo;
+
+    @OneToOne
     private Oferta oferta;
+    @OneToOne
     private Calificacion aptitud;
     private boolean alta;
 
@@ -28,11 +33,14 @@ public class Contrato {
         this.alta = true;
     }
 
-    public Contrato(String id, Estados estado_trabajo, Oferta oferta, Calificacion aptitud) {
+
+    public Contrato(String id, Estados estadoTrabajo, Oferta oferta, Calificacion aptitud) {
+
         this.id = id;
-        this.estado_trabajo = estado_trabajo;
+        this.estadoTrabajo = estadoTrabajo;
         this.oferta = oferta;
         this.aptitud = aptitud;
+        this.alta = true;
     }
     
 
@@ -45,7 +53,15 @@ public class Contrato {
         this.id = id;
     }
 
- 
+
+    public Estados getEstadoTrabajo() {
+        return estadoTrabajo;
+    }
+
+    public void setEstadoTrabajo(Estados estadoTrabajo) {
+        this.estadoTrabajo = estadoTrabajo;
+    }
+
 
     public Oferta getOferta() {
         return oferta;
@@ -70,15 +86,4 @@ public class Contrato {
     public void setAlta(boolean alta) {
         this.alta = alta;
     }
-
-    public Estados getEstado_trabajo() {
-        return estado_trabajo;
-    }
-
-    public void setEstado_trabajo(Estados estado_trabajo) {
-        this.estado_trabajo = estado_trabajo;
-    }
-    
-
-    
 }

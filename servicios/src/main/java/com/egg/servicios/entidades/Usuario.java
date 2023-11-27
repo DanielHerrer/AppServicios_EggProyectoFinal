@@ -5,12 +5,9 @@
 package com.egg.servicios.entidades;
 
 import com.egg.servicios.enumeraciones.Rol;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+
+import javax.persistence.*;
+
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -18,6 +15,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author Nico
  */
 @Entity
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
@@ -40,9 +38,10 @@ public class Usuario {
     private boolean alta;
 
     public Usuario() {
+        this.alta = true;
     }
 
-    public Usuario(String id, String accUsuario, String password, String nombre, Imagen imagen, String email, String ubicacion, Rol rol, boolean alta) {
+    public Usuario(String id, String accUsuario, String password, String nombre, Imagen imagen, String email, String ubicacion, Rol rol) {
         this.id = id;
         this.accUsuario = accUsuario;
         this.password = password;
@@ -51,7 +50,7 @@ public class Usuario {
         this.email = email;
         this.ubicacion = ubicacion;
         this.rol = rol;
-        this.alta = alta;
+        this.alta = true;
     }
 
     public String getId() {

@@ -4,9 +4,16 @@ package com.egg.servicios.entidades;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ *
+ * @author jose
+ */
 @Entity
+@Table(name = "calificaciones")
 public class Calificacion {
     @Id
     @GeneratedValue (generator= "uuid" )
@@ -17,6 +24,7 @@ public class Calificacion {
     private Boolean alta;
 
     public Calificacion() {
+        this.alta = true;
     }
 
     public String getId() {

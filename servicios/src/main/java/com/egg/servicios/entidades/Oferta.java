@@ -10,6 +10,7 @@ import javax.persistence.*;
  * @author Daniel
  */
 @Entity
+@Table(name = "ofertas")
 public class Oferta {
 
     @Id

@@ -3,6 +3,7 @@ package com.egg.servicios.servicios;
 import com.egg.servicios.entidades.Imagen;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
+import com.egg.servicios.repositorios.UsuarioRepositorio;
 import com.egg.servicios.servicios.ImagenServicio;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.UsuarioRepositorio;
@@ -48,7 +49,6 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setNombre(nombre);
         usuario.setEmail(email);
         usuario.setUbicacion(ubicacion);
-        usuario.setAlta(true);
 
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
 

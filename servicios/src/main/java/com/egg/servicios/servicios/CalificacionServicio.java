@@ -59,8 +59,10 @@ public class CalificacionServicio {
     }
 
     private void validar(Integer puntuacion) throws MiException {
-        if (puntuacion > 5 || puntuacion < 0 || puntuacion == null) {
-            throw new MiException("la puntuacion no esta en los parametros ni puede ser nula");
+
+        if (puntuacion > 5 || puntuacion < 1 || puntuacion == null) {
+            throw new MiException("La puntuacion no esta en los parametros ni puede ser nula");
         }
+
     }
 }

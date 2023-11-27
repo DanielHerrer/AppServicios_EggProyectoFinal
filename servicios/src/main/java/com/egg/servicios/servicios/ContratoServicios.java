@@ -6,7 +6,6 @@ import com.egg.servicios.entidades.Contrato;
 import com.egg.servicios.entidades.Oferta;
 import com.egg.servicios.enumeraciones.Estados;
 
-import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.ContratoRepositorios;
 
@@ -27,7 +26,8 @@ public class ContratoServicios {
 
     @Autowired
     private ContratoRepositorios contratoRepo;
-
+    
+    @Autowired
     private UsuarioRepositorio usuarioRepo;
 
     public ContratoServicios(ContratoRepositorios contratoRepo, UsuarioRepositorio usuarioRepo) {
@@ -55,7 +55,7 @@ public class ContratoServicios {
             Optional<Contrato> presente = contratoRepo.findById(id);
             if (presente.isPresent()) {
                 Contrato c = presente.get();
-                c.setEstado_trabajo(state);
+                c.setEstadoTrabajo(state);
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
@@ -69,7 +69,7 @@ public class ContratoServicios {
             Optional<Contrato> presente = contratoRepo.findById(id);
             if (presente.isPresent()) {
                 Contrato c = presente.get();
-                c.setEstado_trabajo(state);
+                c.setEstadoTrabajo(state);
                 c.setAptitud(aptitud);
                 contratoRepo.save(c);
             }

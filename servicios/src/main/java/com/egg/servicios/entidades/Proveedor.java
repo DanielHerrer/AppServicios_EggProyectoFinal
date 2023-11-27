@@ -13,12 +13,12 @@ import org.hibernate.annotations.GenericGenerator;
  *
  * @author joaquin
  */
-@Entity
-public class Proveedor {
-   @Id
-   @GeneratedValue(generator = "uuid")
-   @GenericGenerator(name ="uuid", strategy = "uuid")
-   private String id;
-   
-  
-}
+//@Entity
+//public class Proveedor {
+//   @Id
+//   @GeneratedValue(generator = "uuid")
+//   @GenericGenerator(name ="uuid", strategy = "uuid")
+//   private String id;
+//
+//
+//}
