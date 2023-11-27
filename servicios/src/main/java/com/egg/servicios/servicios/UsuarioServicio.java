@@ -5,6 +5,7 @@ import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.servicios.ImagenServicio;
 import com.egg.servicios.excepciones.MiException;
+import com.egg.servicios.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
