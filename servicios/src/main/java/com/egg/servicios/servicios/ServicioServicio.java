@@ -1,10 +1,12 @@
 package com.egg.servicios.servicios;
 
+import com.egg.servicios.entidades.Categoria;
 import com.egg.servicios.entidades.Imagen;
 import com.egg.servicios.entidades.Servicio;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.repositorios.ServicioRepositorio;
 import com.egg.servicios.excepciones.MiException;
+import com.egg.servicios.repositorios.CategoriaRepositorio;
 
 import com.egg.servicios.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class ServicioServicio {
 
     @Autowired
     private ImagenServicio imagenServicio;
+    @Autowired
+    private CategoriaRepositorio categoriaRepositorio;
 
     @Transactional
     public void crearServicio(String descripcion, MultipartFile archivo, String idCategoria, String idUsuario) throws MiException {
