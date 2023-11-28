@@ -2,10 +2,10 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment>
     <meta charset="UTF-8">
-    <title>Test Registro Servicio</title>
+    <title>Test Registro Oferta</title>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-<!--    <link rel="stylesheet" href="/css/index.css">-->
+    <!--    <link rel="stylesheet" href="/css/index.css">-->
 </head>
 <body>
 
@@ -27,34 +27,19 @@
     <form class="formulario" action="/servicio/registro" method="POST" enctype="multipart/form-data">
 
         <div class="form-group my-3">
-            <h3 class="card-title">Registrar Servicio</h3>
-        </div>
-        <div class="form-group my-3">
-            <select name="idCategoria">
-                <option>Seleccionar Categoria</option>
-                <option th:each="categoria : ${categorias}"
-                        th:value="${categoria.id}"
-                        th:text="${categoria.nombre}"/>
-            </select>
+            <h3 class="card-title">Registrar Oferta</h3>
         </div>
         <div class="form-group my-3">
             <label class="">Descripcion:</label>
-            <textarea class="form-control" th:value="${descripcion}" name="descripcion" placeholder="Descripcion del servicio prestado"></textarea>
+            <textarea class="form-control" th:value="${descripcion}" name="descripcion" placeholder="Descripcion del trabajo a solicitar"></textarea>
         </div>
         <div class="form-group my-3">
-            <label class="">Honorarios por Hora:</label>
-            <div class="input-group">
-                <span class="input-group-text">$</span>
-                <input type="number" class="form-control" th:value="${honorariosHora}" name="honorariosHora" min="0" placeholder="Ingrese sus honorarios por hora">
-            </div>
+            <label class="">ID del Servicio a ofertar:</label>
+            <input type="number" class="form-control" th:value="${idServicio}" name="idServicio" placeholder="ID Servicio">
         </div>
         <div class="form-group my-3">
-            <label class="">Matricula del servicio:</label>
-            <input type="file" class="form-control" name="matricula">
-        </div>
-        <div class="form-group my-3">
-            <label class="">ID del Proveedor (Usuario) que ofrece el servicio:</label>
-            <input type="number" class="form-control" th:value="${idProveedor}" name="idProveedor" placeholder="ID Proveedor">
+            <label class="">ID del Cliente (Usuario) que oferta:</label>
+            <input type="number" class="form-control" th:value="${idCliente}" name="idCliente" placeholder="ID Cliente">
         </div>
 
         <button type="submit" class="btn btn-primary mt-3 botones">Guardar</button>

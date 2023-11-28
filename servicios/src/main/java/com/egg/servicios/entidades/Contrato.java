@@ -1,6 +1,6 @@
 package com.egg.servicios.entidades;
 
-import com.egg.servicios.enumeraciones.Rol;
+import com.egg.servicios.enumeraciones.Estados;
 
 import javax.persistence.*;
 
@@ -19,7 +19,7 @@ public class Contrato {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    private Rol estadoTrabajo;
+    private Estados estadoTrabajo;
     @OneToOne
     private Oferta oferta;
     @OneToOne
@@ -30,7 +30,7 @@ public class Contrato {
         this.alta = true;
     }
 
-    public Contrato(String id, Rol estadoTrabajo, Oferta oferta, Calificacion aptitud) {
+    public Contrato(String id, Estados estadoTrabajo, Oferta oferta, Calificacion aptitud) {
         this.id = id;
         this.estadoTrabajo = estadoTrabajo;
         this.oferta = oferta;
@@ -46,11 +46,11 @@ public class Contrato {
         this.id = id;
     }
 
-    public Rol getEstadoTrabajo() {
+    public Estados getEstadoTrabajo() {
         return estadoTrabajo;
     }
 
-    public void setEstadoTrabajo(Rol estadoTrabajo) {
+    public void setEstadoTrabajo(Estados estadoTrabajo) {
         this.estadoTrabajo = estadoTrabajo;
     }
 

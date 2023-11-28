@@ -91,7 +91,7 @@ public class ServicioControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @PostMapping("/modificado/{id}")
-    public String modificado(MultipartFile archivo, @PathVariable String id, @RequestParam String descripcion,
+    public String modificado(@PathVariable String id, @RequestParam String descripcion,
                             @RequestParam Double honorariosHora, @RequestParam MultipartFile matricula,
                             @RequestParam String idCategoria, @RequestParam String idProveedor, ModelMap modelo) {
 
