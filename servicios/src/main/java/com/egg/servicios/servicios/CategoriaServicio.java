@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+// PARA HACER: añadir metodos { listarCategorias(), listarPorId(id), eliminarCategoria(id) }
+
 @Service
 public class CategoriaServicio {
 
@@ -58,7 +60,7 @@ public class CategoriaServicio {
         }
         
     }
-    
+
     private void validar(String id, String nombre) throws MiException{
         
         if(id == null) {

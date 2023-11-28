@@ -17,6 +17,8 @@ import com.egg.servicios.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+// PARA HACER: añadir metodos { listarContratos(), listarPorId(id) }
+
 /**
  *
  * @author joaquin
