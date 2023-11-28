@@ -43,15 +43,11 @@ public class ServicioControlador {
             @RequestParam(required = false) String idProovedor, ModelMap modelo) {
 
         try {
-
-            servicioServicio.crearServicio(archivo, descripcion, honariosHora, idCategoria, idProovedor);
-
+            
+            servicioServicio.crearServicio(archivo, descripcion, honariosHora, idCategoria, idProovedor);         
             return "inicio.html";
-
         } catch (MiException ex) {
-
             modelo.put("error", ex.getMessage());
-
             return "inicio.html";
 
         }

@@ -30,10 +30,7 @@ public class ImagenControlador {
       HttpHeaders headers = new HttpHeaders();//estas cabeceras le indican al navegador que estan devolviendo una imagen
       
       headers.setContentType(MediaType.IMAGE_JPEG);//SETEAMOS EN EL HEADERS LA IMAGEN, avisa que va a guardar una imagen
-      
-      
-      
-      
+
       return new ResponseEntity < >(imagen,headers,HttpStatus.OK);//httpstatus ok para que la operacion este confirmada
 }
     

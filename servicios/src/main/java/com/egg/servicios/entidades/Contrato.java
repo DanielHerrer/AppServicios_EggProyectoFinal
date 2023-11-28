@@ -19,10 +19,8 @@ public class Contrato {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
-
+    private String id; 
     private Estados estadoTrabajo;
-
     @OneToOne
     private Oferta oferta;
     @OneToOne
