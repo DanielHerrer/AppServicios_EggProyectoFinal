@@ -117,7 +117,7 @@ public class OfertaServicio {
 
         if (descripcion.trim().isEmpty() || descripcion == null) {
             throw new MiException("La descripcion no puede ser nula o estar vacia.");
-        } else if (servicioRepositorio.buscarPorDescripcion(descripcion) != null) {
+        } else if (ofertaRepositorio.findByDescripcion(descripcion).isPresent()) {
             throw new MiException("Ya existe un servicio publicado con la misma descripcion.");
         }
         if (idServicio.trim().isEmpty() || idServicio == null){

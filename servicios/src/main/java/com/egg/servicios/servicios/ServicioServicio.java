@@ -36,19 +36,19 @@ public class ServicioServicio {
     private CategoriaRepositorio categoriaRepositorio;
 
     @Transactional
-    public void crearServicio(MultipartFile archivo, String descripcion, Double honorariosHora, String idCategoria, String idProveedor) throws MiException {
+    public void crearServicio(String descripcion, Double honorariosHora, MultipartFile matricula, String idCategoria, String idProveedor) throws MiException {
 
-        validar(archivo, descripcion, honorariosHora, idCategoria, idProveedor);
+        validar(descripcion, honorariosHora, matricula, idCategoria, idProveedor);
 
         try {
             Servicio servicio = new Servicio();
 
-            Imagen matricula = imagenServicio.guardar(archivo);
-            servicio.setMatricula(matricula);
-
             servicio.setDescripcion(descripcion);
 
             servicio.setHonorariosPorHora(honorariosHora);
+
+            Imagen imagen = imagenServicio.guardar(matricula);
+            servicio.setMatricula(imagen);
 
             Categoria categoria = categoriaRepositorio.findById(idCategoria).get();
             servicio.setCategoria(categoria);
@@ -64,9 +64,9 @@ public class ServicioServicio {
     }
 
     @Transactional
-    public void actualizarServicio(String idServicio, MultipartFile archivo, String descripcion, Double honorariosHora, String idCategoria, String idProveedor) throws MiException {
+    public void actualizarServicio(String idServicio, String descripcion, Double honorariosHora,  MultipartFile archivo, String idCategoria, String idProveedor) throws MiException {
 
-        validar(archivo, descripcion, honorariosHora, idCategoria, idProveedor);
+        validar(descripcion, honorariosHora, archivo, idCategoria, idProveedor);
 
         try {
             Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
@@ -128,7 +128,7 @@ public class ServicioServicio {
 
     }
 
-    public void validar(MultipartFile archivo, String descripcion, Double honorariosHora, String idCategoria, String idProveedor) throws MiException {
+    public void validar(String descripcion, Double honorariosHora, MultipartFile archivo, String idCategoria, String idProveedor) throws MiException {
 
         if(archivo.isEmpty() || archivo == null) {
             throw new MiException("El archivo no puede ser nulo o estar vacio.");
@@ -136,7 +136,7 @@ public class ServicioServicio {
         if (descripcion.trim().isEmpty() || descripcion == null) {
             throw new MiException("La descripcion no puede ser nula o estar vacia.");
         }
-        if (honorariosHora.isNaN() || honorariosHora == null) {
+        if (honorariosHora < 1 || honorariosHora.isNaN() || honorariosHora == null) {
             throw new MiException("Los honorarios no deben ser nulos y deben ser un numero valido.");
         }
         if (idCategoria.trim().isEmpty() || idCategoria == null){
@@ -149,7 +149,7 @@ public class ServicioServicio {
         } else if (!usuarioRepositorio.findById(idProveedor).isPresent()) {
             throw new MiException("El ID Proveedor no corresponde a ningun proveedor existente.");
         }
-        if (servicioRepositorio.buscarPorDescripcion(descripcion) != null) {
+        if (servicioRepositorio.findByDescripcion(descripcion).isPresent()) {
             throw new MiException("Existe un servicio publicado con la misma descripcion!");
         }
 

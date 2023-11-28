@@ -1,13 +1,13 @@
 package com.egg.servicios.repositorios;
 
 import com.egg.servicios.entidades.Oferta;
-import com.egg.servicios.entidades.Servicio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -45,5 +45,11 @@ public interface OfertaRepositorio extends JpaRepository<Oferta, String> {
             WHERE o.cliente.id = :id_cliente
             """)
     public List<Oferta> listarOfertasPorIdCliente(@Param("id_cliente") String idCliente);
+
+    @Query("""
+            SELECT o FROM Oferta o
+            WHERE o.descripcion LIKE :descripcion
+            """)
+    public Optional<Oferta> findByDescripcion(@Param("descripcion") String descripcion);
 
 }

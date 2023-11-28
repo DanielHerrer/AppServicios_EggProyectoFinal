@@ -10,6 +10,12 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+// PARA HACER: añadir metodos { listarPorId(id), eliminarCalificacion(id) }
+
+/**
+ *
+ * @author jose
+ */
 @Service
 public class CalificacionServicio {
 
@@ -32,12 +38,10 @@ public class CalificacionServicio {
     }
 
     public List<Calificacion> listarCalificaciones() {
-        List<Calificacion> calificaciones = new ArrayList();
 
-        calificaciones = calificacionRepositorio.findAll();
+        List<Calificacion> calificaciones = calificacionRepositorio.listarCalificacionesActivos();
 
         return calificaciones;
-
     }
 
     public void modificarCalificacion(String comentario, Integer puntuacion, String id) throws MiException {

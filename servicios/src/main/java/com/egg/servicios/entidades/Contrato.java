@@ -9,7 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
- * @author joaquin
+ * @author joaquin un capo el muchacho
  */
 @Entity
 @Table(name = "contratos")
