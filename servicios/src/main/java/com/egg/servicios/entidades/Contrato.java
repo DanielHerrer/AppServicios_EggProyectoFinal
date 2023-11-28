@@ -1,10 +1,7 @@
 package com.egg.servicios.entidades;
 
 import com.egg.servicios.enumeraciones.Estados;
-<<<<<<< HEAD
-import com.egg.servicios.enumeraciones.Rol;
-=======
->>>>>>> daniel
+
 
 import javax.persistence.*;
 
@@ -22,7 +19,7 @@ public class Contrato {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+    private String id; 
     private Estados estadoTrabajo;
     @OneToOne
     private Oferta oferta;

@@ -32,8 +32,8 @@ public class ContratoControlador {
   
       try{
      
-          contrato.guardarContrato(estados, oferta, aptitud);  
           
+          contrato.guardarContrato(estados, oferta, aptitud);           
           return "/contrato.html";
         }catch (MiException e) {           
             modelo.put("error", e.getMessage());    

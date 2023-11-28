@@ -36,7 +36,7 @@ public class ContratoServicios {
         this.contratoRepo = contratoRepo;
         this.usuarioRepo = usuarioRepo;
     }
-
+    
     @Transactional
     public void guardarContrato(Estados estados, Oferta oferta, Calificacion aptitud) throws MiException {
 

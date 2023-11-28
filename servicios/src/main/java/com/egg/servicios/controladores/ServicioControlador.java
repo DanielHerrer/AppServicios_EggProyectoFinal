@@ -93,6 +93,7 @@ public class ServicioControlador {
                             @RequestParam String idCategoria, @RequestParam String idProveedor, ModelMap modelo) {
 
         try {
+<<<<<<< HEAD
 
 
             servicioServicio.actualizarServicio(id, descripcion, honorariosHora, matricula, idCategoria, idProveedor);
@@ -103,15 +104,23 @@ public class ServicioControlador {
 
             return "test_servicio_update.html";
 
+=======
+            
+            servicioServicio.crearServicio(archivo, descripcion, honariosHora, idCategoria, idProovedor);         
+            return "inicio.html";
+>>>>>>> joaquin
         } catch (MiException ex) {
-
             modelo.put("error", ex.getMessage());
+<<<<<<< HEAD
 
             modelo.put("descripcion", descripcion);
             modelo.put("honorariosHora", honorariosHora);
             modelo.put("matricula", matricula);
             modelo.put("idCategoria", idCategoria);
             modelo.put("idProveedor", idProveedor);
+=======
+            return "inicio.html";
+>>>>>>> joaquin
 
             return "test_servicio_update.html";
         }
