@@ -3,6 +3,7 @@ package com.egg.servicios.servicios;
 import com.egg.servicios.entidades.Imagen;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
+import com.egg.servicios.enumeraciones.Ubicacion;
 import com.egg.servicios.repositorios.UsuarioRepositorio;
 import com.egg.servicios.servicios.ImagenServicio;
 import excepciones.MiException;
@@ -37,7 +38,7 @@ public class UsuarioServicio implements UserDetailsService {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void registrar(MultipartFile archivo,String accUsuario, Rol rol, String nombre, String email,String ubicacion, String password, String password2) throws MiException {
+    public void registrar(MultipartFile archivo,String accUsuario, Rol rol, String nombre, String email,Ubicacion ubicacion, String password, String password2) throws MiException {
 
         validar(nombre, email, password, password2);
 
@@ -79,7 +80,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void actualizar(MultipartFile archivo, String idUsuario, Rol rol, String ubicacion, String nombre, String email, String password, String password2) throws MiException {
+    public void actualizar(MultipartFile archivo, String idUsuario, Rol rol, Ubicacion ubicacion, String nombre, String email, String password, String password2) throws MiException {
 
         validar(nombre, email, password, password2);
 

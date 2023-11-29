@@ -5,6 +5,7 @@
 package com.egg.servicios.entidades;
 
 import com.egg.servicios.enumeraciones.Rol;
+import com.egg.servicios.enumeraciones.Ubicacion;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -32,7 +33,7 @@ public class Usuario {
     @OneToOne
     private Imagen imagen;
     private String email;
-    private String ubicacion;
+    private Ubicacion ubicacion;
     
     @Enumerated(EnumType.STRING)
     private Rol rol;
@@ -42,7 +43,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(String id, String accUsuario, String password, String nombre, Imagen imagen, String email, String ubicacion, Rol rol, boolean alta) {
+    public Usuario(String id, String accUsuario, String password, String nombre, Imagen imagen, String email, Ubicacion ubicacion, Rol rol, boolean alta) {
         this.id = id;
         this.accUsuario = accUsuario;
         this.password = password;
@@ -102,11 +103,11 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getUbicacion() {
+    public Ubicacion getUbicacion() {
         return ubicacion;
     }
 
-    public void setUbicacion(String ubicacion) {
+    public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
     }
 

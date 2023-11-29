@@ -8,7 +8,7 @@ package com.egg.servicios.enumeraciones;
  *
  * @author Nico
  */
-public enum Zonas {
+public enum Ubicacion {
     ZONA1,
     ZONA2,
     ZONA3,

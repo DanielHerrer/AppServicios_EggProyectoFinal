@@ -6,6 +6,7 @@ package com.egg.servicios.controladores;
 
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
+import com.egg.servicios.enumeraciones.Ubicacion;
 import com.egg.servicios.servicios.UsuarioServicio;
 import excepciones.MiException;
 import javax.servlet.http.HttpSession;
@@ -43,7 +44,7 @@ public class PortalControlador {
     }
 
     @PostMapping("/registro")
-    public String registro(@RequestParam String accUsuario,@RequestParam Rol rol, @RequestParam String ubicacion, @RequestParam String nombre, @RequestParam String email, @RequestParam String password,
+    public String registro(@RequestParam String accUsuario,@RequestParam Rol rol, @RequestParam Ubicacion ubicacion, @RequestParam String nombre, @RequestParam String email, @RequestParam String password,
             String password2, ModelMap modelo, MultipartFile archivo) {
 
         try {
@@ -96,7 +97,7 @@ public class PortalControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
     @PostMapping("/perfil/{id}")
-    public String actualizar(MultipartFile archivo, @RequestParam Rol rol, @RequestParam String ubicacion, @PathVariable String id, @RequestParam String nombre, @RequestParam String email,
+    public String actualizar(MultipartFile archivo, @RequestParam Rol rol, @RequestParam Ubicacion ubicacion, @PathVariable String id, @RequestParam String nombre, @RequestParam String email,
             @RequestParam String password, @RequestParam String password2, ModelMap modelo) {
 
         try {
