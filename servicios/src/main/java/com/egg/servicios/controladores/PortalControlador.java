@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.egg.servicios.controladores;
 
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.enumeraciones.Ubicacion;
+import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.servicios.UsuarioServicio;
-import excepciones.MiException;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,7 +32,8 @@ public class PortalControlador {
     //primer metodo que se va a ejecutar en el localhost
     @GetMapping("/")//mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
     public String index() {
-        return "index.html";
+
+        return "test_index.html";
     }
 
     @GetMapping("/registrar")
@@ -52,7 +50,8 @@ public class PortalControlador {
 
             modelo.put("exito", "Usuario registrado correctamente!");
 
-            return "index.html";
+            return "test_index.html";
+
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
