@@ -16,40 +16,22 @@ import java.util.Optional;
 @Repository
 public interface OfertaRepositorio extends JpaRepository<Oferta, String> {
 
-    @Query("""
-            SELECT o FROM Oferta o
-            WHERE o.id = :id
-            """)
+    @Query("SELECT o FROM Oferta o WHERE o.id = :id")
     public Oferta listarOfertaPorId(@Param("id") String idOferta);
 
-    @Query("""
-            SELECT o FROM Oferta o
-            WHERE o.alta = true
-            """)
+    @Query("SELECT o FROM Oferta o WHERE o.alta = true")
     public List<Oferta> listarOfertasActivas();
 
-    @Query("""
-            SELECT o FROM Oferta o
-            WHERE o.alta = false
-            """)
+    @Query("SELECT o FROM Oferta o WHERE o.alta = false")
     public List<Oferta> listarOfertasInactivas();
 
-    @Query("""
-            SELECT o FROM Oferta o
-            WHERE o.servicio.id = (SELECT s.id FROM Servicio s WHERE s.proveedor.id = :id_proveedor)
-            """)
+    @Query("SELECT o FROM Oferta o WHERE o.servicio.id = (SELECT s.id FROM Servicio s WHERE s.proveedor.id = :id_proveedor) ")
     public List<Oferta> listarOfertasPorIdProveedor(@Param("id_proveedor") String idProveedor);
 
-    @Query("""
-            SELECT o FROM Oferta o
-            WHERE o.cliente.id = :id_cliente
-            """)
+    @Query("SELECT o FROM Oferta o WHERE o.cliente.id = :id_cliente")
     public List<Oferta> listarOfertasPorIdCliente(@Param("id_cliente") String idCliente);
 
-    @Query("""
-            SELECT o FROM Oferta o
-            WHERE o.descripcion LIKE :descripcion
-            """)
+    @Query("SELECT o FROM Oferta o WHERE o.descripcion LIKE :descripcion")
     public Optional<Oferta> findByDescripcion(@Param("descripcion") String descripcion);
 
 }
