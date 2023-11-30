@@ -38,7 +38,7 @@ public class PortalControlador {
 
     @GetMapping("/registrar")
     public String registrar() {
-        return "registro.html";
+        return "registrar.html";
     }
 
     @PostMapping("/registro")

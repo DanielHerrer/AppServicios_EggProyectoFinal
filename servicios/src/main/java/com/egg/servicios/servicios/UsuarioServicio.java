@@ -62,7 +62,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void actualizar(MultipartFile archivo, String idUsuario, Rol rol, Ubicacion ubicacion, String nombre, String email, String password, String password2) throws MiException {
+    public void actualizar(MultipartFile archivo, String idUsuario,Rol rol, Ubicacion ubicacion, String nombre, String email, String password, String password2) throws MiException {
 
         validar(nombre, email, password, password2);
 
