@@ -4,7 +4,6 @@ import com.egg.servicios.entidades.Imagen;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.enumeraciones.Ubicacion;
-import com.egg.servicios.repositorios.UsuarioRepositorio;
 import com.egg.servicios.servicios.ImagenServicio;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.UsuarioRepositorio;
@@ -26,10 +25,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-
 // PARA HACER: añadir metodos { listarUsuariosActivos(), listarUsuarioPorId(id), eliminarUsuario(id) }
-
-
 /**
  * @author Nico
  */
@@ -43,12 +39,12 @@ public class UsuarioServicio implements UserDetailsService {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void registrar(MultipartFile archivo,String accUsuario, Rol rol, String nombre, String email,Ubicacion ubicacion, String password, String password2) throws MiException {
+    public void registrar(MultipartFile archivo, String accUsuario, Rol rol, String nombre, String email, Ubicacion ubicacion, String password, String password2) throws MiException {
 
         validar(nombre, email, password, password2);
 
         Usuario usuario = new Usuario();
-        
+
         usuario.setAccUsuario(accUsuario);
         usuario.setNombre(nombre);
         usuario.setEmail(email);
@@ -65,24 +61,6 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.save(usuario);
     }
 
-    private void validar(String nombre, String email, String password, String password2) throws MiException {
-
-        if (nombre.isEmpty() || nombre == null) {
-            throw new MiException("el nombre no puede ser nulo o estar vacío");
-        }
-        if (email.isEmpty() || email == null) {
-            throw new MiException("el email no puede ser nulo o estar vacio");
-        }
-        if (password.isEmpty() || password == null || password.length() <= 5) {
-            throw new MiException("La contraseña no puede estar vacía, y debe tener más de 5 dígitos");
-        }
-
-        if (!password.equals(password2)) {
-            throw new MiException("Las contraseñas ingresadas deben ser iguales");
-        }
-
-    }
-
     @Transactional
     public void actualizar(MultipartFile archivo, String idUsuario, Rol rol, Ubicacion ubicacion, String nombre, String email, String password, String password2) throws MiException {
 
@@ -95,7 +73,7 @@ public class UsuarioServicio implements UserDetailsService {
             usuario.setNombre(nombre);
             usuario.setEmail(email);
             usuario.setUbicacion(ubicacion);
-            
+
             usuario.setPassword(new BCryptPasswordEncoder().encode(password));
 
             usuario.setRol(rol);
@@ -109,6 +87,65 @@ public class UsuarioServicio implements UserDetailsService {
             Imagen imagen = (Imagen) imagenServicio.actualizar(archivo, idImagen);
 
             usuario.setImagen(imagen);
+
+            usuarioRepositorio.save(usuario);
+        }
+
+    }
+
+    public List<Usuario> listarUsuarios() {
+        List<Usuario> usuarios = new ArrayList();
+        usuarios = usuarioRepositorio.findAll();
+
+        return usuarios;
+    }
+
+    public List<Usuario> listarUsuariosActivos() {
+        List<Usuario> usuarios = new ArrayList();
+        usuarios = usuarioRepositorio.listarUsuariosActivos();
+
+        return usuarios;
+    }
+
+    public List<Usuario> listarUsuariosInactivos() {
+        List<Usuario> usuarios = new ArrayList();
+        usuarios = usuarioRepositorio.listarUsuariosInactivos();
+
+        return usuarios;
+
+    }
+
+    public List<Usuario> listarClientes() {
+        List<Usuario> usuarios = new ArrayList();
+        usuarios = usuarioRepositorio.listarClientes();
+
+        return usuarios;
+
+    }
+
+    public List<Usuario> listarProveedores() {
+        List<Usuario> usuarios = new ArrayList();
+        usuarios = usuarioRepositorio.listarProveedores();
+
+        return usuarios;
+
+    }
+
+    public List<Usuario> listarAdmin() {
+        List<Usuario> usuarios = new ArrayList();
+        usuarios = usuarioRepositorio.listarAdmin();
+
+        return usuarios;
+
+    }
+
+    public void modificar(String id, Boolean alta) {
+        Optional<Usuario> usuarioRespuesta = usuarioRepositorio.findById(id);
+        //Persistimos con repositorio, buscamos por id, verificamos que la respuesta este presente y la asignamos a una variable usuario,
+        // en esta se setea el alta como falso("eliminado") y se vuelve a persistir para guardar en el repositorio.
+        if (usuarioRespuesta.isPresent()) {
+            Usuario usuario = usuarioRespuesta.get();
+            usuario.setAlta(alta);
 
             usuarioRepositorio.save(usuario);
         }
@@ -145,5 +182,22 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
-}
+    private void validar(String nombre, String email, String password, String password2) throws MiException {
 
+        if (nombre.isEmpty() || nombre == null) {
+            throw new MiException("el nombre no puede ser nulo o estar vacío");
+        }
+        if (email.isEmpty() || email == null) {
+            throw new MiException("el email no puede ser nulo o estar vacio");
+        }
+        if (password.isEmpty() || password == null || password.length() <= 5) {
+            throw new MiException("La contraseña no puede estar vacía, y debe tener más de 5 dígitos");
+        }
+
+        if (!password.equals(password2)) {
+            throw new MiException("Las contraseñas ingresadas deben ser iguales");
+        }
+
+    }
+
+}
