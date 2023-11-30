@@ -3,7 +3,6 @@ package com.egg.servicios.servicios;
 import com.egg.servicios.entidades.Calificacion;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.CalificacionRepositorio;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 // PARA HACER: añadir metodos { listarPorId(id), eliminarCalificacion(id) }
-
 /**
  *
  * @author jose
@@ -37,11 +35,17 @@ public class CalificacionServicio {
         }
     }
 
+    
     public List<Calificacion> listarCalificaciones() {
 
         List<Calificacion> calificaciones = calificacionRepositorio.listarCalificacionesActivos();
 
         return calificaciones;
+    }
+
+    public Calificacion listarPorId(String id) {
+        return calificacionRepositorio.getReferenceById(id);
+
     }
 
     public void modificarCalificacion(String comentario, Integer puntuacion, String id) throws MiException {
@@ -55,6 +59,26 @@ public class CalificacionServicio {
                 calificacion.setPuntuacion(puntuacion);
                 calificacion.setComentario(comentario);
                 calificacionRepositorio.save(calificacion);
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+
+    }
+
+    public void eliminarCalificacion(String id) throws MiException {
+
+        Optional<Calificacion> respuesta = calificacionRepositorio.findById(id);
+
+        try {
+            if (respuesta.isPresent()) {
+
+                Calificacion calificacion = respuesta.get();
+                calificacion.setAlta(Boolean.FALSE);
+                calificacionRepositorio.save(calificacion);
+
+            } else {
+                throw new MiException("El ID Calificacion no corresponde a ninguna existente.");
             }
         } catch (Exception e) {
             throw new MiException(e.getMessage());
