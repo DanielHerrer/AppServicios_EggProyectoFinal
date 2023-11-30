@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-/**git 
+/**
  *
  * @author Daniel
  */
@@ -93,8 +93,6 @@ public class ServicioControlador {
                             @RequestParam String idCategoria, @RequestParam String idProveedor, ModelMap modelo) {
 
         try {
-
-
             servicioServicio.actualizarServicio(id, descripcion, honorariosHora, matricula, idCategoria, idProveedor);
 
             cargarModeloConCategorias(modelo);
@@ -103,11 +101,8 @@ public class ServicioControlador {
 
             return "test_servicio_update.html";
 
-
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
-
-
             modelo.put("descripcion", descripcion);
             modelo.put("honorariosHora", honorariosHora);
             modelo.put("matricula", matricula);

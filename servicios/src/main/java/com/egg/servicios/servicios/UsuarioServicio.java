@@ -3,6 +3,7 @@ package com.egg.servicios.servicios;
 import com.egg.servicios.entidades.Imagen;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
+import com.egg.servicios.enumeraciones.Ubicacion;
 import com.egg.servicios.repositorios.UsuarioRepositorio;
 import com.egg.servicios.servicios.ImagenServicio;
 import com.egg.servicios.excepciones.MiException;
@@ -25,10 +26,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+
 // PARA HACER: añadir metodos { listarUsuariosActivos(), listarUsuarioPorId(id), eliminarUsuario(id) }
 
+
 /**
- *
  * @author Nico
  */
 @Service
@@ -41,7 +43,7 @@ public class UsuarioServicio implements UserDetailsService {
     private ImagenServicio imagenServicio;
 
     @Transactional
-    public void registrar(MultipartFile archivo,String accUsuario, Rol rol, String nombre, String email,String ubicacion, String password, String password2) throws MiException {
+    public void registrar(MultipartFile archivo,String accUsuario, Rol rol, String nombre, String email,Ubicacion ubicacion, String password, String password2) throws MiException {
 
         validar(nombre, email, password, password2);
 
@@ -82,7 +84,7 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void actualizar(MultipartFile archivo,String idUsuario,Rol rol, String ubicacion, String nombre, String email, String password, String password2) throws MiException {
+    public void actualizar(MultipartFile archivo, String idUsuario, Rol rol, Ubicacion ubicacion, String nombre, String email, String password, String password2) throws MiException {
 
         validar(nombre, email, password, password2);
 

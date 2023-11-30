@@ -1,7 +1,6 @@
 package com.egg.servicios.controladores;
 
 import com.egg.servicios.entidades.Oferta;
-import com.egg.servicios.entidades.Servicio;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.servicios.OfertaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -26,7 +23,8 @@ public class OfertaControlador {
     OfertaServicio ofertaServicio;
 
     @GetMapping("/registrar") // localhost:8080/oferta/registrar
-    public String registrar(ModelMap modelo) {
+    public String registrar(@RequestParam String descripcion, @RequestParam String idServicio,
+                           @RequestParam String idCliente, ModelMap modelo) {
 
         return "test_oferta_create.html";
     }
@@ -88,13 +86,10 @@ public class OfertaControlador {
             return "test_oferta_update.html";
 
         } catch (MiException ex) {
-
             modelo.put("error", ex.getMessage());
-
             modelo.put("descripcion", descripcion);
             modelo.put("idServicio", idServicio);
             modelo.put("idCliente", idCliente);
-
             return "test_oferta_update.html";
         }
     }
