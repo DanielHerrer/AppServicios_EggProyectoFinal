@@ -81,7 +81,7 @@ public class ContratoControlador {
         }
     }
     
-
+/*
     @PostMapping("/modificar/{id}")
     public String modificarContrato(@PathVariable String id, Estados estados, Calificacion calificacion, ModelMap modelo) {
         try {
@@ -94,4 +94,5 @@ public class ContratoControlador {
             return "";
         }
     }
+*/
 }
