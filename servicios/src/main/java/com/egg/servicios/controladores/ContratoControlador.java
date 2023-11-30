@@ -52,8 +52,8 @@ public class ContratoControlador {
     public String listar(ModelMap modelo) throws MiException  {
         List<Contrato> listaContra = contratoService.listarContratos();
         modelo.addAttribute("listaContra", listaContra);
-        return "test_contrato_lista.html";
 
+        return "test_contrato_lista.html";
     }
 
      @GetMapping("/modificar/{id}")
@@ -68,8 +68,8 @@ public class ContratoControlador {
     }
 
     
-    @PostMapping("/modificar/{id}")
-    public String estadosDeContratos(@PathVariable String id, Estados estados, ModelMap modelo) {
+    @PostMapping("/modificado/{id}")
+    public String modificadoEstado(@PathVariable String id, Estados estados, ModelMap modelo) {
         try {
             contratoService.estadosDeContratos(id, estados);
             modelo.put("exito", "El Contrato fue modificado correctamente!");
@@ -80,10 +80,9 @@ public class ContratoControlador {
             return "";
         }
     }
-    
 
-    @PostMapping("/modificar/{id}")
-    public String modificarContrato(@PathVariable String id, Estados estados, Calificacion calificacion, ModelMap modelo) {
+    @PostMapping("/modificado/finalizado/{id}")
+    public String modificadoContrato(@PathVariable String id, Estados estados, Calificacion calificacion, ModelMap modelo) {
         try {
             contratoService.contratoFinalizado(id, estados, calificacion);
             modelo.put("exito", "El Contrato fue modificado correctamente!");

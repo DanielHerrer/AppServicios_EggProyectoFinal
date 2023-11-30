@@ -98,7 +98,7 @@ public class ServicioControlador {
     }
 
     @GetMapping("/listar")
-    public String listarServiciosInvitado(ModelMap modelo) {
+    public String listarServicios(ModelMap modelo) {
 
         List<Servicio> servicios = servicioServicio.listarServicios();
 
@@ -109,7 +109,7 @@ public class ServicioControlador {
 
 //    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/proveedor/listar")
-    public String listadoServiciosProveedor(ModelMap modelo, HttpSession session) {
+    public String listarServiciosProveedor(ModelMap modelo, HttpSession session) {
 
         Usuario proveedor = (Usuario) session.getAttribute("usuariosession");
 
