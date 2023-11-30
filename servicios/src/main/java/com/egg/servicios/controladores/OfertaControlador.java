@@ -22,13 +22,6 @@ public class OfertaControlador {
     @Autowired
     OfertaServicio ofertaServicio;
 
-    @GetMapping("/registrar") // localhost:8080/oferta/registrar
-    public String registrar(@RequestParam String descripcion, @RequestParam String idServicio,
-                           @RequestParam String idCliente, ModelMap modelo) {
-
-        return "test_oferta_create.html";
-    }
-
     @PostMapping("/registro") // localhost:8080/oferta/registro
     public String registro(@RequestParam String descripcion, @RequestParam String idServicio,
                            @RequestParam String idCliente, ModelMap modelo) {
