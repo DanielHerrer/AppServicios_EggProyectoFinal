@@ -37,37 +37,32 @@ public class CategoriaControlador {
         try {
 
             categoriaServicio.crearCategoria(nombre);
-
             return "inicio.html";
 
         } catch (MiException e) {
 
             modelo.put("error", e.getMessage());
-
             return "inicio.html";
 
         }
 
     }
-    
-    // modificar la categoria
 
+    // modificar la categoria
     @GetMapping("/lista")
     public String listar(ModelMap modelo) {
 
         List<Categoria> categoria = categoriaServicio.listarCategoria();
-
         modelo.addAttribute("categoria", categoria);
-
         return "test_categoria_read.html";
     }
 
     @GetMapping("/modificar/{id}") // revisar
     public String modificar(@PathVariable String id, ModelMap modelo) {
-
-        modelo.put("categoria", categoriaServicio.getOne(id));
-
-        return "test_categoria_modificar.html";
+             
+            modelo.put("categoria", categoriaServicio.getOne(id));
+            return "test_categoria_modificar.html";
+   
     }
 
     @PostMapping("/modificado/{id}")
@@ -88,21 +83,20 @@ public class CategoriaControlador {
     }
 
     // eliminar categorias
-    
-    @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable String id, ModelMap modelo) {
-
-        modelo.put("categoria", categoriaServicio.getOne(id));
-
-        return "test_categoria_modificar.html";
-    }
-
-    @DeleteMapping("/eliminado/{id}")
+    @PostMapping("/eliminado/{id}")
     public String eliminado(@PathVariable String id, ModelMap modelo) {
 
-        modelo.remove(id);
+       try {
 
-        return "inicio.html";
+            categoriaServicio.eliminarCategoria(id);
+            return "test_index.html";
+
+        } catch (MiException e) {
+
+            modelo.put("error", e.getMessage());
+            return "test_index.html";
+            
+        }
     }
 
 }

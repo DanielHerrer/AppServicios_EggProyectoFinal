@@ -85,5 +85,26 @@ public class CategoriaServicio {
 
         return categoriaRepositorio.listarCategoriasAlta();
     }
+    
+     @Transactional
+    public void eliminarCategoria(String idCategoria) throws MiException {
+
+        Optional<Categoria> respuesta = categoriaRepositorio.findById(idCategoria);
+
+        try {
+            if (respuesta.isPresent()) {
+
+                Categoria categoria = respuesta.get();
+                categoria.setAlta(false);
+                categoriaRepositorio.save(categoria);
+
+            } else {
+                throw new MiException("El ID Categoría no corresponde a ninguna categoría existente.");
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+
+    }
 
 }
