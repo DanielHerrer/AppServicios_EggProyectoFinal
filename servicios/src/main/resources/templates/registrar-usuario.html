@@ -24,8 +24,17 @@
 	</head>
 	<body>
 		<section id="home" class="hero-section">
+			<!--header -->
+			<header class="header">
+				<div class="navbar-area sticky">
+					<!-- sticky prueba barra fijada  -->
+
+					<!-- container -->
+				</div>
+			</header>
+			<!-- imagen de fondo -->
 			<div
-				class="hero-section hero-style img-bg vh-100"
+				class="hero-section hero-style img-bg"
 				style="background-image: url('../static/img/hero-bg.svg')"
 			>
 				<!-- mensaje de exito y error -->
@@ -59,10 +68,34 @@
 								>
 									<img src="../static/img/logo2.png" alt="Logo" />
 								</a>
-								<h3 class="text-center fw-bold text-center">Login</h3>
+								<h4 class="text-center fw-bold text-center">
+									Registrar Usuario
+								</h4>
 								<form class="p-3">
 									<div class="mb-3">
-										<label for="exampleInputEmail1" class="form-label"
+										<label for="exampleInputUser" class="form-label"
+											>Nombre Usuario</label
+										>
+										<input
+											type="text"
+											class="form-control"
+											id="exampleInputUser"
+											name="user"
+										/>
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputName" class="form-label"
+											>Nombre Completo</label
+										>
+										<input
+											type="text"
+											class="form-control"
+											id="exampleInputName"
+											name="nombre"
+										/>
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputEmail" class="form-label"
 											>Email</label
 										>
 										<input
@@ -70,13 +103,11 @@
 											class="form-control"
 											id="exampleInputEmail1"
 											aria-describedby="emailHelp"
-											name="password"
+											name="email"
 										/>
-										<div id="emailHelp" class="form-text">
-											No compartiremos tu email con nadie.
-										</div>
 									</div>
-									<div class="my-3">
+
+									<div class="mb-3">
 										<label for="exampleInputPassword1" class="form-label"
 											>Password</label
 										>
@@ -87,8 +118,35 @@
 											name="password"
 										/>
 									</div>
+									<div class="mb-3">
+										<label for="imageUser" class="form-label"
+											>Elige tu imagen de perfil</label
+										>
+										<input
+											class="form-control"
+											type="file"
+											id="imageUser"
+											name="foto"
+										/>
+									</div>
+									<div class="mb-3">
+										<label for="exampleInputPassword1" class="form-label"
+											>Barrio</label
+										>
+										<select
+											class="form-select"
+											aria-label="Default select example"
+										>
+											<option value="1" selected>Barrio 1</option>
+											<option value="2">Barrio 2</option>
+											<option value="3">Barrio 3</option>
+										</select>
+									</div>
+
 									<div class="text-center mt-5">
-										<button type="submit" class="btn btn-primary">Login</button>
+										<button type="submit" class="btn btn-primary">
+											Registrar
+										</button>
 									</div>
 								</form>
 							</div>
@@ -96,12 +154,10 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12 d-flex justify-content-center">
-							<span class="fw-bolder">Si no te has registrado aun </span
-							><a
-								class="link-primary fw-bolder mx-1"
-								href="eleccion-usuario.html"
-							>
-								registrate!</a
+							<span class="fw-bolder"
+								>Si ya tenes un usuario ingresa desde </span
+							><a class="link-primary fw-bolder mx-1" href="login.html">
+								aquí</a
 							>
 						</div>
 					</div>

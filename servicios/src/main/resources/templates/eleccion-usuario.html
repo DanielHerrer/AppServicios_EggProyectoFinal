@@ -24,6 +24,15 @@
 	</head>
 	<body>
 		<section id="home" class="hero-section">
+			<!--header -->
+			<header class="header">
+				<div class="navbar-area sticky">
+					<!-- sticky prueba barra fijada  -->
+
+					<!-- container -->
+				</div>
+			</header>
+			<!-- imagen de fondo -->
 			<div
 				class="hero-section hero-style img-bg vh-100"
 				style="background-image: url('../static/img/hero-bg.svg')"
@@ -50,58 +59,49 @@
 					</div>
 				</div> -->
 				<div class="container">
-					<div class="row d-flex justify-content-center">
-						<div class="col-md-6">
-							<div class="card border-0 p-4 card-login mb-2">
-								<a
-									class="col-md-12 d-flex justify-content-center pb-3"
-									href="index.html"
-								>
-									<img src="../static/img/logo2.png" alt="Logo" />
-								</a>
-								<h3 class="text-center fw-bold text-center">Login</h3>
-								<form class="p-3">
-									<div class="mb-3">
-										<label for="exampleInputEmail1" class="form-label"
-											>Email</label
-										>
-										<input
-											type="email"
-											class="form-control"
-											id="exampleInputEmail1"
-											aria-describedby="emailHelp"
-											name="password"
-										/>
-										<div id="emailHelp" class="form-text">
-											No compartiremos tu email con nadie.
-										</div>
+					<div class="row mt-5 d-flex justify-content-center">
+						<div class="col-md-8">
+							<div class="rounded text-light p-4">
+								<h4 class="text-center">¿Como deseas registrarte?</h4>
+								<div class="row">
+									<div class="col-md-6">
+										<a href="registrar-proveedor.html">
+											<div
+												class="card border-0 my-5 mx-2 text-center d-flex card-effect"
+											>
+												<img
+													src="../static/img/worker-icon.svg"
+													alt=""
+													class="px-5 py-3 image-icon-user align-self-center"
+												/>
+												<h6 class="pb-3">Profesional</h6>
+											</div>
+										</a>
 									</div>
-									<div class="my-3">
-										<label for="exampleInputPassword1" class="form-label"
-											>Password</label
-										>
-										<input
-											type="password"
-											class="form-control"
-											id="exampleInputPassword1"
-											name="password"
-										/>
+									<div class="col-md-6">
+										<a href="registrar-usuario.html">
+											<div
+												class="card border-0 my-5 mx-2 text-center d-flex card-effect"
+											>
+												<img
+													src="../static/img/user-icon.svg"
+													alt=""
+													class="px-5 py-3 align-self-center image-icon-user"
+												/>
+												<h6 class="pb-3">Cliente</h6>
+											</div>
+										</a>
 									</div>
-									<div class="text-center mt-5">
-										<button type="submit" class="btn btn-primary">Login</button>
-									</div>
-								</form>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 d-flex justify-content-center">
-							<span class="fw-bolder">Si no te has registrado aun </span
-							><a
-								class="link-primary fw-bolder mx-1"
-								href="eleccion-usuario.html"
-							>
-								registrate!</a
+							<span class="fw-bolder"
+								>Si ya tenes un usuario ingresa desde </span
+							><a class="link-primary fw-bolder mx-1" href="login.html">
+								aqui</a
 							>
 						</div>
 					</div>
