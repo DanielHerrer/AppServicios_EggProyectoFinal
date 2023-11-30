@@ -109,6 +109,10 @@ public class ServicioServicio {
         return servicioRepositorio.listarServiciosActivos();
     }
 
+    public List<Servicio> listarServiciosProveedor(String idProveedor) {
+        return servicioRepositorio.listarServiciosActivosPorProveedor(idProveedor);
+    }
+
     @Transactional
     public void eliminarServicio(String idServicio) throws MiException {
 
@@ -132,9 +136,9 @@ public class ServicioServicio {
 
     public void validar(String descripcion, Double honorariosHora, MultipartFile archivo, String idCategoria, String idProveedor) throws MiException {
 
-        if(archivo.isEmpty() || archivo == null) {
-            throw new MiException("El archivo no puede ser nulo o estar vacio.");
-        }
+//        if(archivo.isEmpty() || archivo == null) {
+//            throw new MiException("El archivo no puede ser nulo o estar vacio.");
+//        }
         if (descripcion.trim().isEmpty() || descripcion == null) {
             throw new MiException("La descripcion no puede ser nula o estar vacia.");
         }

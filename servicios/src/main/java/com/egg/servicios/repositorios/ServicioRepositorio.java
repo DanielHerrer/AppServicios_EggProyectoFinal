@@ -34,4 +34,9 @@ public interface ServicioRepositorio extends JpaRepository<Servicio, String> {
             """)
     public Optional<Servicio> findByDescripcion(@Param("descripcion") String descripcion);
 
+    @Query("""
+            SELECT s FROM Servicio s
+            WHERE s.proveedor.id = :idProveedor
+            """)
+    public List<Servicio> listarServiciosActivosPorProveedor(@Param("idProveedor") String idProveedor);
 }

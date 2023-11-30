@@ -32,7 +32,7 @@ public class OfertaServicio {
     private ServicioRepositorio servicioRepositorio;
 
     @Transactional
-    public void crearOferta(String descripcion, String idServicio, String idCliente) throws MiException {
+    public Oferta crearOferta(String descripcion, String idServicio, String idCliente) throws MiException {
 
         validar(descripcion, idServicio, idCliente);
 
@@ -48,7 +48,7 @@ public class OfertaServicio {
             Usuario cliente = usuarioRepositorio.findById(idCliente).get();
             oferta.setCliente(cliente);
 
-            servicioRepositorio.save(servicio);
+            return ofertaRepositorio.save(oferta);
 
         } catch (Exception e) {
             throw new MiException(e.getMessage());

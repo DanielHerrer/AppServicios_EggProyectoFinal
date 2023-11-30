@@ -22,16 +22,13 @@ public class Usuario {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    
     private String accUsuario;
     private String password;
     private String nombre;
-    
     @OneToOne
     private Imagen imagen;
     private String email;
     private String ubicacion;
-    
     @Enumerated(EnumType.STRING)
     private Rol rol;
     

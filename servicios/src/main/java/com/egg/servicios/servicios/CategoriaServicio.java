@@ -3,6 +3,8 @@ package com.egg.servicios.servicios;
 import com.egg.servicios.entidades.Categoria;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.CategoriaRepositorio;
+
+import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +63,7 @@ public class CategoriaServicio {
         
     }
 
-    private void validar(String id, String nombre) throws MiException{
+    private void validar(String id, String nombre) throws MiException {
         
         if(id == null) {
             throw new MiException("El ID no puede estar vacío.");
@@ -72,5 +74,18 @@ public class CategoriaServicio {
         
     }
 
-    
+
+    public List<Categoria> listarCategorias() throws MiException {
+
+        try {
+
+            return categoriaRepositorio.listarCategoriasAlta();
+
+        } catch (Exception e) {
+
+            throw new MiException(e.getMessage());
+
+        }
+
+    }
 }
