@@ -19,16 +19,10 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u WHERE u.email= :email")
     public Usuario buscarPorEmail(@Param("email") String email);
 
-    @Query("""
-            SELECT s FROM Servicio s
-            WHERE s.alta = true
-            """)
+    @Query("SELECT s FROM Servicio s  WHERE s.alta = true")
     public List<Usuario> listarUsuariosActivos();
 
-    @Query("""
-            SELECT s FROM Servicio s
-            WHERE s.alta = false
-            """)
+    @Query("SELECT s FROM Servicio s WHERE s.alta = false")
     public List<Usuario> listarUsuariosInactivos();
 
 }

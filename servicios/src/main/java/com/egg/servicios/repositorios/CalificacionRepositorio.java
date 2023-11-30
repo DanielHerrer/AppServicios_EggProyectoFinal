@@ -14,9 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CalificacionRepositorio extends JpaRepository<Calificacion, String> {
     
-    @Query("""
-            SELECT c FROM Calificacion  c
-            WHERE c.alta = true
-            """)
+    @Query("SELECT c FROM Calificacion c")
     public List<Calificacion> listarCalificacionesActivos();
 }

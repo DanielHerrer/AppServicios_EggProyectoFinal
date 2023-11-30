@@ -1,13 +1,13 @@
 package com.egg.servicios.controladores;
 
 import com.egg.servicios.entidades.Categoria;
+
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.servicios.CategoriaServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,27 +25,44 @@ public class CategoriaControlador {
     @Autowired
     private CategoriaServicio categoriaServicio;
 
-    @GetMapping("/registrarCategoria")
+
+    @GetMapping("/registrar") // localhost:8080/categoria/registrar
     public String registrarCategoria() {
 
         return "test_categoria_form.html";
     }
 
-    @PostMapping("/registroCategoria")
-    public String registroCategoria(@RequestParam(required = false) String nombre, ModelMap modelo) {
+    @PostMapping("/registro") // localhost:8080/categoria/registro
+    public String registroCategoria(@RequestParam String nombre, ModelMap modelo) {
 
         try {
-
+            modelo.put("exito","La Categoria se ha creado correctamente!");
             categoriaServicio.crearCategoria(nombre);
-            return "inicio.html";
+
+            return "test_categoria_form.html";
 
         } catch (MiException e) {
-
             modelo.put("error", e.getMessage());
-            return "inicio.html";
 
+            modelo.put("nombre",nombre);
+
+            return "test_categoria_form.html";
         }
+    }
 
+    @GetMapping("/listar")
+    public String listarCategorias(ModelMap modelo) {
+
+        try {
+            List<Categoria> categorias = categoriaServicio.listarCategorias();
+            modelo.addAttribute("categorias",categorias);
+
+            return "test_categoria_read.html";
+
+        } catch (MiException e) {
+            modelo.put("error", e.getMessage());
+            return "test_categoria_read.html";
+        }
     }
 
     // modificar la categoria

@@ -3,6 +3,7 @@ package com.egg.servicios.servicios;
 import com.egg.servicios.entidades.Categoria;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.CategoriaRepositorio;
+
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -23,31 +24,30 @@ public class CategoriaServicio {
     @Transactional
     public void crearCategoria(String nombre) throws MiException {
 
-        validar(nombre, nombre);
+        validar(nombre);
 
         try {
-
+            
             Categoria categoria = new Categoria();
-
             categoria.setNombre(nombre);
 
             categoriaRepositorio.save(categoria);
-
+        
         } catch (Exception e) {
 
             throw new MiException(e.getMessage());
 
         }
-
     }
 
-    public void modificarCategoria(String ID_categoria, String nombre) throws MiException {
+    public void modificarCategoria(String idCategoria, String nombre) throws MiException {
 
-        validar(nombre, nombre);
 
+        validar(nombre);
+        
         try {
 
-            Optional<Categoria> resultado = categoriaRepositorio.findById(ID_categoria);
+            Optional<Categoria>resultado = categoriaRepositorio.findById(idCategoria);
 
             if (resultado.isPresent()) {
 
@@ -56,55 +56,31 @@ public class CategoriaServicio {
                 categoriaRepositorio.save(categoria);
 
             }
-
+                
         } catch (Exception e) {
-
             throw new MiException(e.getMessage());
-
         }
 
     }
 
-    private void validar(String id, String nombre) throws MiException {
-
-        if (id == null) {
-            throw new MiException("El ID no puede estar vacío.");
-        }
-        if (nombre.isEmpty() || nombre == null) {
-            throw new MiException("El NOMBRE no puede ser nulo ni estar vacío");
-        }
-
-    }
-
-    public Categoria getOne(String id) {
-        
-        return categoriaRepositorio.getOne(id);
-    }
-
-    public List<Categoria> listarCategoria() {
-
-        return categoriaRepositorio.listarCategoriasAlta();
-    }
-    
-     @Transactional
-    public void eliminarCategoria(String idCategoria) throws MiException {
-
-        Optional<Categoria> respuesta = categoriaRepositorio.findById(idCategoria);
+    public List<Categoria> listarCategorias() throws MiException {
 
         try {
-            if (respuesta.isPresent()) {
+            return categoriaRepositorio.listarCategoriasAlta();
 
-                Categoria categoria = respuesta.get();
-                categoria.setAlta(false);
-                categoriaRepositorio.save(categoria);
-
-            } else {
-                throw new MiException("El ID Categoría no corresponde a ninguna categoría existente.");
-            }
         } catch (Exception e) {
             throw new MiException(e.getMessage());
         }
 
+    }
+
+    private void validar(String nombre) throws MiException {
+
+        if (nombre.trim().isEmpty() || nombre == null) {
+            throw new MiException("El Nombre no puede ser nulo ni estar vacío.");
+        } else if (categoriaRepositorio.findByNombre(nombre).isPresent()) {
+            throw new MiException("Ya existe una Categoria con el mismo nombre.");
+        }
     }
 
 }

@@ -9,16 +9,15 @@ import com.egg.servicios.enumeraciones.Estados;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.ContratoRepositorios;
 
-
 import java.util.Optional;
 import javax.transaction.Transactional;
 
 import com.egg.servicios.repositorios.UsuarioRepositorio;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 // PARA HACER: añadir metodos { listarContratos(), listarPorId(id) }
-
 /**
  *
  * @author joaquin
@@ -28,13 +27,30 @@ public class ContratoServicios {
 
     @Autowired
     private ContratoRepositorios contratoRepo;
-    
+
     @Autowired
     private UsuarioRepositorio usuarioRepo;
 
     public ContratoServicios(ContratoRepositorios contratoRepo, UsuarioRepositorio usuarioRepo) {
         this.contratoRepo = contratoRepo;
         this.usuarioRepo = usuarioRepo;
+    }
+    
+    @Transactional
+    public Contrato crearContrato(Oferta oferta) throws MiException {
+
+        try {
+
+            Contrato contrato = new Contrato();
+            contrato.setOferta(oferta);
+            contrato.setEstadoTrabajo(Estados.PENDIENTE);
+            contrato.setAptitud(null);
+
+            return contratoRepo.save(contrato);
+
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
     }
 
     @Transactional
@@ -52,7 +68,11 @@ public class ContratoServicios {
         }
     }
 
-    public void actualizarContrato(String id, Estados state) throws MiException {
+    
+    
+    
+    
+    public void modificarEstadoContrato(String id, Estados state) throws MiException {
         try {
             Optional<Contrato> presente = contratoRepo.findById(id);
             if (presente.isPresent()) {
@@ -65,7 +85,7 @@ public class ContratoServicios {
         }
     }
 
-    public void actualizarContrato(String id, Estados state, Calificacion aptitud) throws MiException {
+    public void contratoFinalizado(String id, Estados state, Calificacion aptitud) throws MiException {
 
         try {
             Optional<Contrato> presente = contratoRepo.findById(id);
@@ -76,11 +96,25 @@ public class ContratoServicios {
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
-            throw new MiException(e.getMessage());
+         
         }
     }
 
-    public void eliminarContrato(String id) throws MiException {
+    public void estadosDeContratos(String id, Estados state) throws MiException {
+
+        try {
+            Optional<Contrato> presente = contratoRepo.findById(id);
+            if (presente.isPresent()) {
+                Contrato c = presente.get();
+                c.setEstadoTrabajo(state);
+                contratoRepo.save(c);
+            }
+        } catch (Exception e) {
+         
+        }
+    }
+    
+    public void altaBajaContrato(String id) throws MiException {
         try {
             Optional<Contrato> presente = contratoRepo.findById(id);
             if (presente.isPresent()) {
@@ -89,12 +123,31 @@ public class ContratoServicios {
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
-            throw new MiException(e.getMessage());
+                throw new MiException(e.getMessage());
         }
     }
 
+    public List<Contrato> listarContratos() throws MiException {
+        try {
+            List<Contrato> contratoList = contratoRepo.listarContratoActivos();
+            return contratoList;
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+ 
+       public Optional<Contrato> listarContratosPorId(String id) throws MiException {
+        try {    
+            Optional<Contrato> contratoList = contratoRepo.findById(id);
+            return contratoList;
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+    
+    
+    
     public void validar(Estados state) throws MiException {
-
         if (state.equals(null) || state == null) {
             throw new MiException("El Estado no puede ser nulo !");
         }
