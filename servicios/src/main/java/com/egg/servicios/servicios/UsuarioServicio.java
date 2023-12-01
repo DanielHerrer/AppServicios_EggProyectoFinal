@@ -44,14 +44,17 @@ public class UsuarioServicio implements UserDetailsService {
         validar(nombre, email, password, password2);
 
         Usuario usuario = new Usuario();
-
+        
+        
+        
         usuario.setAccUsuario(accUsuario);
         usuario.setNombre(nombre);
         usuario.setEmail(email);
+        
         usuario.setUbicacion(ubicacion);
 
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-
+        
         usuario.setRol(rol);
 
         Imagen imagen = imagenServicio.guardar(archivo);
