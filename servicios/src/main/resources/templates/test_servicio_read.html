@@ -31,8 +31,8 @@
                     </div>
                 </div>
                 <div th:if="${servicio.matricula != null}" class="row border-top border-primary">
-                    <div class="col-6 py-2">Matricula:</div>
-                    <div class="col-6 py-2">
+                    <div class="col-7 py-2">Matricula:</div>
+                    <div class="col-5 py-2">
                         <button class="btn btn-sm boton-card" data-bs-toggle="modal" th:data-bs-target="'#exampleModal_' + ${iterStat.index}">
                             Ver Matricula
                         </button>
@@ -61,12 +61,12 @@
                 </div>
 
                 <div class="row border-top border-primary">
-                    <div class="col-6 py-2">Honorarios p/ hora:</div>
-                    <div class="col-6 py-2"><b>$</b><b th:text="${servicio.honorariosHora}"></b></div>
+                    <div class="col-7 py-2">Honorarios p/ hora:</div>
+                    <div class="col-5 py-2"><b>$</b><b th:text="${servicio.honorariosHora}"></b></div>
                 </div>
                 <div class="row border-top py-2">
-                    <div class="align-self-end">Calificación Proveedor</div>
-                    <div>
+                    <div class="col-7 align-self-end">Calificación Proveedor:</div>
+                    <div class="col-5">
                         <b>
                             <i th:each="estrellita : ${#numbers.sequence(1, 5)}"
                                th:class="${estrellita le puntuaciones[iterStat.index]} ? 'bi bi-star-fill' : 'bi bi-star'"></i>
