@@ -36,7 +36,6 @@ public class ServicioServicio {
     @Autowired
     private CategoriaRepositorio categoriaRepositorio;
 
-    
     @Transactional
     public void crearServicio(String descripcion, Double honorariosHora, MultipartFile matricula, String idCategoria, String idProveedor) throws MiException {
 
@@ -66,14 +65,14 @@ public class ServicioServicio {
     }
 
     @Transactional
-    public void actualizarServicio(String idServicio, String descripcion, Double honorariosHora,  MultipartFile archivo, String idCategoria, String idProveedor) throws MiException {
+    public void actualizarServicio(String idServicio, String descripcion, Double honorariosHora, MultipartFile archivo, String idCategoria, String idProveedor) throws MiException {
 
         validar(descripcion, honorariosHora, archivo, idCategoria, idProveedor);
 
         try {
             Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
 
-            if(respuesta.isPresent()) {
+            if (respuesta.isPresent()) {
 
                 Servicio servicio = respuesta.get();
 
@@ -144,21 +143,26 @@ public class ServicioServicio {
 
     public void validar(String descripcion, Double honorariosHora, MultipartFile archivo, String idCategoria, String idProveedor) throws MiException {
 
+
 //        if(archivo.isEmpty() || archivo == null) {
 //            throw new MiException("El archivo no puede ser nulo o estar vacio.");
 //        }
+
+        if (archivo.isEmpty() || archivo == null) {
+            throw new MiException("El archivo no puede ser nulo o estar vacio.");
+        }
         if (descripcion.trim().isEmpty() || descripcion == null) {
             throw new MiException("La descripcion no puede ser nula o estar vacia.");
         }
         if (honorariosHora < 1 || honorariosHora.isNaN() || honorariosHora == null) {
             throw new MiException("Los honorarios no deben ser nulos y deben ser un numero valido.");
         }
-        if (idCategoria.trim().isEmpty() || idCategoria == null){
+        if (idCategoria.trim().isEmpty() || idCategoria == null) {
             throw new MiException("El ID Categoria no puede ser nulo o estar vacio.");
         } else if (!categoriaRepositorio.findById(idCategoria).isPresent()) {
             throw new MiException("El ID Categoria no corresponde a ninguna categoria existente.");
         }
-        if (idProveedor.trim().isEmpty() || idProveedor == null){
+        if (idProveedor.trim().isEmpty() || idProveedor == null) {
             throw new MiException("El ID Proveedor no puede ser nulo o estar vacio.");
         } else if (!usuarioRepositorio.findById(idProveedor).isPresent()) {
             throw new MiException("El ID Proveedor no corresponde a ningun proveedor existente.");
@@ -169,4 +173,9 @@ public class ServicioServicio {
 
     }
 
+    public Servicio getOne(String id) {
+        return (Servicio) servicioRepositorio.getOne(id);
+    }
+
+    
 }

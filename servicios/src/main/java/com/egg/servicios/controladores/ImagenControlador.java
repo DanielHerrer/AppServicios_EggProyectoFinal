@@ -25,7 +25,9 @@ public class ImagenControlador {
     @Autowired
     private ServicioServicio servicioServicio;
     
-    @GetMapping("/perfil/{id}")//se pasa el id del usuario a travez del path
+    private ServicioServicio servicioService;
+    
+    @GetMapping("/Usuario/{id}")//se pasa el id del usuario a travez del path
     public ResponseEntity<byte[]> imagenUsuario(@PathVariable String id) {//recibe el id del usuario al que esta vinculada la imagen.
        Usuario usuario = usuarioServicio.getOne(id);//trae al usuario por id y lo asignamos a una variable usuario
        
@@ -49,5 +51,25 @@ public class ImagenControlador {
 
         return new ResponseEntity < >(imagen,headers,HttpStatus.OK);
     }
+    
+    // @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    
+   @GetMapping("/Proveedor/{id}")
+    public ResponseEntity<byte[]> matriculaProveedor(@PathVariable String id) {
+        
+       Servicio service = servicioService.getOne(id);     
+       
+       Usuario user  = service.getProveedor(); 
+       
+      byte[] imagen = user.getImagen().getContenido();
+      HttpHeaders headers = new HttpHeaders();
+      
+      headers.setContentType(MediaType.IMAGE_JPEG);
+
+      return new ResponseEntity < >(imagen,headers,HttpStatus.OK);
+    } 
+    
+    
+    
     
 }
