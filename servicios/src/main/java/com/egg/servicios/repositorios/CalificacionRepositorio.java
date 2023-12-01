@@ -5,6 +5,7 @@ import com.egg.servicios.entidades.Calificacion;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,4 +17,5 @@ public interface CalificacionRepositorio extends JpaRepository<Calificacion, Str
     
     @Query("SELECT c FROM Calificacion c")
     public List<Calificacion> listarCalificacionesActivos();
+
 }

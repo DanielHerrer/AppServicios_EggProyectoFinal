@@ -1,7 +1,9 @@
 package com.egg.servicios.controladores;
 
 
+import com.egg.servicios.entidades.Servicio;
 import com.egg.servicios.entidades.Usuario;
+import com.egg.servicios.servicios.ServicioServicio;
 import com.egg.servicios.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +22,8 @@ public class ImagenControlador {
         
     @Autowired
     private UsuarioServicio usuarioServicio;
+    @Autowired
+    private ServicioServicio servicioServicio;
     
     @GetMapping("/perfil/{id}")//se pasa el id del usuario a travez del path
     public ResponseEntity<byte[]> imagenUsuario(@PathVariable String id) {//recibe el id del usuario al que esta vinculada la imagen.
@@ -31,6 +35,19 @@ public class ImagenControlador {
       headers.setContentType(MediaType.IMAGE_JPEG);//SETEAMOS EN EL HEADERS LA IMAGEN, avisa que va a guardar una imagen
 
       return new ResponseEntity < >(imagen,headers,HttpStatus.OK);//httpstatus ok para que la operacion este confirmada
+    }
+
+    @GetMapping("/matricula/{id}")
+    public ResponseEntity<byte[]> imagenMatricula(@PathVariable String id) {
+
+        Servicio servicio = servicioServicio.listarPorId(id);
+
+        byte[] imagen = servicio.getMatricula().getContenido();
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.IMAGE_JPEG);
+
+        return new ResponseEntity < >(imagen,headers,HttpStatus.OK);
     }
     
 }

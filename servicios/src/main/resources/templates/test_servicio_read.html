@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="row row-cols-1 row-cols-md-3 g-5">
-    <div th:each="servicio : ${servicios}" class="col-lg-4 col-md-6 col-sm-12">
+    <div th:each="servicio : ${servicios}" th:each="puntuacion : ${puntuaciones}" class="col-lg-4 col-md-6 col-sm-12">
 
         <div class="card card_body shadow p-5 py-2 bg-body-tertiary rounded border-0">
             <div class="card_header">
@@ -67,7 +67,8 @@
                 <div class="row border-top py-2">
                     <div class="col-6 align-self-end">Calificación</div>
                     <div class="col-6 estrellas align-self-end">
-                        <b><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></b>
+                        <!-- La expresión ${#numbers.sequence(0, puntuacion - 1)} genera una secuencia de números que va desde 0 hasta (puntuacion - 1) -->
+                        <b><i th:each="estrellita : ${#numbers.sequence(0, puntuacion - 1)}" class="bi bi-star-fill"></i></b>
                     </div>
                 </div>
                 <div class="row border-top py-2">

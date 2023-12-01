@@ -7,10 +7,10 @@ import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.repositorios.CategoriaRepositorio;
 import com.egg.servicios.repositorios.ServicioRepositorio;
 import com.egg.servicios.excepciones.MiException;
-import com.egg.servicios.repositorios.CategoriaRepositorio;
 
 import com.egg.servicios.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -109,8 +109,16 @@ public class ServicioServicio {
         return servicioRepositorio.listarServiciosActivos();
     }
 
-    public List<Servicio> listarServiciosProveedor(String idProveedor) {
+    public List<Servicio> listarServiciosPorProveedor(String idProveedor) {
         return servicioRepositorio.listarServiciosActivosPorProveedor(idProveedor);
+    }
+
+    public Servicio listarServicioPorDescripcion(String descripcion) {
+
+        // Pageable.of(0, 1) significa que estamos solicitando la primera página con un solo elemento.
+        Optional<Servicio> servicio = servicioRepositorio.findByDescripcion(descripcion, PageRequest.of(0,1));
+        // .orElse(null) para manejar el caso en el que no se encuentra ninguna Categoría
+        return servicio.orElse(null);
     }
 
     @Transactional
@@ -155,7 +163,7 @@ public class ServicioServicio {
         } else if (!usuarioRepositorio.findById(idProveedor).isPresent()) {
             throw new MiException("El ID Proveedor no corresponde a ningun proveedor existente.");
         }
-        if (servicioRepositorio.findByDescripcion(descripcion).isPresent()) {
+        if (listarServicioPorDescripcion(descripcion) != null) {
             throw new MiException("Existe un servicio publicado con la misma descripcion!");
         }
 

@@ -1,24 +1,18 @@
 package com.egg.servicios.controladores;
 
-import com.egg.servicios.entidades.Categoria;
-import com.egg.servicios.entidades.Oferta;
-import com.egg.servicios.entidades.Servicio;
-import com.egg.servicios.entidades.Usuario;
+import com.egg.servicios.entidades.*;
 import com.egg.servicios.enumeraciones.Estados;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.ContratoRepositorios;
-import com.egg.servicios.servicios.CategoriaServicio;
-import com.egg.servicios.servicios.ContratoServicios;
-import com.egg.servicios.servicios.OfertaServicio;
-import com.egg.servicios.servicios.ServicioServicio;
+import com.egg.servicios.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,11 +33,16 @@ public class ServicioControlador {
     private ContratoServicios contratoServicio;
     @Autowired
     private ContratoRepositorios contratoRepositorios;
+    @Autowired
+    private CalificacionServicio calificacionServicio;
 
     @GetMapping("/proveedor/registrar") // localhost:8080/servicio/proveedor/registrar
-    public String registrarServicio(ModelMap modelo) {
+    public String registrarServicio(ModelMap modelo, HttpSession session) {
 
         cargarModeloConCategorias(modelo);
+
+//        Usuario proveedor = (Usuario) session.getAttribute("usuariosession");
+//        modelo.put("proveedor", proveedor);
 
         return "test_servicio_create.html";
     }
@@ -100,11 +99,47 @@ public class ServicioControlador {
     @GetMapping("/listar")
     public String listarServicios(ModelMap modelo) {
 
-        List<Servicio> servicios = servicioServicio.listarServicios();
+        try {
+            List<Servicio> servicios = servicioServicio.listarServicios();
+            // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
+            List<Integer> puntuaciones = new ArrayList<>();
 
-        modelo.addAttribute("servicios",servicios);
+            // Recorre cada servicio mostrado
+            for (Servicio servicio : servicios) {
 
-        return "test_servicio_read.html";
+                // Del servicio actual, busca el id del proveedor, y retorna los contratos de ese proveedor
+                List<Contrato> contratos = contratoServicio.listarContratosPorProveedor(servicio.getProveedor().getId());
+                int cantEstrellas = 0;
+                int cantCalificaciones = 0;
+
+                // Recorre cada contrato del proveedor actual
+                for (Contrato contrato : contratos) {
+
+                    // Si el contrato fue finalizado y su puntuacion ya esta publicada
+                    if (contrato.getEstadoTrabajo().equals(Estados.FINALIZADO) && contrato.getAptitud() != null) {
+                        // 1 puntuacion mas
+                        cantCalificaciones ++;
+                        // Se acumula la cantidad de estrellas recibidas
+                        cantEstrellas += contrato.getAptitud().getPuntuacion();
+                    }
+                }
+
+                // Se realiza un promedio de puntuacion
+                int promedioProveedor = cantCalificaciones != 0 ? cantEstrellas / cantCalificaciones : 0;
+                // Se añade el promedio del proveedor
+                puntuaciones.add(promedioProveedor);
+            }
+
+            modelo.addAttribute("servicios",servicios);
+            modelo.addAttribute("puntuaciones",puntuaciones);
+
+            return "test_servicio_read.html";
+
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
+            return "test_servicio_read.html";
+        }
+
     }
 
 //    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
@@ -113,7 +148,7 @@ public class ServicioControlador {
 
         Usuario proveedor = (Usuario) session.getAttribute("usuariosession");
 
-        List<Servicio> servicios = servicioServicio.listarServiciosProveedor(proveedor.getId());
+        List<Servicio> servicios = servicioServicio.listarServiciosPorProveedor(proveedor.getId());
 
         modelo.addAttribute("servicios",servicios);
 

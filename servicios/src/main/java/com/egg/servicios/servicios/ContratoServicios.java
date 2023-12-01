@@ -96,7 +96,7 @@ public class ContratoServicios {
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
-         
+            throw new MiException(e.getMessage());
         }
     }
 
@@ -110,7 +110,7 @@ public class ContratoServicios {
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
-         
+            throw new MiException(e.getMessage());
         }
     }
     
@@ -123,20 +123,20 @@ public class ContratoServicios {
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
-                throw new MiException(e.getMessage());
+            throw new MiException(e.getMessage());
         }
     }
 
     public List<Contrato> listarContratos() throws MiException {
         try {
-            List<Contrato> contratoList = contratoRepo.listarContratoActivos();
+            List<Contrato> contratoList = contratoRepo.listarContratosActivos();
             return contratoList;
         } catch (Exception e) {
             throw new MiException(e.getMessage());
         }
     }
  
-       public Optional<Contrato> listarContratosPorId(String id) throws MiException {
+    public Optional<Contrato> listarContratosPorId(String id) throws MiException {
         try {    
             Optional<Contrato> contratoList = contratoRepo.findById(id);
             return contratoList;
@@ -144,9 +144,17 @@ public class ContratoServicios {
             throw new MiException(e.getMessage());
         }
     }
-    
-    
-    
+
+    public List<Contrato> listarContratosPorProveedor(String idProveedor) throws MiException {
+        try {
+            List<Contrato> contratos = contratoRepo.listarContratosPorProveedor(idProveedor);
+            return contratos;
+
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
     public void validar(Estados state) throws MiException {
         if (state.equals(null) || state == null) {
             throw new MiException("El Estado no puede ser nulo !");
