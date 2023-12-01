@@ -90,7 +90,7 @@ public class UsuarioControlador {
         try {
             usuarioServicio.modificar(id, alta);
 
-            return "redirect:../lista";
+            return "redirect:../listacompleta";
 
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
