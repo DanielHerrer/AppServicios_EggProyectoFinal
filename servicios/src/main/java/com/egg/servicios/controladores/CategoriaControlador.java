@@ -54,11 +54,11 @@ public class CategoriaControlador {
             List<Categoria> categorias = categoriaServicio.listarCategorias();
             modelo.addAttribute("categorias",categorias);
 
-            return "test_categoria_read.html";
+            return "test_categoria_lista.html";
 
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
-            return "test_categoria_read.html";
+            return "test_categoria_lista.html";
         }
     }
 
