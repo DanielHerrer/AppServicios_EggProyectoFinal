@@ -2,6 +2,7 @@ package com.egg.servicios.repositorios;
 
 import com.egg.servicios.entidades.Servicio;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,7 +24,7 @@ public interface ServicioRepositorio extends JpaRepository<Servicio, String> {
     public List<Servicio> listarServiciosInactivos();
 
     @Query("SELECT s FROM Servicio s WHERE s.descripcion LIKE :descripcion")
-    public Optional<Servicio> findByDescripcion(@Param("descripcion") String descripcion);
+    public List<Servicio> findByDescripcion(@Param("descripcion") String descripcion);
 
     @Query("SELECT s FROM Servicio s WHERE s.proveedor.id = :idProveedor")
     public List<Servicio> listarServiciosActivosPorProveedor(@Param("idProveedor") String idProveedor);

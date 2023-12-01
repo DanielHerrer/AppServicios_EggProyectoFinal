@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 // PARA HACER: añadir metodos { listarCategorias(), listarPorId(id), eliminarCategoria(id) }
@@ -21,71 +22,73 @@ public class CategoriaServicio {
     @Transactional
     public void crearCategoria(String nombre) throws MiException{
 
-        validar(nombre, nombre);
+        validar(nombre);
 
         try {
             
-        Categoria categoria = new Categoria();
+            Categoria categoria = new Categoria();
+            categoria.setNombre(nombre);
 
-        categoria.setNombre(nombre);
-
-        categoriaRepositorio.save(categoria);
+            categoriaRepositorio.save(categoria);
         
         } catch (Exception e) {
             
             throw new MiException(e.getMessage());
-            
         }
-        
     }
 
-    public void modificarCategoria(String ID_categoria, String nombre) throws MiException {
+    public void modificarCategoria(String idCategoria, String nombre) throws MiException {
 
-        validar(nombre, nombre);
+        validar(nombre);
         
         try {
 
-        Optional<Categoria>resultado = categoriaRepositorio.findById(ID_categoria);
-        
-        if (resultado.isPresent()) {
-            
-            Categoria categoria = resultado.get();
-            categoria.setNombre(nombre);
-            categoriaRepositorio.save(categoria);
-            
-        }
+            Optional<Categoria>resultado = categoriaRepositorio.findById(idCategoria);
+
+            if (resultado.isPresent()) {
+
+                Categoria categoria = resultado.get();
+                categoria.setNombre(nombre);
+                categoriaRepositorio.save(categoria);
+            }
                 
         } catch (Exception e) {
-            
             throw new MiException(e.getMessage());
-            
         }
         
     }
-
-    private void validar(String id, String nombre) throws MiException {
-        
-        if(id == null) {
-            throw new MiException("El ID no puede estar vacío.");
-        }
-        if (nombre.isEmpty() || nombre == null) {
-            throw new MiException("El NOMBRE no puede ser nulo ni estar vacío");
-        }
-        
-    }
-
 
     public List<Categoria> listarCategorias() throws MiException {
 
         try {
-
             return categoriaRepositorio.listarCategoriasAlta();
 
         } catch (Exception e) {
-
             throw new MiException(e.getMessage());
-
         }
 
     }
+
+    public boolean existsByNombre(String nombre) throws MiException {
+        try {
+            List<Categoria> categorias = categoriaRepositorio.findByNombre(nombre);
+            if (categorias.isEmpty()) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
+    private void validar(String nombre) throws MiException {
+
+        if (nombre.trim().isEmpty() || nombre == null) {
+            throw new MiException("El Nombre no puede ser nulo ni estar vacío.");
+        } else if (existsByNombre(nombre)) {
+            throw new MiException("Ya existe una Categoria con el mismo nombre.");
+        }
+    }
+
 }
