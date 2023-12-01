@@ -1,30 +1,35 @@
-.card-login{
-    border-radius: 30px !important;
-    background-color: rgba(255, 255, 255, .5);
-}
+/** @format */
 
-
-.card-login input{
-    border:1px solid rgba(108, 168, 236, 0.603);
+.card-login {
+	border-radius: 30px !important;
+	background-color: rgba(255, 255, 255, 0.5);
 }
+/* 
+.card-login input {
+	border: 1px solid rgba(108, 168, 236, 0.603);
+} */
 
 .hero-section .hero-style {
-    padding: 40px 0 0;
-  }
-  .hero-section {
-    height: 100%;
-  }
+	padding: 40px 0 0;
+}
+.hero-section {
+	height: 100%;
+}
 
+.image-icon-user {
+	width: 250px;
+	fill: purple !important;
+}
+.card-effect {
+	background-color: rgba(179, 209, 250, 0.8);
+}
+.card-effect:hover {
+	box-shadow: 2px 2px 2px 2px #a5a5a5;
+}
+.hero-section {
+	height: 100%;
+}
 
-  .image-icon-user{
-    width: 250px;
-   fill: purple !important;
-  }
-  .card-effect{
-    background-color: rgba(179,209,250,0.8);
-  }
-  .card-effect:hover{
-    box-shadow:  2px 2px 2px 2px #a5a5a5;
-
-  }
-
+.hero-section {
+	overflow: visible;
+}
