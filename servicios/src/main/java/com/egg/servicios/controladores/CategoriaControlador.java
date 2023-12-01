@@ -1,7 +1,6 @@
 package com.egg.servicios.controladores;
 
 import com.egg.servicios.entidades.Categoria;
-
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.servicios.CategoriaServicio;
 import java.util.List;
@@ -25,95 +24,61 @@ public class CategoriaControlador {
     @Autowired
     private CategoriaServicio categoriaServicio;
 
-
     @GetMapping("/registrar") // localhost:8080/categoria/registrar
     public String registrarCategoria() {
-
         return "test_categoria_form.html";
     }
 
     @PostMapping("/registro") // localhost:8080/categoria/registro
     public String registroCategoria(@RequestParam String nombre, ModelMap modelo) {
-
         try {
-            modelo.put("exito","La Categoria se ha creado correctamente!");
             categoriaServicio.crearCategoria(nombre);
-
+            modelo.put("exito","La Categoria se ha creado correctamente!");
             return "test_categoria_form.html";
-
         } catch (MiException e) {
+            modelo.addAttribute("nombre",nombre);
             modelo.put("error", e.getMessage());
-
-            modelo.put("nombre",nombre);
-
             return "test_categoria_form.html";
         }
     }
 
     @GetMapping("/listar")
     public String listarCategorias(ModelMap modelo) {
-
-        try {
+        try {            
             List<Categoria> categorias = categoriaServicio.listarCategorias();
             modelo.addAttribute("categorias",categorias);
-
-            return "test_categoria_read.html";
-
+            return "test_categoria_lista.html";
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
-            return "test_categoria_read.html";
+            return "test_categoria_lista.html";
         }
     }
 
-    // modificar la categoria
-    @GetMapping("/lista")
-    public String listar(ModelMap modelo) {
-
-        List<Categoria> categoria = categoriaServicio.listarCategoria();
-        modelo.addAttribute("categoria", categoria);
-        return "test_categoria_read.html";
-    }
-
     @GetMapping("/modificar/{id}") // revisar
-    public String modificar(@PathVariable String id, ModelMap modelo) {
-             
+    public String modificar(@PathVariable String id, ModelMap modelo) {             
             modelo.put("categoria", categoriaServicio.getOne(id));
             return "test_categoria_modificar.html";
-   
     }
 
     @PostMapping("/modificado/{id}")
     public String modificado(@PathVariable String id, String nombre, ModelMap modelo) {
-
         try {
-
             categoriaServicio.modificarCategoria(id, nombre);
             return "test_categoria_modificar.html";
-
         } catch (MiException e) {
-
             modelo.put("error", e.getMessage());
             return "test_categoria_modificar.html";
-
         }
-
     }
 
-    // eliminar categorias
     @PostMapping("/eliminado/{id}")
     public String eliminado(@PathVariable String id, ModelMap modelo) {
-
        try {
-
             categoriaServicio.eliminarCategoria(id);
             return "test_index.html";
-
         } catch (MiException e) {
-
             modelo.put("error", e.getMessage());
-            return "test_index.html";
-            
+            return "test_index.html";            
         }
     }
-
 }
