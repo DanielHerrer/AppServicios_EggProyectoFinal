@@ -30,12 +30,7 @@
             <h3 class="card-title">Registrar Servicio</h3>
         </div>
         <div class="form-group my-3">
-<<<<<<< HEAD
             <select name="idCategoria" required>
-=======
-            
-            <select name="idCategoria">
->>>>>>> joaquin
                 <option>Seleccionar Categoria</option>
                 <option th:each="categoria : ${categorias}"
                         th:value="${categoria.id}"
@@ -58,15 +53,11 @@
             <label class="">Matricula del servicio:</label>
             <input type="file" class="form-control" name="matricula">
         </div>
-        
+
         <div class="form-group my-3">
-            <label class="">ID del Proveedor (Usuario) que ofrece el servicio:</label>
-            <input type="number" class="form-control" name="idProveedor" placeholder="ID Proveedor">
+            <label class="">ID Proveedor:</label>
+            <input th:value="${proveedor.id}" name="idProveedor" readonly>
         </div>
-<!--        <div class="form-group my-3">-->
-<!--            <label class="">ID Proveedor:</label>-->
-<!--            <input type="number" class="form-control" th:text="${proveedor.id}" name="idProveedor">-->
-<!--        </div>-->
 
         <button type="submit" class="btn btn-primary mt-3 botones">Guardar</button>
     </form>

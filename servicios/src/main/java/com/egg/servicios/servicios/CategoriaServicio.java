@@ -68,25 +68,29 @@ public class CategoriaServicio {
         return (Categoria) categoriaRepositorio.getOne(id);
     }
 
-    public Categoria listarCategoriaPorNombre(String nombre) throws MiException {
-
+    public boolean existsByNombre(String nombre) throws MiException {
         try {
-            // Pageable.of(0, 1) significa que estamos solicitando la primera página con un solo elemento.
-            Optional<Categoria> categoria = categoriaRepositorio.findByNombre(nombre, PageRequest.of(0, 1));
-            // .orElse(null) para manejar el caso en el que no se encuentra ninguna Categoría
-            return categoria.orElse(null);
-
+            List<Categoria> categorias = categoriaRepositorio.findByNombre(nombre);
+            if (categorias.isEmpty()) {
+                return false;
+            } else {
+                return true;
+            }
         } catch (Exception e) {
             throw new MiException(e.getMessage());
         }
-
     }
 
     private void validar(String nombre) throws MiException {
 
         if (nombre.trim().isEmpty() || nombre == null) {
+<<<<<<< HEAD
             throw new MiException("El Nombre no puede estar vacío.");
         } else if (listarCategoriaPorNombre(nombre) != null) {
+=======
+            throw new MiException("El Nombre no puede ser nulo ni estar vacío.");
+        } else if (existsByNombre(nombre)) {
+>>>>>>> cde8afc8418c6e042cfa6912d8026baca0ac11a8
             throw new MiException("Ya existe una Categoria con el mismo nombre.");
         }
     }

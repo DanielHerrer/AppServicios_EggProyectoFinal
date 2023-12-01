@@ -112,12 +112,17 @@ public class ServicioServicio {
         return servicioRepositorio.listarServiciosActivosPorProveedor(idProveedor);
     }
 
-    public Servicio listarServicioPorDescripcion(String descripcion) {
-
-        // Pageable.of(0, 1) significa que estamos solicitando la primera página con un solo elemento.
-        Optional<Servicio> servicio = servicioRepositorio.findByDescripcion(descripcion, PageRequest.of(0,1));
-        // .orElse(null) para manejar el caso en el que no se encuentra ninguna Categoría
-        return servicio.orElse(null);
+    public boolean existsByDescripcion(String descripcion) throws MiException {
+        try {
+            List<Servicio> servicios = servicioRepositorio.findByDescripcion(descripcion);
+            if (servicios.isEmpty()) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
     }
 
     @Transactional
@@ -143,16 +148,13 @@ public class ServicioServicio {
 
     public void validar(String descripcion, Double honorariosHora, MultipartFile archivo, String idCategoria, String idProveedor) throws MiException {
 
-
-//        if(archivo.isEmpty() || archivo == null) {
-//            throw new MiException("El archivo no puede ser nulo o estar vacio.");
-//        }
-
         if (archivo.isEmpty() || archivo == null) {
             throw new MiException("El archivo no puede ser nulo o estar vacio.");
         }
         if (descripcion.trim().isEmpty() || descripcion == null) {
             throw new MiException("La descripcion no puede ser nula o estar vacia.");
+        } else if (existsByDescripcion(descripcion)) {
+            throw new MiException("Ya existe un Servicio publicado con la misma descripcion!");
         }
         if (honorariosHora < 1 || honorariosHora.isNaN() || honorariosHora == null) {
             throw new MiException("Los honorarios no deben ser nulos y deben ser un numero valido.");
@@ -166,9 +168,6 @@ public class ServicioServicio {
             throw new MiException("El ID Proveedor no puede ser nulo o estar vacio.");
         } else if (!usuarioRepositorio.findById(idProveedor).isPresent()) {
             throw new MiException("El ID Proveedor no corresponde a ningun proveedor existente.");
-        }
-        if (listarServicioPorDescripcion(descripcion) != null) {
-            throw new MiException("Existe un servicio publicado con la misma descripcion!");
         }
 
     }

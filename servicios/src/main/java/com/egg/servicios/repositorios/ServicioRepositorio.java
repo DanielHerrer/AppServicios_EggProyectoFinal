@@ -23,20 +23,8 @@ public interface ServicioRepositorio extends JpaRepository<Servicio, String> {
     @Query("SELECT s FROM Servicio s WHERE s.alta = false")
     public List<Servicio> listarServiciosInactivos();
 
-
-    // Pageable se utiliza para agregar la funcionalidad de paginación y limitar los resultados a 1.
     @Query("SELECT s FROM Servicio s WHERE s.descripcion LIKE :descripcion")
-    public Optional<Servicio> findByDescripcion(@Param("descripcion") String descripcion, Pageable pageable);
-
-    @Query("""
-            SELECT s FROM Servicio s
-            WHERE s.descripcion LIKE :descripcion
-            """)
-    public Optional<Servicio> findByDescripcion(@Param("descripcion") String descripcion);
-    
-    
-
-
+    public List<Servicio> findByDescripcion(@Param("descripcion") String descripcion);
 
     @Query("SELECT s FROM Servicio s WHERE s.proveedor.id = :idProveedor")
     public List<Servicio> listarServiciosActivosPorProveedor(@Param("idProveedor") String idProveedor);
