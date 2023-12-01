@@ -18,6 +18,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u WHERE u.email= :email")
     public Usuario buscarPorEmail(@Param("email") String email);
 
+
     @Query("""
             SELECT u FROM Usuario u
             WHERE u.alta = true
@@ -28,6 +29,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
             SELECT u FROM Usuario u
             WHERE u.alta = false
             """)
+
     public List<Usuario> listarUsuariosInactivos();
 
     @Query("""

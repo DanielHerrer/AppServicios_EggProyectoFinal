@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html lang="en" data-bs-theme="auto">
+<html lang="es" data-bs-theme="auto" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head><script src="/docs/5.3/assets/js/color-modes.js"></script>
 
     <meta charset="utf-8">
@@ -62,33 +62,84 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Inicio</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/registrar">Registrar</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Listas
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="usuarios/activos">Usuarios Activos</a></li>
-                                    <li><a class="dropdown-item" href="usuarios/inactivos">Usuarios Inactivos</a></li>
-                                    <li><a class="dropdown-item" href="usuarios/clientes">Clientes</a></li>
-                                    <li><a class="dropdown-item" href="usuarios/proveedores">Proveedores</a></li>
-                                    <li><a class="dropdown-item" href="usuarios/administradores">Administradores</a></li>
-                                    <li><a class="dropdown-item" href="usuarios/listacompleta">Lista Completa</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">ADMIN</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+            <a class="nav-link active" aria-current="page" href="/">Inicio</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/registrar">Registrar</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Usuarios
+            </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="usuario/activos">Usuarios Activos</a></li>
+                <li><a class="dropdown-item" href="usuario/inactivos">Usuarios Inactivos</a></li>
+                <li><a class="dropdown-item" href="usuario/clientes">Clientes</a></li>
+                <li><a class="dropdown-item" href="usuario/proveedores">Proveedores</a></li>
+                <li><a class="dropdown-item" href="usuario/administradores">Administradores</a></li>
+                <li><a class="dropdown-item" href="usuario/listacompleta">Lista Completa</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="#">ADMIN</a></li>
+            </ul>
+        </li>
+        <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Servicios
+              </a>
+              <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="servicio/proveedor/registrar">Registrar Servicio</a></li>
+                  <li>
+                      <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="servicio/listar">Servicios (Activos)</a></li>
+                  <li><a class="dropdown-item" href="servicio/proveedor/listar">Servicios (Proveedor)</a></li>
+                  <li>
+                      <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="#">ADMIN</a></li>
+              </ul>
+        </li>
+        <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Categorias
+              </a>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="categoria/registrar">Registrar Categoria</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="categoria/listar">Categorias (Activos)</a></li>
+            </ul>
+        </li>
+      </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
+    <ul class="navbar-nav mb-2 mb-lg-0">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" th:if="${session.usuarioSession != null}" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Perfil
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" th:href="@{/perfil}" >Editar Perfil</a></li>
+                <li><a class="dropdown-item" href="/logout" >Cerrar Sesión</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link " th:if="${session.usuarioSession == null}" href="/registrar" id="navbarDropdown" role="button" aria-expanded="false">
+                Registrate!
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " th:if="${session.usuarioSession == null}" href="/login" id="navbarDropdown" role="button" aria-expanded="false">
+                LOGIN!
+            </a>
+        </li>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
     </div>
   </div>
 </nav>
