@@ -42,7 +42,7 @@ public class CategoriaControlador {
         }
     }
 
-    @GetMapping("/listar")
+    @GetMapping("/listar") // localhost:8080/categoria/listar
     public String listarCategorias(ModelMap modelo) {
         try {            
             List<Categoria> categorias = categoriaServicio.listarCategorias();

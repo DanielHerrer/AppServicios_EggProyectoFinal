@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -54,9 +56,9 @@ public class CategoriaServicio {
         }
     }
     
-        public Optional<Categoria> listarCategoriasPorNombre(String nombre) throws MiException {
+        public Optional<Categoria> listarCategoriasPorNombre(String nombre, Pageable pageable) throws MiException {
         try {
-            return categoriaRepositorio.findByNombre(nombre);
+            return categoriaRepositorio.findByNombre(nombre, pageable);
         } catch (Exception e) {
             throw new MiException(e.getMessage());
         }
@@ -66,10 +68,25 @@ public class CategoriaServicio {
         return (Categoria) categoriaRepositorio.getOne(id);
     }
 
+    public Categoria listarCategoriaPorNombre(String nombre) throws MiException {
+
+        try {
+            // Pageable.of(0, 1) significa que estamos solicitando la primera página con un solo elemento.
+            Optional<Categoria> categoria = categoriaRepositorio.findByNombre(nombre, PageRequest.of(0, 1));
+            // .orElse(null) para manejar el caso en el que no se encuentra ninguna Categoría
+            return categoria.orElse(null);
+
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+
+    }
+
     private void validar(String nombre) throws MiException {
-        if (nombre.trim().isEmpty()) {
+
+        if (nombre.trim().isEmpty() || nombre == null) {
             throw new MiException("El Nombre no puede estar vacío.");
-        } else if (categoriaRepositorio.findByNombre(nombre).isPresent()) {
+        } else if (listarCategoriaPorNombre(nombre) != null) {
             throw new MiException("Ya existe una Categoria con el mismo nombre.");
         }
     }
