@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -56,9 +54,9 @@ public class CategoriaServicio {
         }
     }
     
-        public Optional<Categoria> listarCategoriasPorNombre(String nombre, Pageable pageable) throws MiException {
+        public List<Categoria> listarCategoriasPorNombre(String nombre) throws MiException {
         try {
-            return categoriaRepositorio.findByNombre(nombre, pageable);
+            return categoriaRepositorio.findByNombre(nombre);
         } catch (Exception e) {
             throw new MiException(e.getMessage());
         }
@@ -84,13 +82,8 @@ public class CategoriaServicio {
     private void validar(String nombre) throws MiException {
 
         if (nombre.trim().isEmpty() || nombre == null) {
-<<<<<<< HEAD
-            throw new MiException("El Nombre no puede estar vacío.");
-        } else if (listarCategoriaPorNombre(nombre) != null) {
-=======
             throw new MiException("El Nombre no puede ser nulo ni estar vacío.");
         } else if (existsByNombre(nombre)) {
->>>>>>> cde8afc8418c6e042cfa6912d8026baca0ac11a8
             throw new MiException("Ya existe una Categoria con el mismo nombre.");
         }
     }
