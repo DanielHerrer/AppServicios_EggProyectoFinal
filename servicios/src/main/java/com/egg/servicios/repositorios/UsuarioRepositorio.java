@@ -32,19 +32,19 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
 
     @Query("""
             SELECT u FROM Usuario u
-            WHERE u.rol = CLIENTE
+            WHERE u.rol = 'CLIENTE'
             """)
     public List<Usuario> listarClientes();
 
     @Query("""
             SELECT u FROM Usuario u
-            WHERE u.rol = PROVEEDOR
+            WHERE u.rol = 'PROVEEDOR'
             """)
     public List<Usuario> listarProveedores();
 
     @Query("""
             SELECT u FROM Usuario u
-            WHERE u.rol = ADMIN
+            WHERE u.rol = 'ADMIN'
             """)
     public List<Usuario> listarAdmin();
 }
