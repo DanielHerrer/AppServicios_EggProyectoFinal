@@ -5,6 +5,7 @@ import com.egg.servicios.entidades.Contrato;
 
 import com.egg.servicios.entidades.Oferta;
 import com.egg.servicios.enumeraciones.Estados;
+import com.egg.servicios.enumeraciones.Rol;
 
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.ContratoRepositorios;
@@ -35,7 +36,7 @@ public class ContratoServicios {
         this.contratoRepo = contratoRepo;
         this.usuarioRepo = usuarioRepo;
     }
-
+  
     @Transactional
     public void guardarContrato(Estados estados, Oferta oferta, Calificacion aptitud) throws MiException {
 
@@ -51,10 +52,6 @@ public class ContratoServicios {
         }
     }
 
-    
-    
-    
-    
     public void modificarEstadoContrato(String id, Estados state) throws MiException {
         try {
             Optional<Contrato> presente = contratoRepo.findById(id);
@@ -79,7 +76,7 @@ public class ContratoServicios {
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
-         
+  throw new MiException(e.getMessage());
         }
     }
 
@@ -93,10 +90,10 @@ public class ContratoServicios {
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
-         
+
         }
     }
-    
+
     public void altaBajaContrato(String id) throws MiException {
         try {
             Optional<Contrato> presente = contratoRepo.findById(id);
@@ -106,7 +103,7 @@ public class ContratoServicios {
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
-                throw new MiException(e.getMessage());
+            throw new MiException(e.getMessage());
         }
     }
 
@@ -118,18 +115,16 @@ public class ContratoServicios {
             throw new MiException(e.getMessage());
         }
     }
- 
-       public Optional<Contrato> listarContratosPorId(String id) throws MiException {
-        try {    
+
+    public Optional<Contrato> listarContratosPorId(String id) throws MiException {
+        try {
             Optional<Contrato> contratoList = contratoRepo.findById(id);
             return contratoList;
         } catch (Exception e) {
             throw new MiException(e.getMessage());
         }
     }
-    
-    
-    
+
     public void validar(Estados state) throws MiException {
         if (state.equals(null) || state == null) {
             throw new MiException("El Estado no puede ser nulo !");

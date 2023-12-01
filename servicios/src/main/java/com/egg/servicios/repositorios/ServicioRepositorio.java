@@ -33,5 +33,8 @@ public interface ServicioRepositorio extends JpaRepository<Servicio, String> {
             WHERE s.descripcion LIKE :descripcion
             """)
     public Optional<Servicio> findByDescripcion(@Param("descripcion") String descripcion);
+    
+    
+
 
 }
