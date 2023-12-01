@@ -18,9 +18,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoriaRepositorio extends JpaRepository<Categoria, String> {
 
-    // Pageable se utiliza para agregar la funcionalidad de paginación y limitar los resultados a 1.
     @Query("SELECT c FROM Categoria c WHERE c.nombre LIKE :nombre")
-    public Optional<Categoria> findByNombre(@Param("nombre") String nombre, Pageable pageable);
+    public List<Categoria> findByNombre(@Param("nombre") String nombre);
 
     @Query("SELECT c FROM Categoria c WHERE c.alta = true")
     public List<Categoria> listarCategoriasAlta();

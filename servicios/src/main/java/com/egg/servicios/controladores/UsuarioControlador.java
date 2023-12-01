@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author Nico
  */
 @Controller
-@RequestMapping("/usuarios")
+@RequestMapping("/usuario")
 public class UsuarioControlador {
 
     @Autowired

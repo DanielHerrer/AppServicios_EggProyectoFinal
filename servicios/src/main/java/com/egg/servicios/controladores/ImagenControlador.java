@@ -27,7 +27,7 @@ public class ImagenControlador {
     
     private ServicioServicio servicioService;
     
-    @GetMapping("/Usuario/{id}")//se pasa el id del usuario a travez del path
+    @GetMapping("/usuario/{id}")//se pasa el id del usuario a travez del path
     public ResponseEntity<byte[]> imagenUsuario(@PathVariable String id) {//recibe el id del usuario al que esta vinculada la imagen.
        Usuario usuario = usuarioServicio.getOne(id);//trae al usuario por id y lo asignamos a una variable usuario
        

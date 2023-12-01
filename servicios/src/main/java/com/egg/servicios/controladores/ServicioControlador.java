@@ -6,6 +6,7 @@ import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.ContratoRepositorios;
 import com.egg.servicios.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -36,26 +37,31 @@ public class ServicioControlador {
     @Autowired
     private CalificacionServicio calificacionServicio;
 
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/proveedor/registrar") // localhost:8080/servicio/proveedor/registrar
     public String registrarServicio(ModelMap modelo, HttpSession session) {
 
         cargarModeloConCategorias(modelo);
 
-//        Usuario proveedor = (Usuario) session.getAttribute("usuariosession");
-//        modelo.put("proveedor", proveedor);
+        Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
+        modelo.addAttribute("proveedor", proveedor);
 
         return "test_servicio_create.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @PostMapping("/proveedor/registro") // localhost:8080/servicio/proveedor/registro
     public String registroServicio(@RequestParam String descripcion, @RequestParam Double honorariosHora,
                            MultipartFile matricula, @RequestParam String idCategoria,
-                           @RequestParam String idProveedor, ModelMap modelo) {
+                           @RequestParam String idProveedor, ModelMap modelo, HttpSession session) {
         try {
 
             servicioServicio.crearServicio(descripcion, honorariosHora, matricula, idCategoria, idProveedor);
 
             cargarModeloConCategorias(modelo);
+
+            Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
+            modelo.addAttribute("proveedor", proveedor);
 
             modelo.put("exito", "El Servicio fue registrado correctamente!"); // carga el modelo con un mensaje exitoso
 
@@ -64,6 +70,9 @@ public class ServicioControlador {
         } catch (MiException ex) {
 
             cargarModeloConCategorias(modelo);
+
+            Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
+            modelo.addAttribute("proveedor", proveedor);
 
             modelo.put("error", ex.getMessage()); // carga el modelo con un mensaje de error
 
@@ -78,13 +87,17 @@ public class ServicioControlador {
 
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_ADMIN')")
     @PostMapping("/cliente/contratar") // localhost:8080/servicio/cliente/contratar
     public String registroContrato(@RequestParam String descripcion, @RequestParam String idServicio,
-                                  @RequestParam String idCliente, ModelMap modelo) {
+                                  ModelMap modelo, HttpSession session) {
 
         try {
+            Usuario cliente = (Usuario) session.getAttribute("usuarioSession");
+            modelo.addAttribute("cliente", cliente);
 
-            Oferta oferta = ofertaServicio.crearOferta(descripcion, idServicio, idCliente);
+            Oferta oferta = ofertaServicio.crearOferta(descripcion, idServicio, cliente.getId());
+
             contratoServicio.crearContrato(oferta);
             return "test_servicio_read.html";
 
@@ -135,18 +148,18 @@ public class ServicioControlador {
 
             return "test_servicio_read.html";
 
-        } catch (MiException ex) {
+        } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
             return "test_servicio_read.html";
         }
 
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/proveedor/listar")
     public String listarServiciosProveedor(ModelMap modelo, HttpSession session) {
 
-        Usuario proveedor = (Usuario) session.getAttribute("usuariosession");
+        Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
 
         List<Servicio> servicios = servicioServicio.listarServiciosPorProveedor(proveedor.getId());
 
@@ -155,11 +168,11 @@ public class ServicioControlador {
         return "test_servicio_read.html";
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/proveedor/modificar/{id}")
     public String modificarServicio(@PathVariable String id, ModelMap modelo, HttpSession session) {
 
-//        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+//        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
 //        modelo.put("usuario", usuario);
 
         modelo.put("id", id);
@@ -169,7 +182,7 @@ public class ServicioControlador {
         return "test_servicio_update.html";
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @PostMapping("/proveedor/modificado/{id}")
     public String modificado(@PathVariable String id, @RequestParam String descripcion,
                             @RequestParam Double honorariosHora, MultipartFile matricula,

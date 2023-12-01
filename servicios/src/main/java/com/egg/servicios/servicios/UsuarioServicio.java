@@ -172,11 +172,12 @@ public class UsuarioServicio implements UserDetailsService {
 
             permisos.add(p);
 
+            // Utilizamos los atributos que nos otorga el pedido al servlet, para poder guardar la
+            // información de nuestra HttpSession.
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            HttpSession session = attr.getRequest().getSession(true);
 
-            HttpSession session = (HttpSession) attr.getRequest().getSession(true);
-
-            session.setAttribute("usuariosession", usuario);
+            session.setAttribute("usuarioSession", usuario);
 
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);
         } else {

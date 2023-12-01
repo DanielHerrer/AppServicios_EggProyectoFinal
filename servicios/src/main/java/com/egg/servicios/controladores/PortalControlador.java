@@ -75,26 +75,28 @@ public class PortalControlador {
             modelo.put("error", "Usuario o Contraseña invalidos!");
         }
 
-        return "login.html";
+        return "test_login.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
     @GetMapping("/inicio")
-    public String inicio(HttpSession session) {
+    public String inicio(ModelMap modelo, HttpSession session) {
 
-        Usuario logueado = (Usuario) session.getAttribute("usuariosession");
+        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+        System.out.println("Usuario en sesión: " + logueado);
+        modelo.addAttribute("usuario", logueado);
 
         if (logueado.getRol().toString().equals("ADMIN")) {
             return "redirect:/admin/dashboard";
         }
 
-        return "inicio.html";
+        return "test_index.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
         modelo.put("usuario", usuario);
         return "usuario_modificar.html";
     }

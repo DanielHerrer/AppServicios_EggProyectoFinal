@@ -5,6 +5,7 @@ import com.egg.servicios.entidades.Servicio;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.servicios.CategoriaServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +22,14 @@ public class CategoriaControlador {
     @Autowired
     private CategoriaServicio categoriaServicio;
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/registrar") // localhost:8080/categoria/registrar
     public String registrarCategoria() {
 
         return "test_categoria_form.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/registro") // localhost:8080/categoria/registro
     public String registroCategoria(@RequestParam String nombre, ModelMap modelo) {
 

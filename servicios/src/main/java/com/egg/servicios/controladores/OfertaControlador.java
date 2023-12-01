@@ -59,7 +59,7 @@ public class OfertaControlador {
     @GetMapping("/modificar/{id}")
     public String modificar(ModelMap modelo, HttpSession session) {
 
-//        Usuario usuario = (Usuario) session.getAttribute("usuariosession");
+//        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
 //        modelo.put("usuario", usuario);
 
         return "test_oferta_update.html";
