@@ -36,7 +36,26 @@ public class ContratoServicios {
         this.contratoRepo = contratoRepo;
         this.usuarioRepo = usuarioRepo;
     }
-  
+
+    
+    @Transactional
+    public Contrato crearContrato(Oferta oferta) throws MiException {
+
+        try {
+
+            Contrato contrato = new Contrato();
+            contrato.setOferta(oferta);
+            contrato.setEstadoTrabajo(Estados.PENDIENTE);
+            contrato.setAptitud(null);
+
+            return contratoRepo.save(contrato);
+
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
+
     @Transactional
     public void guardarContrato(Estados estados, Oferta oferta, Calificacion aptitud) throws MiException {
 
@@ -76,6 +95,7 @@ public class ContratoServicios {
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
+
   throw new MiException(e.getMessage());
         }
     }
@@ -90,6 +110,7 @@ public class ContratoServicios {
                 contratoRepo.save(c);
             }
         } catch (Exception e) {
+            throw new MiException(e.getMessage());
 
         }
     }
@@ -109,7 +130,7 @@ public class ContratoServicios {
 
     public List<Contrato> listarContratos() throws MiException {
         try {
-            List<Contrato> contratoList = contratoRepo.listarContratoActivos();
+            List<Contrato> contratoList = contratoRepo.listarContratosActivos();
             return contratoList;
         } catch (Exception e) {
             throw new MiException(e.getMessage());
@@ -124,6 +145,18 @@ public class ContratoServicios {
             throw new MiException(e.getMessage());
         }
     }
+
+
+    public List<Contrato> listarContratosPorProveedor(String idProveedor) throws MiException {
+        try {
+            List<Contrato> contratos = contratoRepo.listarContratosPorProveedor(idProveedor);
+            return contratos;
+
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
 
     public void validar(Estados state) throws MiException {
         if (state.equals(null) || state == null) {

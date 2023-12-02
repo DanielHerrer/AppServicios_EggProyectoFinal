@@ -1,6 +1,5 @@
 package com.egg.servicios.repositorios;
 
-
 import com.egg.servicios.entidades.Usuario;
 
 import java.util.List;
@@ -19,16 +18,35 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u WHERE u.email= :email")
     public Usuario buscarPorEmail(@Param("email") String email);
 
+
     @Query("""
-            SELECT s FROM Servicio s
-            WHERE s.alta = true
+            SELECT u FROM Usuario u
+            WHERE u.alta = true
             """)
     public List<Usuario> listarUsuariosActivos();
 
     @Query("""
-            SELECT s FROM Servicio s
-            WHERE s.alta = false
+            SELECT u FROM Usuario u
+            WHERE u.alta = false
             """)
+
     public List<Usuario> listarUsuariosInactivos();
 
+    @Query("""
+            SELECT u FROM Usuario u
+            WHERE u.rol = CLIENTE
+            """)
+    public List<Usuario> listarClientes();
+
+    @Query("""
+            SELECT u FROM Usuario u
+            WHERE u.rol = PROVEEDOR
+            """)
+    public List<Usuario> listarProveedores();
+
+    @Query("""
+            SELECT u FROM Usuario u
+            WHERE u.rol = ADMIN
+            """)
+    public List<Usuario> listarAdmin();
 }

@@ -1,7 +1,7 @@
 <!-- @format -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="utf-8" />
 
@@ -62,7 +62,6 @@
 											<li class="nav-item">
 												<a class="page-scroll" href="#servicios">Servicios</a>
 											</li>
-=======
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -154,23 +153,34 @@
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                id="inputNombre"
+                                                id="nombre"
                                                 placeholder="Ingrese Apellido y Nombre"
-                                                name="nombreCompleto"
+                                                name="nombre"
                                                 />
                                         </div>
 
                                         <div>
-                                            <label for="inputPassword4" class="form-label"
+                                            <label for="inputPassword" class="form-label"
                                                    >Contraseña</label
                                             >
                                             <input
                                                 type="password"
                                                 class="form-control"
                                                 placeholder="Ingrese Contraseña"
-                                                id="inputPassword4"
+                                                id="password"
+                                                name="password"
+                                                />
+                                        </div>
+                                                                                <div>
+                                            <label for="inputPassword" class="form-label"
+                                                   >Contraseña</label
+                                            >
+                                            <input
+                                                type="password"
+                                                class="form-control"
                                                 placeholder="Ingrese Contraseña"
-                                                name="passwowrd"
+                                                id="password2"
+                                                name="passwowrd2"
                                                 />
                                         </div>
                                         <div>
@@ -180,7 +190,7 @@
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                id="inputAddress"
+                                                id="ubicacion"
                                                 placeholder="Ingrese Ubicacion"
                                                 name="ubicacion"
                                                 />
@@ -194,32 +204,19 @@
                                             <input
                                                 type="text"
                                                 class="form-control"
-                                                id="inputNombreUsuario"
+                                                id="accUsuario"
                                                 placeholder="Ingrese Nombre Usuario"
-                                                name="nombreUsuario"
+                                                name="accUsuario"
                                                 />
                                         </div>
-                                        <div>
-                                            <label for="inputPassword5" class="form-label"
-                                                   >Repetir Contraseña</label
-                                            >
-                                            <input
-                                                type="password"
-                                                class="form-control"
-                                                placeholder="Repetir Contraseña"
-                                                id="inputPassword5"
-                                                name="passwowrd2"
-                                                />
-                                        </div>
-
                                         <div>
                                             <label for="inputEmail4" class="form-label">Email</label>
                                             <input
                                                 type="email"
                                                 class="form-control"
-                                                id="inputEmail4"
+                                                id="email"
                                                 placeholder="Ingrese Email"
-                                                name="mail"
+                                                name="amail"
                                                 />
                                         </div>
                                     </div>
@@ -271,7 +268,7 @@
                                     </div>
 
                                     <div>
-                                        <button type="submit" onclick="enviarFormulario()"class="btn btn-primary envioButton" margin="">Enviar</button>
+                                        <button type="submit" class="btn btn-primary envioButton" margin="">Enviar</button>
                                     </div>
                                     <div class="col-md-4">
                                     </div>

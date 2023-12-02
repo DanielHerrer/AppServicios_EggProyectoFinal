@@ -2,6 +2,10 @@ package com.egg.servicios.repositorios;
 
 import com.egg.servicios.entidades.Categoria;
 import java.util.List;
+import java.util.Optional;
+
+import com.egg.servicios.entidades.Servicio;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,12 +18,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoriaRepositorio extends JpaRepository<Categoria, String> {
 
-    @Query
-    ("SELECT c FROM Categoria c WHERE c.nombre = :nombre")
-    public List<Categoria> listarCategoriasNombre(@Param("nombre") String nombre);
+    @Query("SELECT c FROM Categoria c WHERE c.nombre LIKE :nombre")
+    public List<Categoria> findByNombre(@Param("nombre") String nombre);
 
-    @Query
-    ("SELECT c FROM Categoria c WHERE c.alta = true")
+    @Query("SELECT c FROM Categoria c WHERE c.alta = true")
     public List<Categoria> listarCategoriasAlta();
     
 }

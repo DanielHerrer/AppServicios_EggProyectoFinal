@@ -17,14 +17,10 @@ public class Oferta {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-
     private String descripcion;
-
     private Boolean alta;
-
     @ManyToOne
     private Servicio servicio;
-
     @OneToOne
     private Usuario cliente;
 
@@ -32,9 +28,8 @@ public class Oferta {
         this.alta = true;
     }
 
-    public Oferta(String descripcion, Boolean alta, Servicio servicio, Usuario cliente) {
+    public Oferta(String descripcion, Servicio servicio, Usuario cliente) {
         this.descripcion = descripcion;
-        this.alta = alta;
         this.servicio = servicio;
         this.cliente = cliente;
         this.alta = true;

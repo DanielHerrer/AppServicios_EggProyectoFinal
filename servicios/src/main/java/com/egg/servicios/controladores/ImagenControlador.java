@@ -22,42 +22,35 @@ public class ImagenControlador {
 
     @Autowired
     private UsuarioServicio usuarioServicio;
-
-    private ServicioServicio servicioService;
-
-    @GetMapping("/perfil/{id}")//se pasa el id del usuario a travez del path
-    public ResponseEntity<byte[]> imagenUsuario(@PathVariable String id, Rol rol) {//recibe el id del usuario al que esta vinculada la imagen.
-        Servicio service = servicioService.getOne(id); 
-        Usuario userProveedor = service.getProveedor(); // capturamos el usuario del proveedor.
-        Usuario userCliente = usuarioServicio.getOne(id);//trae al usuario por id y lo asignamos a una variable usuario    
-        byte[] imagen = userCliente.getImagen().getContenido();
+    @Autowired
+    private ServicioServicio servicioServicio;
+    
+    
+    @GetMapping("/usuario/{id}")//se pasa el id del usuario a travez del path
+    public ResponseEntity<byte[]> imagenUsuario(@PathVariable String id) {//recibe el id del usuario al que esta vinculada la imagen.
+       Usuario usuario = usuarioServicio.getOne(id);//trae al usuario por id y lo asignamos a una variable usuario
+       
+      byte[] imagen = usuario.getImagen().getContenido();//traer la imagen, y de la imagen el contenido, el cual vamos a guardar en un arreglo de bytes.
+      HttpHeaders headers = new HttpHeaders();//estas cabeceras le indican al navegador que estan devolviendo una imagen
       
-        if (rol == userProveedor.getRol().PROVEEDOR) {
+      headers.setContentType(MediaType.IMAGE_JPEG);//SETEAMOS EN EL HEADERS LA IMAGEN, avisa que va a guardar una imagen
 
-            imagen = userProveedor.getImagen().getContenido();
-        }
- 
-        //traer la imagen, y de la imagen el contenido, el cual vamos a guardar en un arreglo de bytes.
-        HttpHeaders headers = new HttpHeaders();//estas cabeceras le indican al navegador que estan devolviendo una imagen
-        headers.setContentType(MediaType.IMAGE_JPEG);//SETEAMOS EN EL HEADERS LA IMAGEN, avisa que va a guardar una imagen
-        return new ResponseEntity<>(imagen, headers, HttpStatus.OK);//httpstatus ok para que la operacion este confirmada
-        
+      return new ResponseEntity < >(imagen,headers,HttpStatus.OK);//httpstatus ok para que la operacion este confirmada
     }
 
-    
-    /* // @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @GetMapping("/Proveedor/{id}")
-    public ResponseEntity<byte[]> matriculaProveedor(@PathVariable String id) {
+    @GetMapping("/matricula/{id}")
+    public ResponseEntity<byte[]> imagenMatricula(@PathVariable String id) {
 
-        Servicio service = servicioService.getOne(id);
+        Servicio servicio = servicioServicio.listarPorId(id);
 
-        Usuario user = service.getProveedor();
-
-        byte[] imagen = user.getImagen().getContenido();
+        byte[] imagen = servicio.getMatricula().getContenido();
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.IMAGE_JPEG);
-        return new ResponseEntity<>(imagen, headers, HttpStatus.OK);
+
+        return new ResponseEntity < >(imagen,headers,HttpStatus.OK);
+    }
     
-    }*/
+    
+
 }

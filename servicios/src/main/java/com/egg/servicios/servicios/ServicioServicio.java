@@ -7,10 +7,10 @@ import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.repositorios.CategoriaRepositorio;
 import com.egg.servicios.repositorios.ServicioRepositorio;
 import com.egg.servicios.excepciones.MiException;
-import com.egg.servicios.repositorios.CategoriaRepositorio;
 
 import com.egg.servicios.repositorios.UsuarioRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -108,6 +108,23 @@ public class ServicioServicio {
         return servicioRepositorio.listarServiciosActivos();
     }
 
+    public List<Servicio> listarServiciosPorProveedor(String idProveedor) {
+        return servicioRepositorio.listarServiciosActivosPorProveedor(idProveedor);
+    }
+
+    public boolean existsByDescripcion(String descripcion) throws MiException {
+        try {
+            List<Servicio> servicios = servicioRepositorio.findByDescripcion(descripcion);
+            if (servicios.isEmpty()) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
     @Transactional
     public void eliminarServicio(String idServicio) throws MiException {
 
@@ -136,6 +153,8 @@ public class ServicioServicio {
         }
         if (descripcion.trim().isEmpty() || descripcion == null) {
             throw new MiException("La descripcion no puede ser nula o estar vacia.");
+        } else if (existsByDescripcion(descripcion)) {
+            throw new MiException("Ya existe un Servicio publicado con la misma descripcion!");
         }
         if (honorariosHora < 1 || honorariosHora.isNaN() || honorariosHora == null) {
             throw new MiException("Los honorarios no deben ser nulos y deben ser un numero valido.");
@@ -149,9 +168,6 @@ public class ServicioServicio {
             throw new MiException("El ID Proveedor no puede ser nulo o estar vacio.");
         } else if (!usuarioRepositorio.findById(idProveedor).isPresent()) {
             throw new MiException("El ID Proveedor no corresponde a ningun proveedor existente.");
-        }
-        if (servicioRepositorio.findByDescripcion(descripcion).isPresent()) {
-            throw new MiException("Existe un servicio publicado con la misma descripcion!");
         }
 
     }
