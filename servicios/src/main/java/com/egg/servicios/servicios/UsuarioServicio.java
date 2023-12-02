@@ -1,6 +1,7 @@
 package com.egg.servicios.servicios;
 
 import com.egg.servicios.entidades.Imagen;
+import com.egg.servicios.entidades.Servicio;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.enumeraciones.Ubicacion;
@@ -41,12 +42,10 @@ public class UsuarioServicio implements UserDetailsService {
     @Transactional
     public void registrar(MultipartFile archivo, String accUsuario, Rol rol, String nombre, String email, Ubicacion ubicacion, String password, String password2) throws MiException {
 
-        validar(nombre, email, password, password2);
+        validar(nombre, email, accUsuario, ubicacion, password, password2);
 
         Usuario usuario = new Usuario();
-        
-        
-        
+
         usuario.setAccUsuario(accUsuario);
         usuario.setNombre(nombre);
         usuario.setEmail(email);
@@ -65,11 +64,12 @@ public class UsuarioServicio implements UserDetailsService {
     }
 
     @Transactional
-    public void actualizar(MultipartFile archivo, String idUsuario,Rol rol, Ubicacion ubicacion, String nombre, String email, String password, String password2) throws MiException {
+    public void actualizar(MultipartFile archivo, String idUsuario, Rol rol, Ubicacion ubicacion, String nombre, String accUsuario, String email, String password, String password2) throws MiException {
 
-        validar(nombre, email, password, password2);
+        validar(nombre, email, accUsuario, ubicacion, password, password2);
 
         Optional<Usuario> respuesta = usuarioRepositorio.findById(idUsuario);
+
         if (respuesta.isPresent()) {
 
             Usuario usuario = respuesta.get();
@@ -162,7 +162,7 @@ public class UsuarioServicio implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Usuario usuario = (Usuario) usuarioRepositorio.buscarPorEmail(email);
+        Usuario usuario = (Usuario) usuarioRepositorio.findByEmail(email);
 
         if (usuario != null) {
 
@@ -186,20 +186,55 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
-    private void validar(String nombre, String email, String password, String password2) throws MiException {
+    public boolean existsByAccUsuario(String accUsuario) throws MiException {
+        try {
+            List<Usuario> usuarios = usuarioRepositorio.findByAccUsuario(accUsuario);
+            if (usuarios.isEmpty()) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
 
-        if (nombre.isEmpty() || nombre == null) {
-            throw new MiException("el nombre no puede ser nulo o estar vacío");
+    public boolean existsByEmail(String email) throws MiException {
+        try {
+            List<Usuario> usuarios = usuarioRepositorio.findByEmail(email);
+            if (usuarios.isEmpty()) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
+    private void validar(String nombre, String email, String accUsuario, Ubicacion ubicacion, String password, String password2) throws MiException {
+
+        if (nombre.trim().isEmpty() || nombre == null) {
+            throw new MiException("El Nombre no puede ser nulo o estar vacío");
+        }
+        if (accUsuario.trim().isEmpty() || accUsuario == null) {
+            throw new MiException("El Nombre de usuario no puede ser nulo o estar vacio");
+        } else if (existsByAccUsuario(accUsuario)) {
+            throw new MiException("Ya existe una cuenta con ese Nombre de usuario registrado..");
+        }
+        if (ubicacion.equals("") || ubicacion == null) {
+            throw new MiException("La Ubicacion no puede ser nula o estar vacia");
         }
         if (email.isEmpty() || email == null) {
-            throw new MiException("el email no puede ser nulo o estar vacio");
+            throw new MiException("El Email no puede ser nulo o estar vacio");
+        } else if (existsByEmail(email)) {
+            throw new MiException("Ya existe una cuenta con ese Email registrado..");
         }
         if (password.isEmpty() || password == null || password.length() <= 5) {
-            throw new MiException("La contraseña no puede estar vacía, y debe tener más de 5 dígitos");
+            throw new MiException("La Contraseña no puede estar vacía, y debe tener más de 5 dígitos");
         }
-
         if (!password.equals(password2)) {
-            throw new MiException("Las contraseñas ingresadas deben ser iguales");
+            throw new MiException("Las Contraseñas ingresadas deben ser iguales");
         }
 
     }
