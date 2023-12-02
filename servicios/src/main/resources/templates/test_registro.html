@@ -42,6 +42,7 @@
                     <option selected disabled>Ubicacion</option>
                     <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion.name()}"></option>
                 </select>
+
                 <select class="form-select" aria-label="Default select" name="rol" th:value="${rol}">
                     <option selected disabled>Rol</option>
                     <option th:each="rol : ${roles}" th:value="${rol}" th:text="${rol.name()}"></option>
