@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Nico
  */
 @Controller
-@RequestMapping("/")
+@RequestMapping("/") // localhost:8080/
 public class PortalControlador {
 
     @Autowired
@@ -39,9 +39,26 @@ public class PortalControlador {
     @GetMapping("/registrar")
     public String registrar(ModelMap modelo) {
 
-        modelo.addAttribute("roles", Rol.values());
+        return "eleccion-usuario.html";
+    }
+
+    @GetMapping("/registrar/cliente")
+    public String registrarCliente(ModelMap modelo) {
+
+        modelo.put("rol", Rol.CLIENTE);
+
         modelo.addAttribute("ubicaciones", Ubicacion.values());
-        return "test_registro.html";
+
+        return "registrar-usuario.html";
+    }
+
+    @GetMapping("/registrar/proveedor")
+    public String registrarProveedor(ModelMap modelo) {
+
+        modelo.put("rol", Rol.PROVEEDOR);
+
+        modelo.addAttribute("ubicaciones", Ubicacion.values());
+        return "registrar-proveedor.html";
 
     }
 
@@ -53,8 +70,6 @@ public class PortalControlador {
             usuarioServicio.registrar(archivo, accUsuario, rol, nombre, email, ubicacion, password, password2);
 
             modelo.put("exito", "Usuario registrado correctamente!");
-            modelo.addAttribute("roles", Rol.values());
-            modelo.addAttribute("ubicaciones", Ubicacion.values());
 
             return "test_index.html";
 
@@ -62,11 +77,24 @@ public class PortalControlador {
 
             modelo.put("error", ex.getMessage());
             modelo.put("nombre", nombre);
+            modelo.put("accUsuario", accUsuario);
             modelo.put("email", email);
+            modelo.put("ubicacion", ubicacion);
 
-            return "test_registro.html";
+            if (rol.equals(Rol.PROVEEDOR)) {
+                modelo.put("rol", Rol.PROVEEDOR);
+                modelo.addAttribute("ubicaciones", Ubicacion.values());
+                return "registrar-proveedor.html";
+
+            } else if (rol.equals(Rol.CLIENTE)) {
+                modelo.put("rol", Rol.CLIENTE);
+                modelo.addAttribute("ubicaciones", Ubicacion.values());
+                return "registrar-cliente.html";
+
+            } else {
+                return "eleccion-usuario.html";
+            }
         }
-
     }
 
     @GetMapping("/login")
@@ -105,10 +133,10 @@ public class PortalControlador {
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
     @PostMapping("/perfil/{id}")
     public String actualizar(MultipartFile archivo, @RequestParam Rol rol, @RequestParam Ubicacion ubicacion, @PathVariable String id, @RequestParam String nombre, @RequestParam String email,
-            @RequestParam String password, @RequestParam String password2, ModelMap modelo) {
+            @RequestParam String accUsuario, @RequestParam String password, @RequestParam String password2, ModelMap modelo) {
 
         try {
-            usuarioServicio.actualizar(archivo, id, rol, ubicacion, nombre, email, password, password2);
+            usuarioServicio.actualizar(archivo, id, rol, ubicacion, nombre, accUsuario, email, password, password2);
 
             modelo.put("exito", "Usuario actualizado correctamente!");
 
