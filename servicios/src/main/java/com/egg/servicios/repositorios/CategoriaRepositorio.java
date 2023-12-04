@@ -16,7 +16,7 @@ public interface CategoriaRepositorio extends JpaRepository<Categoria, String> {
 
     @Query("SELECT c FROM Categoria c WHERE c.nombre LIKE :nombre")
     public List<Categoria> findByNombre(@Param("nombre") String nombre);
-
+   
     @Query("SELECT c FROM Categoria c WHERE c.alta = true")
     public List<Categoria> listarCategoriasAlta();
     

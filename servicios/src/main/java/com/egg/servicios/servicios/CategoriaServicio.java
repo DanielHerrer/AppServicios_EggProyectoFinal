@@ -32,10 +32,11 @@ public class CategoriaServicio {
         }
     }
 
-    public void modificarCategoria(String idCategoria, String nombre) throws MiException {
+    @Transactional
+    public void modificarCategoria(String id, String nombre) throws MiException {
         validar(nombre);
         try {
-            Optional<Categoria> resultado = categoriaRepositorio.findById(idCategoria);
+            Optional<Categoria> resultado = categoriaRepositorio.findById(id);
             if (resultado.isPresent()) {
                 Categoria categoria = resultado.get();
                 categoria.setNombre(nombre);

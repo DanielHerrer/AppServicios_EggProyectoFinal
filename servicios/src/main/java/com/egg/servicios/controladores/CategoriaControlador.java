@@ -36,10 +36,10 @@ public class CategoriaControlador {
     public String registroCategoria(@RequestParam String nombre, ModelMap modelo) {
         try {
             categoriaServicio.crearCategoria(nombre);
-            modelo.put("exito","La Categoria se ha creado correctamente!");
+            modelo.put("exito", "La Categoria se ha creado correctamente!");
             return "test_categoria_form.html";
         } catch (MiException e) {
-            modelo.addAttribute("nombre",nombre);
+            modelo.addAttribute("nombre", nombre);
             modelo.put("error", e.getMessage());
             return "test_categoria_form.html";
         }
@@ -47,9 +47,9 @@ public class CategoriaControlador {
 
     @GetMapping("/listar") // localhost:8080/categoria/listar
     public String listarCategorias(ModelMap modelo) {
-        try {            
+        try {
             List<Categoria> categorias = categoriaServicio.listarCategorias();
-            modelo.addAttribute("categorias",categorias);
+            modelo.addAttribute("categorias", categorias);
             return "test_categoria_lista.html";
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
@@ -57,31 +57,43 @@ public class CategoriaControlador {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/modificar/{id}") // revisar
-    public String modificar(@PathVariable String id, ModelMap modelo) {             
-            modelo.put("categoria", categoriaServicio.getOne(id));
-            return "test_categoria_modificar.html";
+    public String modificar(@PathVariable String id, ModelMap modelo) {
+        return "test_categoria_modificar.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/modificado/{id}")
-    public String modificado(@PathVariable String id, String nombre, ModelMap modelo) {
+    public String modificado(@PathVariable String id, @RequestParam String nombre, ModelMap modelo){
         try {
             categoriaServicio.modificarCategoria(id, nombre);
-            return "test_categoria_modificar.html";
+            modelo.put("exito", "La categoría se ha modificado con éxito!.");
+            return "redirect:../listar";
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
-            return "test_categoria_modificar.html";
+            return "redirect:../listar";
+        }
+    }
+  
+    public void cargarModeloCategorias(ModelMap modelo) {
+        try {
+            List<Categoria> categorias = categoriaServicio.listarCategorias();
+            modelo.addAttribute("categorias", categorias);
+        } catch (MiException ex) {
+            modelo.put("error", ex.getMessage());
         }
     }
 
-    @PostMapping("/eliminado/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/eliminado/{id}")
     public String eliminado(@PathVariable String id, ModelMap modelo) {
-       try {
+        try {
             categoriaServicio.eliminarCategoria(id);
-            return "test_index.html";
+            return "redirect:../listar";
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
-            return "test_index.html";            
+            return "redirect:../listar";
         }
     }
 }
