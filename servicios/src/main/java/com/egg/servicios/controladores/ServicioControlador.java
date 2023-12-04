@@ -3,7 +3,6 @@ package com.egg.servicios.controladores;
 import com.egg.servicios.entidades.*;
 import com.egg.servicios.enumeraciones.Estados;
 import com.egg.servicios.excepciones.MiException;
-import com.egg.servicios.repositorios.ContratoRepositorios;
 import com.egg.servicios.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import com.egg.servicios.repositorios.ContratoRepositorio;
 
 /**
  *
@@ -31,9 +31,9 @@ public class ServicioControlador {
     @Autowired
     private OfertaServicio ofertaServicio;
     @Autowired
-    private ContratoServicios contratoServicio;
+    private ContratoServicio contratoServicio;
     @Autowired
-    private ContratoRepositorios contratoRepositorios;
+    private ContratoRepositorio contratoRepositorios;
     @Autowired
     private CalificacionServicio calificacionServicio;
 

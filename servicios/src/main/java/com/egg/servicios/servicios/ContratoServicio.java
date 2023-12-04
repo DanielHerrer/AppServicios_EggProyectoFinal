@@ -8,7 +8,6 @@ import com.egg.servicios.enumeraciones.Estados;
 
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.CalificacionRepositorio;
-import com.egg.servicios.repositorios.ContratoRepositorios;
 import com.egg.servicios.repositorios.OfertaRepositorio;
 
 import java.util.Optional;
@@ -18,6 +17,7 @@ import com.egg.servicios.repositorios.UsuarioRepositorio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.egg.servicios.repositorios.ContratoRepositorio;
 
 // PARA HACER: añadir metodos { listarContratos(), listarPorId(id) }
 /**
@@ -25,10 +25,10 @@ import org.springframework.stereotype.Service;
  * @author joaquin
  */
 @Service
-public class ContratoServicios {
-
+public class ContratoServicio {
+    
     @Autowired
-    private ContratoRepositorios contratoRepositorio;
+    private ContratoRepositorio contratoRepositorio;
 
     @Autowired
     private UsuarioRepositorio usuarioRepo;
@@ -60,13 +60,14 @@ public class ContratoServicios {
         }
     }
 
-    public void modificarContrato(String idContrato, Estados estado) throws MiException {
+    public void modificarContrato(String idContrato) throws MiException {
         Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
         Contrato contrato = new Contrato();
+        
 
         if (respuestaContrato.isPresent()) {
             contrato = respuestaContrato.get();
-            contrato.setEstadoTrabajo(estado);
+            contrato.setEstadoTrabajo(Estados.ACEPTADO);
 
             contratoRepositorio.save(contrato);
         }
@@ -132,7 +133,12 @@ public class ContratoServicios {
         }
 
     }
-
+    
+        public List<Contrato> listaCompleta() {
+        List<Contrato> contratos = contratoRepositorio.findAll();
+        return contratos;
+    }
+    
     public Contrato getOne(String id) {
         return contratoRepositorio.getOne(id);
     }

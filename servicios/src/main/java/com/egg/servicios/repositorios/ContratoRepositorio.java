@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  * @author Nico
  */
 @Repository
-public interface ContratoRepositorios extends JpaRepository<Contrato, String> {
+public interface ContratoRepositorio extends JpaRepository<Contrato, String> {
 
     @Query("SELECT c FROM Contrato c WHERE c.id = :id")
     public Contrato listarContratoPorId(@Param("id") String id);
