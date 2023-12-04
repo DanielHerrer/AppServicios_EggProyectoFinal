@@ -49,5 +49,7 @@ public interface ContratoRepositorio extends JpaRepository<Contrato, String> {
            """)           
     public List<Contrato> listarFinalizado();
 
+    @Query("SELECT c FROM Contrato c WHERE c.oferta.servicio.proveedor.id = :idProveedor")
+    public List<Contrato> listarProveedor(@Param("idProveedor") String idProveedor);
 
 }

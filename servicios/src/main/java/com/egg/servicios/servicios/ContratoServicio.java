@@ -31,7 +31,7 @@ public class ContratoServicio {
     private ContratoRepositorio contratoRepositorio;
 
     @Autowired
-    private UsuarioRepositorio usuarioRepo;
+    private UsuarioRepositorio usuarioRepositorio;
 
     @Autowired
     private OfertaRepositorio ofertaRepositorio;
@@ -127,6 +127,11 @@ public class ContratoServicio {
         return contratos;
     }
 
+    public List<Contrato> listarProveedores(String idProveedor) {
+        List<Contrato> contratos = contratoRepositorio.listarProveedor(idProveedor);
+        return contratos;
+    }
+    
     public void validar(Estados state) throws MiException {
         if (state.equals(null) || state == null) {
             throw new MiException("El Estado no puede ser nulo !");

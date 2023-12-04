@@ -89,7 +89,7 @@ public class ServicioControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_ADMIN')")
     @PostMapping("/cliente/contratar") // localhost:8080/servicio/cliente/contratar
-    public String registroContrato(@RequestParam String descripcion, @RequestParam String idServicio,
+    public String registroContrato(@RequestParam String descripcion, @RequestParam String idServicio, String idOferta,
                                   ModelMap modelo, HttpSession session) {
 
         try {
@@ -98,7 +98,7 @@ public class ServicioControlador {
 
             Oferta oferta = ofertaServicio.crearOferta(descripcion, idServicio, cliente.getId());
 
-            contratoServicio.crearContrato(oferta);
+            contratoServicio.crearContrato(idOferta);
             return "test_servicio_read.html";
 
         } catch (MiException ex) {
@@ -121,7 +121,8 @@ public class ServicioControlador {
             for (Servicio servicio : servicios) {
 
                 // Del servicio actual, busca el id del proveedor, y retorna los contratos de ese proveedor
-                List<Contrato> contratos = contratoServicio.listarContratosPorProveedor(servicio.getProveedor().getId());
+                String respuesta = servicio.getId();
+                List<Contrato> contratos = contratoServicio.listarProveedores(respuesta) ;//servicio.getProveedor().getId()
                 int cantEstrellas = 0;
                 int cantCalificaciones = 0;
 

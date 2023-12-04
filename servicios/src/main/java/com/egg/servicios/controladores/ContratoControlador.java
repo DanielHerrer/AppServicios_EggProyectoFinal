@@ -33,12 +33,12 @@ public class ContratoControlador {
     private ContratoServicio contratoServicio;
 
     @GetMapping("/registrar")
-    public String crearContratoInicio(ModelMap modelo) {
+    public String crearContratoAlta(ModelMap modelo) {
         return "test_contrato_registrar";
     }
 
     @PostMapping("/registro")
-    public String crearContrato(ModelMap modelo,@PathVariable String idOferta) throws MiException {
+    public String crearContrato(ModelMap modelo, @PathVariable String idOferta) throws MiException {
 
         try {
             contratoServicio.crearContrato(idOferta);
@@ -52,45 +52,44 @@ public class ContratoControlador {
     }
 
     @GetMapping("/lista")
-    public String listar(ModelMap modelo) throws MiException {
+    public String listar(ModelMap modelo) {
         List<Contrato> contratos = contratoServicio.listaCompleta();
         modelo.addAttribute("lista", contratos);
         return "test_contrato_lista.html";
     }
-    
-        @GetMapping("/pendientes")
-    public String listarPendientes(ModelMap modelo) throws MiException {
+
+    @GetMapping("/pendientes")
+    public String listarPendientes(ModelMap modelo) {
         List<Contrato> contratos = contratoServicio.listaCompleta();
         modelo.addAttribute("lista", contratos);
         return "test_contrato_lista.html";
     }
-    
-        @GetMapping("/rechazados")
-    public String listarRechazados(ModelMap modelo) throws MiException {
+
+    @GetMapping("/rechazados")
+    public String listarRechazados(ModelMap modelo) {
         List<Contrato> contratos = contratoServicio.listaCompleta();
         modelo.addAttribute("lista", contratos);
         return "test_contrato_lista.html";
     }
-    
-        @GetMapping("/aceptados")
-    public String listarAceptados(ModelMap modelo) throws MiException {
+
+    @GetMapping("/aceptados")
+    public String listarAceptados(ModelMap modelo) {
         List<Contrato> contratos = contratoServicio.listaCompleta();
         modelo.addAttribute("lista", contratos);
         return "test_contrato_lista.html";
     }
-        @GetMapping("/finalizados")
-    public String listarFinalizados(ModelMap modelo) throws MiException {
+
+    @GetMapping("/finalizados")
+    public String listarFinalizados(ModelMap modelo) {
         List<Contrato> contratos = contratoServicio.listaCompleta();
         modelo.addAttribute("lista", contratos);
         return "test_contrato_lista.html";
     }
-    
-    
 
     @GetMapping("/estados/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo) {
-        modelo.put("contrato", contratoServicio.getOne(id) );
-        return "";
+        modelo.put("contrato", contratoServicio.getOne(id));
+        return "HTML";
     }
 
     @PostMapping("/estados/{id}")
@@ -98,16 +97,14 @@ public class ContratoControlador {
         try {
             contratoServicio.modificarContrato(id);
             modelo.put("exito", "El Contrato fue modificado correctamente!");
-            return "redirect:..";
+            return "HTML";
         } catch (MiException ex) {
 
             System.out.println("");
             modelo.put("error", ex.getMessage());
-            return "";
+            return "HTML";
         }
 
     }
 
 }
-
-
