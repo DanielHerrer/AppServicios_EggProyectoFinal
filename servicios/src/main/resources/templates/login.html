@@ -1,7 +1,7 @@
 <!-- @format -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<head>
 		<meta charset="utf-8" />
 
@@ -55,25 +55,25 @@
 							<div class="card border-0 p-4 card-login mb-2">
 								<a
 									class="col-md-12 d-flex justify-content-center pb-3"
-									href="index.html"
+									href="/"
 								>
 									<img src="img/logo2.png" alt="Logo" />
 								</a>
 								<h3 class="text-center fw-bold text-center">Login</h3>
-								<form class="p-3">
+								<form class="p-3" th:action="@{/logincheck}" method="POST">
 									<div class="mb-3">
 										<label for="exampleInputEmail1" class="form-label"
 											>Email</label
 										>
 										<input
 											type="email"
-											class="form-control"
-											id="exampleInputEmail1"
+											class="form-control"	
+                                                                                        id="exampleInputEmail1"
 											aria-describedby="emailHelp"
-											name="password"
+											name="Email"
 										/>
 										<div id="emailHelp" class="form-text">
-											No compartiremos tu email con nadie.
+											Tu informacion esta protegida.
 										</div>
 									</div>
 									<div class="my-3">
@@ -83,12 +83,12 @@
 										<input
 											type="password"
 											class="form-control"
-											id="exampleInputPassword1"
-											name="password"
+                                                                                        id="exampleInputPassword1"
+											name="Password"
 										/>
 									</div>
 									<div class="text-center mt-5">
-										<button type="submit" class="btn btn-primary">Login</button>
+								<button type="submit" class="btn btn-primary">Login</button>
 									</div>
 								</form>
 							</div>
@@ -99,7 +99,7 @@
 							<span class="fw-bolder">Si no te has registrado aun </span
 							><a
 								class="link-primary fw-bolder mx-1"
-								href="eleccion-usuario.html"
+								href="/registrar"
 							>
 								registrate!</a
 							>
@@ -107,7 +107,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12 d-flex justify-content-end mb-2">
-							<a class="btn btn-dark" href="index.html">volver</a>
+							<a class="btn btn-dark" href="/">volver</a>
 						</div>
 					</div>
 				</div>

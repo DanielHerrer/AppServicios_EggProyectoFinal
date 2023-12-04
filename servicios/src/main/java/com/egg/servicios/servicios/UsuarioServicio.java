@@ -1,11 +1,9 @@
 package com.egg.servicios.servicios;
 
 import com.egg.servicios.entidades.Imagen;
-import com.egg.servicios.entidades.Servicio;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.enumeraciones.Ubicacion;
-import com.egg.servicios.servicios.ImagenServicio;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.UsuarioRepositorio;
 import java.util.ArrayList;
@@ -39,7 +37,7 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired
     private ImagenServicio imagenServicio;
 
-    @Transactional
+   
     public void registrar(MultipartFile archivo, String accUsuario, Rol rol, String nombre, String email, Ubicacion ubicacion, String password, String password2) throws MiException {
 
         validar(nombre, email, accUsuario, ubicacion, password, password2);
@@ -63,7 +61,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuarioRepositorio.save(usuario);
     }
 
-    @Transactional
+
     public void actualizar(MultipartFile archivo, String idUsuario, Rol rol, Ubicacion ubicacion, String nombre, String accUsuario, String email, String password, String password2) throws MiException {
 
         validar(nombre, email, accUsuario, ubicacion, password, password2);

@@ -33,7 +33,7 @@ public class PortalControlador {
     @GetMapping("/")//mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
     public String index() {
 
-        return "test_index.html";
+        return "index.html";
     }
 
     @GetMapping("/registrar")
@@ -68,11 +68,8 @@ public class PortalControlador {
 
         try {
             usuarioServicio.registrar(archivo, accUsuario, rol, nombre, email, ubicacion, password, password2);
-
-            modelo.put("exito", "Usuario registrado correctamente!");
-
-            return "test_index.html";
-
+          modelo.put("exito", "Usuario registrado correctamente!");
+            return "index.html";
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
@@ -97,6 +94,7 @@ public class PortalControlador {
         }
     }
 
+    
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, ModelMap modelo) {
 
@@ -104,7 +102,7 @@ public class PortalControlador {
             modelo.put("error", "Usuario o Contraseña invalidos!");
         }
 
-        return "test_login.html";
+        return "login.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
@@ -112,14 +110,14 @@ public class PortalControlador {
     public String inicio(ModelMap modelo, HttpSession session) {
 
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+        
         System.out.println("Usuario en sesión: " + logueado);
-        modelo.addAttribute("usuario", logueado);
+        modelo.addAttribute("logueado", logueado);
 
         if (logueado.getRol().toString().equals("ADMIN")) {
             return "redirect:/admin/dashboard";
         }
-
-        return "test_index.html";
+        return "index.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")

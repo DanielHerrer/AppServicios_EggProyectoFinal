@@ -5,8 +5,6 @@
 package com.egg.servicios.controladores;
 
 import com.egg.servicios.entidades.Usuario;
-import com.egg.servicios.enumeraciones.Rol;
-import com.egg.servicios.enumeraciones.Ubicacion;
 import com.egg.servicios.servicios.UsuarioServicio;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
