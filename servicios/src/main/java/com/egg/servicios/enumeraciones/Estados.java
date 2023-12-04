@@ -2,12 +2,13 @@ package com.egg.servicios.enumeraciones;
 
 /**
  *
- * @author joaquin
+ * @author Nico
  */
 public enum Estados {
   PENDIENTE,
   RECHAZADO,
   ACEPTADO,
   FINALIZADO;
+  
    
 }

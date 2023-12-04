@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author joaquin
+ * @author Nico
  */
 @Repository
 public interface ContratoRepositorios extends JpaRepository<Contrato, String> {
@@ -19,19 +19,35 @@ public interface ContratoRepositorios extends JpaRepository<Contrato, String> {
     public Contrato listarContratoPorId(@Param("id") String id);
 
     @Query("SELECT c FROM Contrato c WHERE c.alta = true")
-<<<<<<< HEAD
     public List<Contrato> listarContratoActivos();
 
     @Query("SELECT c FROM Contrato c WHERE c.alta = false")
     public List<Contrato> listarContratoInactivos();
-=======
-    public List<Contrato> listarContratosActivos();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = false")
-    public List<Contrato> listarContratosInactivos();
+    @Query("""
+           SELECT c FROM Contrato c 
+           WHERE c.estadoTrabajo = 'PENDIENTE'
+           """
+           )
+    public List<Contrato> listarPendientes();
 
-    @Query("SELECT c FROM Contrato c WHERE c.oferta.servicio.proveedor.id = :idProveedor")
-    public List<Contrato> listarContratosPorProveedor(@Param("idProveedor") String idProveedor);
->>>>>>> 09b37bcf59d205b0e8d6c98f288c1af60c0a3f87
+    @Query("""
+           SELECT c FROM Contrato c 
+           WHERE c.estadoTrabajo = 'RECHAZADO'
+           """)                                                    
+    public List<Contrato> listarRechazados();
+
+    @Query("""
+           SELECT c FROM Contrato c 
+           WHERE c.estadoTrabajo = 'ACEPTADO'
+           """)           
+    public List<Contrato> listarAceptados();
+
+    @Query("""
+           SELECT c FROM Contrato c 
+           WHERE c.estadoTrabajo = 'FINALIZADO'
+           """)           
+    public List<Contrato> listarFinalizado();
+
 
 }

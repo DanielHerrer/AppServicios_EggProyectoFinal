@@ -5,10 +5,11 @@ import com.egg.servicios.entidades.Contrato;
 
 import com.egg.servicios.entidades.Oferta;
 import com.egg.servicios.enumeraciones.Estados;
-import com.egg.servicios.enumeraciones.Rol;
 
 import com.egg.servicios.excepciones.MiException;
+import com.egg.servicios.repositorios.CalificacionRepositorio;
 import com.egg.servicios.repositorios.ContratoRepositorios;
+import com.egg.servicios.repositorios.OfertaRepositorio;
 
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -27,136 +28,103 @@ import org.springframework.stereotype.Service;
 public class ContratoServicios {
 
     @Autowired
-    private ContratoRepositorios contratoRepo;
+    private ContratoRepositorios contratoRepositorio;
 
     @Autowired
     private UsuarioRepositorio usuarioRepo;
 
-    public ContratoServicios(ContratoRepositorios contratoRepo, UsuarioRepositorio usuarioRepo) {
-        this.contratoRepo = contratoRepo;
-        this.usuarioRepo = usuarioRepo;
-    }
+    @Autowired
+    private OfertaRepositorio ofertaRepositorio;
 
-    
+    @Autowired
+    private CalificacionRepositorio calificacionRepositorio;
+
     @Transactional
-    public Contrato crearContrato(Oferta oferta) throws MiException {
+    public void crearContrato(String idOferta) throws MiException {
+        Optional<Oferta> respuestaOferta = ofertaRepositorio.findById(idOferta);
+        Oferta oferta = new Oferta();
+
+        if (respuestaOferta.isPresent()) {
+            oferta = respuestaOferta.get();
+        }
 
         try {
-
             Contrato contrato = new Contrato();
             contrato.setOferta(oferta);
             contrato.setEstadoTrabajo(Estados.PENDIENTE);
-            contrato.setAptitud(null);
+            contrato.isAlta();
 
-            return contratoRepo.save(contrato);
+            contratoRepositorio.save(contrato);
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
+    public void modificarContrato(String idContrato, Estados estado) throws MiException {
+        Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
+        Contrato contrato = new Contrato();
+
+        if (respuestaContrato.isPresent()) {
+            contrato = respuestaContrato.get();
+            contrato.setEstadoTrabajo(estado);
+
+            contratoRepositorio.save(contrato);
+        }
+
+        try {
 
         } catch (Exception e) {
             throw new MiException(e.getMessage());
         }
     }
 
+    public void calificarContrato(String idContrato, Calificacion calificacion, Estados estado) throws MiException {
+        Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
+        Contrato contrato = new Contrato();
 
-    @Transactional
-    public void guardarContrato(Estados estados, Oferta oferta, Calificacion aptitud) throws MiException {
+        if (respuestaContrato.isPresent()) {
+            contrato = respuestaContrato.get();
+            contrato.setEstadoTrabajo(estado.FINALIZADO);
+
+            contratoRepositorio.save(contrato);
+        }
 
         try {
-            validar(estados);
-            Contrato contrato = new Contrato();
-            contrato.setAptitud(aptitud);
-            contrato.setOferta(oferta);
-            contratoRepo.save(contrato);
 
         } catch (Exception e) {
             throw new MiException(e.getMessage());
         }
     }
 
-    public void modificarEstadoContrato(String id, Estados state) throws MiException {
-        try {
-            Optional<Contrato> presente = contratoRepo.findById(id);
-            if (presente.isPresent()) {
-                Contrato c = presente.get();
-                c.setEstadoTrabajo(state);
-                contratoRepo.save(c);
-            }
-        } catch (Exception e) {
-            throw new MiException(e.getMessage());
-        }
+    public List<Contrato> listarActivos() {
+        List<Contrato> contratos = contratoRepositorio.listarContratoActivos();
+        return contratos;
     }
 
-    public void contratoFinalizado(String id, Estados state, Calificacion aptitud) throws MiException {
-
-        try {
-            Optional<Contrato> presente = contratoRepo.findById(id);
-            if (presente.isPresent()) {
-                Contrato c = presente.get();
-                c.setEstadoTrabajo(state);
-                c.setAptitud(aptitud);
-                contratoRepo.save(c);
-            }
-        } catch (Exception e) {
-
-  throw new MiException(e.getMessage());
-        }
+    public List<Contrato> listarInactivos() {
+        List<Contrato> contratos = contratoRepositorio.listarContratoInactivos();
+        return contratos;
     }
 
-    public void estadosDeContratos(String id, Estados state) throws MiException {
-
-        try {
-            Optional<Contrato> presente = contratoRepo.findById(id);
-            if (presente.isPresent()) {
-                Contrato c = presente.get();
-                c.setEstadoTrabajo(state);
-                contratoRepo.save(c);
-            }
-        } catch (Exception e) {
-            throw new MiException(e.getMessage());
-
-        }
+    public List<Contrato> listarPendientes() {
+        List<Contrato> contratos = contratoRepositorio.listarPendientes();
+        return contratos;
     }
 
-    public void altaBajaContrato(String id) throws MiException {
-        try {
-            Optional<Contrato> presente = contratoRepo.findById(id);
-            if (presente.isPresent()) {
-                Contrato c = presente.get();
-                c.setAlta(false);
-                contratoRepo.save(c);
-            }
-        } catch (Exception e) {
-            throw new MiException(e.getMessage());
-        }
+    public List<Contrato> listarRechazados() {
+        List<Contrato> contratos = contratoRepositorio.listarRechazados() ;
+        return contratos;
     }
 
-    public List<Contrato> listarContratos() throws MiException {
-        try {
-            List<Contrato> contratoList = contratoRepo.listarContratosActivos();
-            return contratoList;
-        } catch (Exception e) {
-            throw new MiException(e.getMessage());
-        }
+    public List<Contrato> listarAceptados() {
+        List<Contrato> contratos = contratoRepositorio.listarAceptados();
+        return contratos;
     }
 
-    public Optional<Contrato> listarContratosPorId(String id) throws MiException {
-        try {
-            Optional<Contrato> contratoList = contratoRepo.findById(id);
-            return contratoList;
-        } catch (Exception e) {
-            throw new MiException(e.getMessage());
-        }
+    public List<Contrato> listarFinalizados() {
+        List<Contrato> contratos = contratoRepositorio.listarFinalizado() ;
+        return contratos;
     }
-
-
-    public List<Contrato> listarContratosPorProveedor(String idProveedor) throws MiException {
-        try {
-            List<Contrato> contratos = contratoRepo.listarContratosPorProveedor(idProveedor);
-            return contratos;
-
-        } catch (Exception e) {
-            throw new MiException(e.getMessage());
-        }
-    }
-
 
     public void validar(Estados state) throws MiException {
         if (state.equals(null) || state == null) {
@@ -166,7 +134,7 @@ public class ContratoServicios {
     }
 
     public Contrato getOne(String id) {
-        return contratoRepo.getOne(id);
+        return contratoRepositorio.getOne(id);
     }
 
 }
