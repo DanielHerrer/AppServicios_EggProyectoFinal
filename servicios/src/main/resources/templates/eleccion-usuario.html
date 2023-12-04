@@ -1,11 +1,11 @@
 <!-- @format -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<head>
 		<meta charset="utf-8" />
 
-		<title>servicio</title>
+		<title>Registrarse</title>
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -19,8 +19,8 @@
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
 		/>
-		<link rel="stylesheet" href="../static/css/style.css" />
-		<link rel="stylesheet" href="../static/css/login.css" />
+		<link rel="stylesheet" href="/css/style.css" />
+		<link rel="stylesheet" href="/css/login.css" />
 	</head>
 	<body>
 		<section id="home" class="hero-section">
@@ -35,10 +35,10 @@
 			<!-- imagen de fondo -->
 			<div
 				class="hero-section hero-style img-bg vh-100"
-				style="background-image: url('../static/img/hero-bg.svg')"
+				style="background-image: url('/img/hero-bg.svg')"
 			>
 				<!-- mensaje de exito y error -->
-				<!-- <div class="row">
+				<div class="row">
 					<div
 						th:if="${error != null}"
 						class="card text-white bg-danger mb-3 mensajeError"
@@ -57,7 +57,7 @@
 							<p class="card-text" th:text="${exito}"></p>
 						</div>
 					</div>
-				</div> -->
+				</div>
 				<div class="container">
 					<div class="row mt-5 d-flex justify-content-center">
 						<div class="col-md-8">
@@ -65,12 +65,12 @@
 								<h4 class="text-center">¿Como deseas registrarte?</h4>
 								<div class="row">
 									<div class="col-md-6">
-										<a href="registrar-proveedor.html">
+										<a href="/registrar/proveedor">
 											<div
 												class="card border-0 my-5 mx-2 text-center d-flex card-effect"
 											>
 												<img
-													src="../static/img/worker-icon.svg"
+													src="/img/worker-icon.svg"
 													alt=""
 													class="px-5 py-3 image-icon-user align-self-center"
 												/>
@@ -79,12 +79,12 @@
 										</a>
 									</div>
 									<div class="col-md-6">
-										<a href="registrar-usuario.html">
+										<a href="/registrar/cliente">
 											<div
 												class="card border-0 my-5 mx-2 text-center d-flex card-effect"
 											>
 												<img
-													src="../static/img/user-icon.svg"
+													src="/img/user-icon.svg"
 													alt=""
 													class="px-5 py-3 align-self-center image-icon-user"
 												/>

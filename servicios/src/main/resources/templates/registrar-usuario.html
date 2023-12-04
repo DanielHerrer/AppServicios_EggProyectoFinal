@@ -1,11 +1,9 @@
-<!-- @format -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<head>
 		<meta charset="utf-8" />
 
-		<title>servicio</title>
+		<title>Registrar Cliente</title>
 		<meta name="description" content="" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -19,8 +17,8 @@
 			rel="stylesheet"
 			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
 		/>
-		<link rel="stylesheet" href="../static/css/style.css" />
-		<link rel="stylesheet" href="../static/css/login.css" />
+		<link rel="stylesheet" href="/css/style.css" />
+		<link rel="stylesheet" href="/css/login.css" />
 	</head>
 	<body>
 		<section id="home" class="hero-section">
@@ -35,10 +33,10 @@
 			<!-- imagen de fondo -->
 			<div
 				class="hero-section hero-style img-bg"
-				style="background-image: url('../static/img/hero-bg.svg')"
+				style="background-image: url('/img/hero-bg.svg')"
 			>
 				<!-- mensaje de exito y error -->
-				<!-- <div class="row">
+				<div class="row">
 					<div
 						th:if="${error != null}"
 						class="card text-white bg-danger mb-3 mensajeError"
@@ -57,7 +55,7 @@
 							<p class="card-text" th:text="${exito}"></p>
 						</div>
 					</div>
-				</div> -->
+				</div>
 				<div class="container">
 					<div class="row d-flex justify-content-center">
 						<div class="col-md-6">
@@ -66,87 +64,61 @@
 									class="col-md-12 d-flex justify-content-center pb-3"
 									href="index.html"
 								>
-									<img src="../static/img/logo2.png" alt="Logo" />
+									<img src="/img/logo2.png" alt="Logo" />
 								</a>
 								<h4 class="text-center fw-bold text-center">
 									Registrar Usuario
 								</h4>
-								<form class="p-3">
-									<div class="mb-3">
-										<label for="exampleInputUser" class="form-label"
-											>Nombre Usuario</label
-										>
-										<input
-											type="text"
-											class="form-control"
-											id="exampleInputUser"
-											name="user"
-										/>
-									</div>
-									<div class="mb-3">
-										<label for="exampleInputName" class="form-label"
-											>Nombre Completo</label
-										>
-										<input
-											type="text"
-											class="form-control"
-											id="exampleInputName"
-											name="nombre"
-										/>
-									</div>
-									<div class="mb-3">
-										<label for="exampleInputEmail" class="form-label"
-											>Email</label
-										>
-										<input
-											type="email"
-											class="form-control"
-											id="exampleInputEmail1"
-											aria-describedby="emailHelp"
-											name="email"
-										/>
-									</div>
+								<form class="formulario px-5" th:action="@{/registro}" method="POST" enctype="multipart/form-data">
 
-									<div class="mb-3">
-										<label for="exampleInputPassword1" class="form-label"
-											>Password</label
-										>
-										<input
-											type="password"
-											class="form-control"
-											id="exampleInputPassword1"
-											name="password"
-										/>
+									<!-- ROL -->
+									<input type="hidden" name="rol" th:value="${rol}">
+
+									<div class="form-group my-0">
+										<label for="exampleInputUser" class="form-label">Nombre</label>
+										<input type="text" class="form-control" name="nombre"  th:value="${nombre}" id="exampleInputUser">
 									</div>
-									<div class="mb-3">
-										<label for="imageUser" class="form-label"
-											>Elige tu imagen de perfil</label
+									<div class="form-group my-0">
+										<label for="exampleInputEmail" class="form-label"
+										>Email</label
 										>
-										<input
-											class="form-control"
-											type="file"
-											id="imageUser"
-											name="foto"
-										/>
+										<input type="email" class="form-control" name="email"  th:value="${email}" id="exampleInputEmail">
 									</div>
-									<div class="mb-3">
-										<label for="exampleInputPassword1" class="form-label"
-											>Barrio</label
-										>
-										<select
-											class="form-select"
-											aria-label="Default select example"
-										>
-											<option value="1" selected>Barrio 1</option>
-											<option value="2">Barrio 2</option>
-											<option value="3">Barrio 3</option>
+									<div class="form-group my-0">
+										<label for="exampleInputUserName" class="form-label">Nombre Usuario</label>
+										<input type="text" class="form-control" name="accUsuario"  th:value="${accUsuario}" id="exampleInputUserName">
+									</div>
+									<div class="form-group my-0">
+										<label for="exampleInputUserName" class="form-label">Ubicación</label>
+										<select class="form-select" aria-label="Default select" name="ubicacion" th:value="${ubicacion}" required>
+											<option selected disabled value="">Ubicacion</option>
+											<option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion.name()}"></option>
 										</select>
 									</div>
 
+									<div class="form-group my-1">
+										<label for="imageUser" class="form-label"
+										>Elige tu imagen de perfil</label
+										>
+										<input type="file" class="form-control" name="archivo" id="imageUser" >
+									</div>
+
+
+									<div class="form-group my-1">
+										<label for="exampleInputPassword1" class="form-label"
+										>Password</label
+										>
+										<input type="password" class="form-control" name="password" th:value="${password}">
+									</div>
+									<div class="form-group my-3">
+										<label for="exampleInputPassword2" class="form-label"
+										>Repetir Password</label
+										>
+										<input type="password" class="form-control" name="password2" id="exampleInputPassword2" th:value="${password2}">
+									</div>
+
 									<div class="text-center mt-5">
-										<button type="submit" class="btn btn-primary">
-											Registrar
-										</button>
+										<button type="submit" class="btn btn-primary mt-3 botones">Registrarme</button>
 									</div>
 								</form>
 							</div>

@@ -119,10 +119,15 @@ public class ContratoControlador {
             return "";
         }
     }
+<<<<<<< HEAD
+    
+/*
+=======
 
     @PostMapping("/modificado/finalizado/{id}")
     public String modificadoContrato(@PathVariable String id, Estados estados, Calificacion calificacion, ModelMap modelo) {
 =======
+>>>>>>> 09b37bcf59d205b0e8d6c98f288c1af60c0a3f87
     @PostMapping("/modificar/{id}")
     public String modificarContrato(@PathVariable String id, Estados estados, Calificacion calificacion, ModelMap modelo) {
 >>>>>>> joaquin
@@ -135,4 +140,10 @@ public class ContratoControlador {
                   modelo.put("error", "Error al modificar el contrato.");
             return "";
         }
+<<<<<<< HEAD
+    }
+*/
+}
+=======
     }*/
+>>>>>>> 09b37bcf59d205b0e8d6c98f288c1af60c0a3f87

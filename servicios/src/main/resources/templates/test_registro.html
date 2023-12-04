@@ -35,13 +35,14 @@
                     <input type="email" class="form-control" name="email" placeholder="EMAIL" th:value="${email}">
                 </div>
                 <div class="form-group my-3">
-                    <input type="text" class="form-control" name="accUsuario" placeholder="ACC" th:value="${accUsuario}">
+                    <input type="text" class="form-control" name="accUsuario" placeholder="NOMBRE DE USUARIO" th:value="${accUsuario}">
                 </div>
 
                 <select class="form-select" aria-label="Default select" name="ubicacion" th:value="${rol}">
                     <option selected disabled>Ubicacion</option>
                     <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion.name()}"></option>
                 </select>
+
                 <select class="form-select" aria-label="Default select" name="rol" th:value="${rol}">
                     <option selected disabled>Rol</option>
                     <option th:each="rol : ${roles}" th:value="${rol}" th:text="${rol.name()}"></option>
