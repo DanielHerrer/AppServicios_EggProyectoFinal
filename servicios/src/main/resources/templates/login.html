@@ -1,7 +1,11 @@
 <!-- @format -->
 
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+=======
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>>>>>>> 99a8f37c858b0f07702d79eeeafd21001e67afe5
 	<head>
 		<meta charset="utf-8" />
 
@@ -26,10 +30,10 @@
 		<section id="home" class="hero-section">
 			<div
 				class="hero-section hero-style img-bg vh-100"
-				style="background-image: url('img/hero-bg.svg')"
+				style="background-image: url('/img/hero-bg.svg')"
 			>
 				<!-- mensaje de exito y error -->
-				<!-- <div class="row">
+				<div class="row">
 					<div
 						th:if="${error != null}"
 						class="card text-white bg-danger mb-3 mensajeError"
@@ -48,7 +52,9 @@
 							<p class="card-text" th:text="${exito}"></p>
 						</div>
 					</div>
-				</div> -->
+				</div>
+
+				<!-- contenido login -->
 				<div class="container">
 					<div class="row d-flex justify-content-center">
 						<div class="col-md-6">
@@ -57,7 +63,7 @@
 									class="col-md-12 d-flex justify-content-center pb-3"
 									href="/"
 								>
-									<img src="img/logo2.png" alt="Logo" />
+									<img src="/img/logo2.png" alt="Logo" />
 								</a>
 								<h3 class="text-center fw-bold text-center">Login</h3>
 								<form class="p-3" th:action="@{/logincheck}" method="POST">
@@ -70,7 +76,11 @@
 											class="form-control"	
                                                                                         id="exampleInputEmail1"
 											aria-describedby="emailHelp"
+<<<<<<< HEAD
 											name="Email"
+=======
+											name="email"
+>>>>>>> 99a8f37c858b0f07702d79eeeafd21001e67afe5
 										/>
 										<div id="emailHelp" class="form-text">
 											Tu informacion esta protegida.
@@ -96,18 +106,22 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12 d-flex justify-content-center">
-							<span class="fw-bolder">Si no te has registrado aun </span
+							<span class="fw-bolder">Si no te has registrado aún, </span
 							><a
 								class="link-primary fw-bolder mx-1"
 								href="/registrar"
 							>
-								registrate!</a
+								registrate aquí !</a
 							>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12 d-flex justify-content-end mb-2">
+<<<<<<< HEAD
 							<a class="btn btn-dark" href="/">volver</a>
+=======
+							<a class="btn btn-dark" href="/">Volver</a>
+>>>>>>> 99a8f37c858b0f07702d79eeeafd21001e67afe5
 						</div>
 					</div>
 				</div>
