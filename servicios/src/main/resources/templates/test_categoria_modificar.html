@@ -10,7 +10,10 @@
 
     <body>
         <div class="container-fluid m-5 contenedor">
-            <form class="formulario" action="/categoria/modificado/__{categoria.id}__" method="POST">
+            <form class="formulario" th:action="@{/categoria/modificado/__${categoria.id}__}" method="POST">
+                
+                <!--<input hidden th:value="${id}" name="id">-->
+                
                 <div th:if="${error} != null" class="card text-white bg-danger mb-3 mensajeError" >
                     <div class="card-body">
                         <h5 class="card-title">Error 👎</h5>

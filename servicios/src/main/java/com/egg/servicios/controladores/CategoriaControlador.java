@@ -60,22 +60,23 @@ public class CategoriaControlador {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/modificar/{id}") // revisar
     public String modificar(@PathVariable String id, ModelMap modelo) {
+        modelo.put("categoria", categoriaServicio.getOne(id));
         return "test_categoria_modificar.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/modificado/{id}")
-    public String modificado(@PathVariable String id, @RequestParam String nombre, ModelMap modelo){
+    public String modificado(@PathVariable String id, @RequestParam String nombre, ModelMap modelo) {
         try {
             categoriaServicio.modificarCategoria(id, nombre);
             modelo.put("exito", "La categoría se ha modificado con éxito!.");
             return "redirect:../listar";
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
-            return "redirect:../listar";
+            return "test_categoria_modificar.html";
         }
     }
-  
+
     public void cargarModeloCategorias(ModelMap modelo) {
         try {
             List<Categoria> categorias = categoriaServicio.listarCategorias();
