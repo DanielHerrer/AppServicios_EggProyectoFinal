@@ -32,8 +32,6 @@ public class ContratoControlador {
     @Autowired
     private ContratoServicios contratoService;
 
-
-
     @GetMapping("/registrar")
     public String guardarContrato(Estados estados, Oferta oferta, Calificacion aptitud, ModelMap modelo) {
 
@@ -45,7 +43,6 @@ public class ContratoControlador {
             modelo.put("error", "Error al registrar el contrato.");
             return "registrar.html";
         }
-
     }
 
     @GetMapping("/lista")
@@ -64,7 +61,6 @@ public class ContratoControlador {
         } catch (MiException e) {
             return "test_modificar_contra.html";
         }
-
     }
 
     @PostMapping("/estados/{id}")
@@ -79,7 +75,6 @@ public class ContratoControlador {
             modelo.put("error", "Error al modificar el contrato.");
             return "";
         }
-
     }
 
     @GetMapping("/eliminar/{id}")
@@ -91,11 +86,9 @@ public class ContratoControlador {
             modelo.put("error", ex.getMessage());
             return "";
         }
-
     }
-}
 
-/*    @GetMapping("/modificar/{id}")
+    @GetMapping("/modificar/{id}")
     public String modificarContrato(@PathVariable String id, ModelMap modelo) {
         try {
             modelo.put("contrato", contratoService.listarContratosPorId(id));
@@ -103,12 +96,10 @@ public class ContratoControlador {
         } catch (MiException e) {
             return "test_modificar_contra.html";
         }
-
     }
-    
-<<<<<<< HEAD
+
     @PostMapping("/modificado/{id}")
-    public String modificadoEstado(@PathVariable String id, Estados estados, ModelMap modelo) {
+    public String modificadoContrato(@PathVariable String id, Estados estados, ModelMap modelo) {
         try {
             contratoService.estadosDeContratos(id, estados);
             modelo.put("exito", "El Contrato fue modificado correctamente!");
@@ -120,12 +111,8 @@ public class ContratoControlador {
         }
     }
 
-    @PostMapping("/modificado/finalizado/{id}")
-    public String modificadoContrato(@PathVariable String id, Estados estados, Calificacion calificacion, ModelMap modelo) {
-=======
     @PostMapping("/modificar/{id}")
-    public String modificarContrato(@PathVariable String id, Estados estados, Calificacion calificacion, ModelMap modelo) {
->>>>>>> joaquin
+    public String finalizarContrato(@PathVariable String id, Estados estados, Calificacion calificacion, ModelMap modelo) {
         try {
             contratoService.contratoFinalizado(id, estados, calificacion);
             modelo.put("exito", "El Contrato fue modificado correctamente!");
@@ -135,4 +122,6 @@ public class ContratoControlador {
                   modelo.put("error", "Error al modificar el contrato.");
             return "";
         }
-    }*/
+    }
+
+}

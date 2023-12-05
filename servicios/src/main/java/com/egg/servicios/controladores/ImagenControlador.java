@@ -1,8 +1,8 @@
 package com.egg.servicios.controladores;
 
-
 import com.egg.servicios.entidades.Servicio;
 import com.egg.servicios.entidades.Usuario;
+import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.servicios.ServicioServicio;
 import com.egg.servicios.servicios.UsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/imagen")
 public class ImagenControlador {
-        
+
     @Autowired
     private UsuarioServicio usuarioServicio;
     @Autowired
     private ServicioServicio servicioServicio;
     
-    private ServicioServicio servicioService;
     
     @GetMapping("/usuario/{id}")//se pasa el id del usuario a travez del path
     public ResponseEntity<byte[]> imagenUsuario(@PathVariable String id) {//recibe el id del usuario al que esta vinculada la imagen.
@@ -52,24 +51,6 @@ public class ImagenControlador {
         return new ResponseEntity < >(imagen,headers,HttpStatus.OK);
     }
     
-    // @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     
-   @GetMapping("/Proveedor/{id}")
-    public ResponseEntity<byte[]> matriculaProveedor(@PathVariable String id) {
-        
-       Servicio service = servicioService.getOne(id);     
-       
-       Usuario user  = service.getProveedor(); 
-       
-      byte[] imagen = user.getImagen().getContenido();
-      HttpHeaders headers = new HttpHeaders();
-      
-      headers.setContentType(MediaType.IMAGE_JPEG);
 
-      return new ResponseEntity < >(imagen,headers,HttpStatus.OK);
-    } 
-    
-    
-    
-    
 }

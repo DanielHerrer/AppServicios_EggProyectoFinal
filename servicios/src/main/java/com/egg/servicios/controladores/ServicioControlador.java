@@ -46,7 +46,7 @@ public class ServicioControlador {
         Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
         modelo.addAttribute("proveedor", proveedor);
 
-        return "test_servicio_create.html";
+        return "registrar-servicio.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
@@ -65,7 +65,7 @@ public class ServicioControlador {
 
             modelo.put("exito", "El Servicio fue registrado correctamente!"); // carga el modelo con un mensaje exitoso
 
-            return "test_servicio_create.html";
+            return "registrar-servicio.html";
 
         } catch (MiException ex) {
 
@@ -82,7 +82,7 @@ public class ServicioControlador {
             modelo.put("idCategoria", idCategoria);
             modelo.put("idProveedor", idProveedor);
 
-            return "test_servicio_create.html"; // volvemos a cargar el formulario
+            return "registrar-servicio.html"; // volvemos a cargar el formulario
         }
 
     }
@@ -146,11 +146,11 @@ public class ServicioControlador {
             modelo.addAttribute("servicios",servicios);
             modelo.addAttribute("puntuaciones",puntuaciones);
 
-            return "test_servicio_read.html";
+            return "listar-servicios.html";
 
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
-            return "test_servicio_read.html";
+            return "listar-servicios.html";
         }
 
     }
@@ -165,7 +165,7 @@ public class ServicioControlador {
 
         modelo.addAttribute("servicios",servicios);
 
-        return "test_servicio_read.html";
+        return "listar-servicios.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
