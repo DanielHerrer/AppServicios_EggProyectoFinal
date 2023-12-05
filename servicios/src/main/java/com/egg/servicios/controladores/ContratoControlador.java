@@ -93,9 +93,9 @@ public class ContratoControlador {
     }
 
     @PostMapping("/estados/{id}")
-    public String modificarEstados(@PathVariable String id, Estados estados, ModelMap modelo) {
+    public String modificarEstados(@PathVariable String id, Estados estado, ModelMap modelo) {
         try {
-            contratoServicio.modificarContrato(id);
+            contratoServicio.modificarContrato(id,estado);
             modelo.put("exito", "El Contrato fue modificado correctamente!");
             return "HTML";
         } catch (MiException ex) {

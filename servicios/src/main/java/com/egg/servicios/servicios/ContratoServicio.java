@@ -60,14 +60,14 @@ public class ContratoServicio {
         }
     }
 
-    public void modificarContrato(String idContrato) throws MiException {
+    public void modificarContrato(String idContrato, Estados estado) throws MiException {
         Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
         Contrato contrato = new Contrato();
         
 
         if (respuestaContrato.isPresent()) {
             contrato = respuestaContrato.get();
-            contrato.setEstadoTrabajo(Estados.ACEPTADO);
+            contrato.setEstadoTrabajo(estado);
 
             contratoRepositorio.save(contrato);
         }
@@ -132,8 +132,8 @@ public class ContratoServicio {
         return contratos;
     }
     
-    public void validar(Estados state) throws MiException {
-        if (state.equals(null) || state == null) {
+    public void validar(Estados estado) throws MiException {
+        if (estado.equals(null) || estado == null) {
             throw new MiException("El Estado no puede ser nulo !");
         }
 
