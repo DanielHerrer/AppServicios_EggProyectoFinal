@@ -9,6 +9,8 @@ import com.egg.servicios.entidades.Contrato;
 import com.egg.servicios.entidades.Oferta;
 import com.egg.servicios.enumeraciones.Estados;
 import com.egg.servicios.excepciones.MiException;
+import com.egg.servicios.servicios.OfertaServicio;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+// NO BORRAR
 //        Arbol de trabajo de Servicio/Oferta/Contrato/Calificacion
 //        -----------
 //        El Servicio es ofertado por el Cliente =>
@@ -43,24 +46,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ContratoControlador {
 
     @Autowired
-    private ContratoServicios contratoService;
-
-    @GetMapping("/registrar")
-    public String guardarContrato(Estados estados, Oferta oferta, Calificacion aptitud, ModelMap modelo) {
-
-        try {
-            contratoService.guardarContrato(estados, oferta, aptitud);
-            modelo.put("exito", "El Contrato fue cargado correctamente!");
-            return "inicio.html";
-        } catch (MiException e) {
-            modelo.put("error", "Error al registrar el contrato.");
-            return "registrar.html";
-        }
-    }
+    private ContratoServicios contratoServicio;
+    @Autowired
+    private OfertaServicio ofertaServicio;
 
     @GetMapping("/lista")
     public String listar(ModelMap modelo) throws MiException {
-        List<Contrato> listaContra = contratoService.listarContratos();
+        List<Contrato> listaContra = contratoServicio.listarContratos();
         modelo.addAttribute("listaContra", listaContra);
 
         return "test_contrato_lista.html";
@@ -69,7 +61,7 @@ public class ContratoControlador {
     @GetMapping("/estados/{id}")
     public String modificarEstados(@PathVariable String id, ModelMap modelo) {
         try {
-            modelo.put("contrato", contratoService.listarContratosPorId(id));
+            modelo.put("contrato", contratoServicio.listarContratosPorId(id));
             return "test_contra_lista.html";
         } catch (MiException e) {
             return "test_modificar_contra.html";
@@ -79,7 +71,7 @@ public class ContratoControlador {
     @PostMapping("/estados/{id}")
     public String modificarEstados(@PathVariable String id, Estados estados, ModelMap modelo) {
         try {
-            contratoService.modificarEstadoContrato(id, estados);
+            contratoServicio.modificarEstadoContrato(id, estados);
             modelo.put("exito", "El Contrato fue modificado correctamente!");
             return "redirect:..";
         } catch (MiException e) {
@@ -93,7 +85,7 @@ public class ContratoControlador {
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable String id, ModelMap modelo) {
         try {
-            contratoService.altaBajaContrato(id);
+            contratoServicio.altaBajaContrato(id);
             return "redirect:.../lista";
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
@@ -104,7 +96,7 @@ public class ContratoControlador {
     @GetMapping("/modificar/{id}")
     public String modificarContrato(@PathVariable String id, ModelMap modelo) {
         try {
-            modelo.put("contrato", contratoService.listarContratosPorId(id));
+            modelo.put("contrato", contratoServicio.listarContratosPorId(id));
             return "test_modificar_contra.html";
         } catch (MiException e) {
             return "test_modificar_contra.html";
@@ -114,7 +106,7 @@ public class ContratoControlador {
     @PostMapping("/modificado/{id}")
     public String modificadoContrato(@PathVariable String id, Estados estados, ModelMap modelo) {
         try {
-            contratoService.estadosDeContratos(id, estados);
+            contratoServicio.estadosDeContratos(id, estados);
             modelo.put("exito", "El Contrato fue modificado correctamente!");
             return "redirect:..";
         } catch (MiException e) {
@@ -127,7 +119,7 @@ public class ContratoControlador {
     @PostMapping("/modificar/{id}")
     public String finalizarContrato(@PathVariable String id, Estados estados, Calificacion calificacion, ModelMap modelo) {
         try {
-            contratoService.contratoFinalizado(id, estados, calificacion);
+            contratoServicio.contratoFinalizado(id, estados, calificacion);
             modelo.put("exito", "El Contrato fue modificado correctamente!");
             return "redirect:..";
         } catch (MiException e) {

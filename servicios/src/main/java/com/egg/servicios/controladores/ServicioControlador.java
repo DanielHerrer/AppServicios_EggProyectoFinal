@@ -38,7 +38,7 @@ public class ServicioControlador {
     private CalificacionServicio calificacionServicio;
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @GetMapping("/proveedor/registrar") // localhost:8080/servicio/proveedor/registrar
+    @GetMapping("/registrar") // localhost:8080/servicio/proveedor/registrar
     public String registrarServicio(ModelMap modelo, HttpSession session) {
 
         cargarModeloConCategorias(modelo);
@@ -49,8 +49,8 @@ public class ServicioControlador {
         return "registrar-servicio.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @PostMapping("/proveedor/registro") // localhost:8080/servicio/proveedor/registro
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+    @PostMapping("/registro") // localhost:8080/servicio/registro
     public String registroServicio(@RequestParam String descripcion, @RequestParam Double honorariosHora,
                            MultipartFile matricula, @RequestParam String idCategoria,
                            @RequestParam String idProveedor, ModelMap modelo, HttpSession session) {
@@ -87,8 +87,8 @@ public class ServicioControlador {
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_ADMIN')")
-    @PostMapping("/cliente/contratar") // localhost:8080/servicio/cliente/contratar
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
+    @PostMapping("/contratar") // localhost:8080/servicio/contratar
     public String registroContrato(@RequestParam String descripcion, @RequestParam String idServicio,
                                   ModelMap modelo, HttpSession session) {
 
@@ -156,7 +156,7 @@ public class ServicioControlador {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @GetMapping("/proveedor/listar")
+    @GetMapping("/listar/proveedor")
     public String listarServiciosProveedor(ModelMap modelo, HttpSession session) {
 
         Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
@@ -169,21 +169,22 @@ public class ServicioControlador {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @GetMapping("/proveedor/modificar/{id}")
+    @GetMapping("/modificar/{id}")
     public String modificarServicio(@PathVariable String id, ModelMap modelo, HttpSession session) {
 
 //        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
 //        modelo.put("usuario", usuario);
 
-        modelo.put("id", id);
+        Servicio servicio = servicioServicio.listarPorId(id);
+        modelo.put("servicio", servicio);
 
         cargarModeloConCategorias(modelo);
 
         return "test_servicio_update.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @PostMapping("/proveedor/modificado/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+    @PostMapping("/modificado/{id}")
     public String modificado(@PathVariable String id, @RequestParam String descripcion,
                             @RequestParam Double honorariosHora, MultipartFile matricula,
                             @RequestParam String idCategoria, @RequestParam String idProveedor, ModelMap modelo) {
@@ -195,10 +196,11 @@ public class ServicioControlador {
 
             modelo.put("exito","Servicio actualizado correctamente!");
 
-            return "test_servicio_update.html";
+            return "test_servicio_read.html";
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
+            modelo.put("id", id);
             modelo.put("descripcion", descripcion);
             modelo.put("honorariosHora", honorariosHora);
             modelo.put("matricula", matricula);
