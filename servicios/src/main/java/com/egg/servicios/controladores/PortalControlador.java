@@ -33,7 +33,7 @@ public class PortalControlador {
     @GetMapping("/")//mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
     public String index() {
 
-        return "test_index.html";
+      return "test_index.html";
     }
 
     @GetMapping("/registrar")
@@ -41,7 +41,7 @@ public class PortalControlador {
 
         modelo.addAttribute("roles", Rol.values());
         modelo.addAttribute("ubicaciones", Ubicacion.values());
-        return "test_registro.html";
+          return "registrar-usuario.html";
     }
 
     @PostMapping("/registro")

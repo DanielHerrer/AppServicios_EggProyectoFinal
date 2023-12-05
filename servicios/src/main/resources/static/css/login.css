@@ -1,16 +1,26 @@
 /** @format */
 
+label{
+    font-size: 14px !important;
+}
 .card-login {
 	border-radius: 30px !important;
-	background-color: rgba(255, 255, 255, 0.5);
+	
+	background: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0.3) 0%,
+		rgba(170, 219, 254, 0.6) 100%
+	);
+
 }
+
 /* 
 .card-login input {
 	border: 1px solid rgba(108, 168, 236, 0.603);
 } */
 
 .hero-section .hero-style {
-	padding: 40px 0 0;
+	padding: 20px 0 0;
 }
 .hero-section {
 	height: 100%;
@@ -18,7 +28,7 @@
 
 .image-icon-user {
 	width: 250px;
-	fill: purple !important;
+	
 }
 .card-effect {
 	background-color: rgba(179, 209, 250, 0.8);
@@ -32,4 +42,12 @@
 
 .hero-section {
 	overflow: visible;
+}
+
+label{
+    margin-bottom: 0!important;
+}
+input , select{
+    height:35px;
+    background-color: rgba(255,255,255,0.7);
 }
