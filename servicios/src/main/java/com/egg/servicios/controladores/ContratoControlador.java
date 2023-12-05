@@ -21,6 +21,19 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+//        Arbol de trabajo de Servicio/Oferta/Contrato/Calificacion
+//        -----------
+//        El Servicio es ofertado por el Cliente =>
+//        El Cliente genera una Oferta =>
+//        Se genera un Contrato con toda la info =>
+//        Ambos usuarios mostrarían sus Contratos =>
+//        El Proveedor debe aceptar o rechazar el Contrato =>
+//        El Cliente va a poder ver el estado de su Contrato =>
+//        ----------------
+//        El Proveedor acepta el Contrato =>
+//        El Proveedor finaliza el Contrato =>
+//        El Cliente califica el Contrato=>
+
 /**
  *
  * @author joaquin
