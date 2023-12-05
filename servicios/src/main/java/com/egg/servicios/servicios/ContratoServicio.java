@@ -79,10 +79,10 @@ public class ContratoServicio {
         }
     }
 
-    public void calificarContrato(String idContrato, Calificacion calificacion, Estados estado) throws MiException {
+    public void calificarContrato(String idContrato, Calificacion calificacion,Estados estado) throws MiException {
         Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
         Contrato contrato = new Contrato();
-
+        
         if (respuestaContrato.isPresent()) {
             contrato = respuestaContrato.get();
             contrato.setEstadoTrabajo(estado.FINALIZADO);
@@ -128,7 +128,12 @@ public class ContratoServicio {
     }
 
     public List<Contrato> listarProveedores(String idProveedor) {
-        List<Contrato> contratos = contratoRepositorio.listarProveedor(idProveedor);
+        List<Contrato> contratos = listaCompleta();
+        return contratos;
+    }
+    
+    public List<Contrato> ListarClientes(String idCliente){
+        List<Contrato> contratos = listaCompleta();
         return contratos;
     }
     

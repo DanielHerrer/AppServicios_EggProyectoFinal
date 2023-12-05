@@ -96,10 +96,14 @@ public class PortalControlador {
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam(required = false) String error, ModelMap modelo) {
-
+    public String login(@RequestParam(required = false) String error, ModelMap modelo,HttpSession session) {
+            
+        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
         if (error != null) {
             modelo.put("error", "Usuario o Contraseña invalidos!");
+        }
+        if (logueado != null) {
+            return "redirect:/inicio";
         }
 
         return "login.html";
