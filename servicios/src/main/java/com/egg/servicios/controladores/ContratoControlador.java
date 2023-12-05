@@ -30,7 +30,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ContratoControlador {
 
     @Autowired
+<<<<<<< HEAD
     private ContratoServicio contratoServicio;
+=======
+    private ContratoServicios contratoService;
+>>>>>>> 99a8f37c858b0f07702d79eeeafd21001e67afe5
 
     @GetMapping("/registrar")
     public String crearContratoAlta(ModelMap modelo) {
@@ -41,6 +45,7 @@ public class ContratoControlador {
     public String crearContrato(ModelMap modelo, @PathVariable String idOferta) throws MiException {
 
         try {
+<<<<<<< HEAD
             contratoServicio.crearContrato(idOferta);
             modelo.put("exito", "El contrato se creo correctamente!");
 
@@ -49,6 +54,15 @@ public class ContratoControlador {
             return "test_contrato_registrar";
         }
         return "test.html";
+=======
+            contratoService.guardarContrato(estados, oferta, aptitud);
+            modelo.put("exito", "El Contrato fue cargado correctamente!");
+            return "inicio.html";
+        } catch (MiException e) {
+            modelo.put("error", "Error al registrar el contrato.");
+            return "registrar.html";
+        }
+>>>>>>> 99a8f37c858b0f07702d79eeeafd21001e67afe5
     }
 
     @GetMapping("/lista")
@@ -87,9 +101,19 @@ public class ContratoControlador {
     }
 
     @GetMapping("/estados/{id}")
+<<<<<<< HEAD
     public String modificar(@PathVariable String id, ModelMap modelo) {
         modelo.put("contrato", contratoServicio.getOne(id));
         return "HTML";
+=======
+    public String modificarEstados(@PathVariable String id, ModelMap modelo) {
+        try {
+            modelo.put("contrato", contratoService.listarContratosPorId(id));
+            return "test_contra_lista.html";
+        } catch (MiException e) {
+            return "test_modificar_contra.html";
+        }
+>>>>>>> 99a8f37c858b0f07702d79eeeafd21001e67afe5
     }
 
     @PostMapping("/estados/{id}")
@@ -97,14 +121,70 @@ public class ContratoControlador {
         try {
             contratoServicio.modificarContrato(id,estado);
             modelo.put("exito", "El Contrato fue modificado correctamente!");
+<<<<<<< HEAD
             return "HTML";
+=======
+            return "redirect:..";
+        } catch (MiException e) {
+
+            System.out.println("");
+            modelo.put("error", "Error al modificar el contrato.");
+            return "";
+        }
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable String id, ModelMap modelo) {
+        try {
+            contratoService.altaBajaContrato(id);
+            return "redirect:.../lista";
+>>>>>>> 99a8f37c858b0f07702d79eeeafd21001e67afe5
         } catch (MiException ex) {
 
             System.out.println("");
             modelo.put("error", ex.getMessage());
             return "HTML";
         }
+    }
 
+<<<<<<< HEAD
+}
+=======
+    @GetMapping("/modificar/{id}")
+    public String modificarContrato(@PathVariable String id, ModelMap modelo) {
+        try {
+            modelo.put("contrato", contratoService.listarContratosPorId(id));
+            return "test_modificar_contra.html";
+        } catch (MiException e) {
+            return "test_modificar_contra.html";
+        }
+    }
+
+    @PostMapping("/modificado/{id}")
+    public String modificadoContrato(@PathVariable String id, Estados estados, ModelMap modelo) {
+        try {
+            contratoService.estadosDeContratos(id, estados);
+            modelo.put("exito", "El Contrato fue modificado correctamente!");
+            return "redirect:..";
+        } catch (MiException e) {
+            System.out.println("");
+                  modelo.put("error", "Error al modificar el contrato.");
+            return "";
+        }
+    }
+
+    @PostMapping("/modificar/{id}")
+    public String finalizarContrato(@PathVariable String id, Estados estados, Calificacion calificacion, ModelMap modelo) {
+        try {
+            contratoService.contratoFinalizado(id, estados, calificacion);
+            modelo.put("exito", "El Contrato fue modificado correctamente!");
+            return "redirect:..";
+        } catch (MiException e) {
+            System.out.println("");
+                  modelo.put("error", "Error al modificar el contrato.");
+            return "";
+        }
     }
 
 }
+>>>>>>> 99a8f37c858b0f07702d79eeeafd21001e67afe5

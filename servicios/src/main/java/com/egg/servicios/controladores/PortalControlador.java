@@ -102,7 +102,7 @@ public class PortalControlador {
             modelo.put("error", "Usuario o Contraseña invalidos!");
         }
 
-        return "test_login.html";
+        return "login.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")

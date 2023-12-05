@@ -162,10 +162,11 @@ public class UsuarioServicio implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Usuario usuario = (Usuario) usuarioRepositorio.findByEmail(email);
+        Optional<Usuario> user = usuarioRepositorio.findByEmail(email);
 
-        if (usuario != null) {
+        if (user.isPresent()) {
 
+            Usuario usuario = user.get();
             List<GrantedAuthority> permisos = new ArrayList();
 
             GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
@@ -180,19 +181,20 @@ public class UsuarioServicio implements UserDetailsService {
             session.setAttribute("usuarioSession", usuario);
 
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);
+
         } else {
-            return null;
+            throw new UsernameNotFoundException("Usuario no encontrado con email: " + email);
         }
 
     }
 
     public boolean existsByAccUsuario(String accUsuario) throws MiException {
         try {
-            List<Usuario> usuarios = usuarioRepositorio.findByAccUsuario(accUsuario);
-            if (usuarios.isEmpty()) {
-                return false;
-            } else {
+            Optional<Usuario> usuario = usuarioRepositorio.findByAccUsuario(accUsuario);
+            if (usuario.isPresent()) {
                 return true;
+            } else {
+                return false;
             }
         } catch (Exception e) {
             throw new MiException(e.getMessage());
@@ -201,11 +203,11 @@ public class UsuarioServicio implements UserDetailsService {
 
     public boolean existsByEmail(String email) throws MiException {
         try {
-            List<Usuario> usuarios = usuarioRepositorio.findByEmail(email);
-            if (usuarios.isEmpty()) {
-                return false;
-            } else {
+            Optional<Usuario> usuario = usuarioRepositorio.findByEmail(email);
+            if (usuario.isPresent()) {
                 return true;
+            } else {
+                return false;
             }
         } catch (Exception e) {
             throw new MiException(e.getMessage());
