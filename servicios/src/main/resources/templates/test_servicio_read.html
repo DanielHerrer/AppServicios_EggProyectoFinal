@@ -193,55 +193,7 @@
 						</div>
 						<div class="row border-top py-2">
 							<div class="col-12 py-2 text-center">
-								<button
-										class="btn btn-sm boton-card"
-										data-bs-toggle="modal"
-										th:data-bs-target="'#ofertaModal_' + ${iterStat.index}">
-									Contratar
-								</button>
-							</div>
-						</div>
-						<!-- =========================== MODAL CONTRATAR SERVICIO =========================== -->
-						<div
-								class="modal fade"
-								th:id="'ofertaModal_' + ${iterStat.index}"
-								tabindex="-1"
-								aria-labelledby="exampleModalLabel"
-								aria-hidden="true"
-						>
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h1 class="modal-title fs-5" id="exampleModalLabel">
-											Contratar Servicio
-										</h1>
-										<button
-												type="button"
-												class="btn-close"
-												data-bs-dismiss="modal"
-												aria-label="Close"
-										></button>
-									</div>
-									<div class="modal-body text-center">
-										<h4 class="modal-title">Registrar Oferta</h4>
-										<form id="form-oferta" action="/servicio/contratar" method="POST">
-											<input type="text" name="idServicio" id="idServicio" th:value="${servicio.id}" hidden>
-											<label for="descripcion">Descripcion</label>
-											<textarea rows="4" style="resize: none;" name="descripcion" id="descripcion" required></textarea>
-
-											<button class="btn-oferta" type="submit">Solicitar Contrato</button>
-										</form>
-									</div>
-									<div class="modal-footer">
-										<button
-												type="button"
-												class="btn btn-secondary"
-												data-bs-dismiss="modal"
-										>
-											Close
-										</button>
-									</div>
-								</div>
+								<!-- Sin boton de Contratar ya que esta vista es para GUESTS -->
 							</div>
 						</div>
 					</div>
@@ -298,9 +250,9 @@
 					<div class="footer-widget">
 						<h6>Enlaces</h6>
 						<ul class="links">
-							<li><a href="/index.html">Home</a></li>
+							<li><a href="/inicio">Home</a></li>
 							<li><a href="/">Nosotros</a></li>
-							<li><a href="#servicios">servicios</a></li>
+							<li><a href="/servicio/listar">servicios</a></li>
 							<li><a href="/">Perfil</a></li>
 						</ul>
 					</div>
@@ -344,6 +296,8 @@
 
 <!-- =========================== CSS =========================== -->
 <style>
+	/* estilos de los modales*/
+
 	.cerrar-modal {
         border-style: none;
         float: right;
