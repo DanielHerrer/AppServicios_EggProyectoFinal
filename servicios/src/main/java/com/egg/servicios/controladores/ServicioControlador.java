@@ -38,7 +38,7 @@ public class ServicioControlador {
     private CalificacionServicio calificacionServicio;
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @GetMapping("/proveedor/registrar") // localhost:8080/servicio/proveedor/registrar
+    @GetMapping("/registrar") // localhost:8080/servicio/proveedor/registrar
     public String registrarServicio(ModelMap modelo, HttpSession session) {
 
         cargarModeloConCategorias(modelo);
@@ -49,8 +49,8 @@ public class ServicioControlador {
         return "registrar-servicio.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @PostMapping("/proveedor/registro") // localhost:8080/servicio/proveedor/registro
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+    @PostMapping("/registro") // localhost:8080/servicio/registro
     public String registroServicio(@RequestParam String descripcion, @RequestParam Double honorariosHora,
                            MultipartFile matricula, @RequestParam String idCategoria,
                            @RequestParam String idProveedor, ModelMap modelo, HttpSession session) {
@@ -87,8 +87,8 @@ public class ServicioControlador {
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_ADMIN')")
-    @PostMapping("/cliente/contratar") // localhost:8080/servicio/cliente/contratar
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
+    @PostMapping("/contratar") // localhost:8080/servicio/contratar
     public String registroContrato(@RequestParam String descripcion, @RequestParam String idServicio,
                                   ModelMap modelo, HttpSession session) {
 
@@ -99,12 +99,12 @@ public class ServicioControlador {
             Oferta oferta = ofertaServicio.crearOferta(descripcion, idServicio, cliente.getId());
 
             contratoServicio.crearContrato(oferta);
-            return "test_servicio_read.html";
+            return "redirect:../listar/cliente";
 
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
-            return "test_servicio_read.html";
+            return "redirect:../listar/cliente";
         }
 
     }
@@ -113,40 +113,15 @@ public class ServicioControlador {
     public String listarServicios(ModelMap modelo) {
 
         try {
+            // Se carga la lista de servicios en su totalidad
             List<Servicio> servicios = servicioServicio.listarServicios();
             // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
-            List<Integer> puntuaciones = new ArrayList<>();
-
-            // Recorre cada servicio mostrado
-            for (Servicio servicio : servicios) {
-
-                // Del servicio actual, busca el id del proveedor, y retorna los contratos de ese proveedor
-                List<Contrato> contratos = contratoServicio.listarContratosPorProveedor(servicio.getProveedor().getId());
-                int cantEstrellas = 0;
-                int cantCalificaciones = 0;
-
-                // Recorre cada contrato del proveedor actual
-                for (Contrato contrato : contratos) {
-
-                    // Si el contrato fue finalizado y su puntuacion ya esta publicada
-                    if (contrato.getEstadoTrabajo().equals(Estados.FINALIZADO) && contrato.getAptitud() != null) {
-                        // 1 puntuacion mas
-                        cantCalificaciones ++;
-                        // Se acumula la cantidad de estrellas recibidas
-                        cantEstrellas += contrato.getAptitud().getPuntuacion();
-                    }
-                }
-
-                // Se realiza un promedio de puntuacion
-                int promedioProveedor = cantCalificaciones != 0 ? cantEstrellas / cantCalificaciones : 0;
-                // Se añade el promedio del proveedor
-                puntuaciones.add(promedioProveedor);
-            }
+            List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
 
             modelo.addAttribute("servicios",servicios);
             modelo.addAttribute("puntuaciones",puntuaciones);
 
-            return "listar-servicios.html";
+            return "test_servicio_read.html";
 
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
@@ -155,35 +130,58 @@ public class ServicioControlador {
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @GetMapping("/proveedor/listar")
-    public String listarServiciosProveedor(ModelMap modelo, HttpSession session) {
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
+    @GetMapping("/listar/cliente")
+    public String listarServiciosCliente(ModelMap modelo, HttpSession session) {
 
-        Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
+        try {
+            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+            modelo.put("usuario", usuario);
 
-        List<Servicio> servicios = servicioServicio.listarServiciosPorProveedor(proveedor.getId());
+            // Se carga la lista de servicios evitando mostrar servicios ya solicitados por el cliente
+            List<Servicio> servicios = servicioServicio.listarServiciosPorCliente(usuario.getId());
+            // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
+            List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
 
-        modelo.addAttribute("servicios",servicios);
+            modelo.addAttribute("servicios",servicios);
+            modelo.addAttribute("puntuaciones",puntuaciones);
 
-        return "listar-servicios.html";
+            return "test_servicio_cliente_read.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "test_servicio_cliente_read.html";
+        }
+
     }
 
+//    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+//    @GetMapping("/proveedor/listar")
+//    public String listarServiciosProveedor(ModelMap modelo, HttpSession session) {
+//
+//        Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
+//
+//        List<Servicio> servicios = servicioServicio.listarServiciosPorProveedor(proveedor.getId());
+//
+//        modelo.addAttribute("servicios",servicios);
+//
+//        return "listar-servicios.html";
+//    }
+
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @GetMapping("/proveedor/modificar/{id}")
+    @GetMapping("/modificar/{id}")
     public String modificarServicio(@PathVariable String id, ModelMap modelo, HttpSession session) {
 
-//        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-//        modelo.put("usuario", usuario);
-
-        modelo.put("id", id);
+        Servicio servicio = servicioServicio.listarPorId(id);
+        modelo.put("servicio", servicio);
 
         cargarModeloConCategorias(modelo);
 
         return "test_servicio_update.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @PostMapping("/proveedor/modificado/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+    @PostMapping("/modificado/{id}")
     public String modificado(@PathVariable String id, @RequestParam String descripcion,
                             @RequestParam Double honorariosHora, MultipartFile matricula,
                             @RequestParam String idCategoria, @RequestParam String idProveedor, ModelMap modelo) {
@@ -195,10 +193,11 @@ public class ServicioControlador {
 
             modelo.put("exito","Servicio actualizado correctamente!");
 
-            return "test_servicio_update.html";
+            return "test_servicio_read.html";
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
+            modelo.put("id", id);
             modelo.put("descripcion", descripcion);
             modelo.put("honorariosHora", honorariosHora);
             modelo.put("matricula", matricula);
@@ -219,6 +218,40 @@ public class ServicioControlador {
 
             modelo.put("error", ex.getMessage());
         }
+    }
+
+    public List<Integer> cargarListaPuntuacionesServicios(List<Servicio> servicios) throws MiException {
+
+        // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
+        List<Integer> puntuaciones = new ArrayList<>();
+
+        // Recorre cada servicio mostrado
+        for (Servicio servicio : servicios) {
+
+            // Del servicio actual, busca el id del proveedor, y retorna los contratos de ese proveedor
+            List<Contrato> contratos = contratoServicio.listarContratosPorProveedor(servicio.getProveedor().getId());
+            int cantEstrellas = 0;
+            int cantCalificaciones = 0;
+
+            // Recorre cada contrato del proveedor actual
+            for (Contrato contrato : contratos) {
+
+                // Si el contrato fue finalizado y su puntuacion ya esta publicada
+                if (contrato.getEstadoTrabajo().equals(Estados.FINALIZADO) && contrato.getAptitud() != null) {
+                    // 1 puntuacion mas
+                    cantCalificaciones ++;
+                    // Se acumula la cantidad de estrellas recibidas
+                    cantEstrellas += contrato.getAptitud().getPuntuacion();
+                }
+            }
+
+            // Se realiza un promedio de puntuacion
+            int promedioProveedor = cantCalificaciones != 0 ? cantEstrellas / cantCalificaciones : 0;
+            // Se añade el promedio del proveedor
+            puntuaciones.add(promedioProveedor);
+        }
+
+        return puntuaciones;
     }
 
 }

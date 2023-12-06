@@ -55,7 +55,6 @@ public class ContratoServicios {
         }
     }
 
-
     @Transactional
     public void guardarContrato(Estados estados, Oferta oferta, Calificacion aptitud) throws MiException {
 
