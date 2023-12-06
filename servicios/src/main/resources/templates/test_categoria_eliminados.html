@@ -14,7 +14,6 @@
                     <th scope="col">id</th>
                     <th scope="col">Nombre</th>
                     <th scope="col" sec:authorize="hasRole('ADMIN')" >Acciones</th>
-                    <th scope="col">Eliminar</th>
                 </tr>
             </thead>
 
@@ -23,10 +22,7 @@
                     <th scope="row" th:text="${categoria.id}"></th>
                     <td th:text="${categoria.nombre}"></td>
                     <td sec:authorize="hasRole('ADMIN')">
-                        <a th:href= "@{/categoria/modificar/__${categoria.id}__}"><i class="fas fa-feather-alt"></i> Modificar </a>
-                    </td>
-                    <td sec:authorize="hasRole('ADMIN')">
-                        <a th:href= "@{/categoria/eliminado/__${categoria.id}__}"><i class="fas fa-feather-alt"></i> Eliminar </a>
+                        <a th:href= "@{/categoria/estado/__${categoria.id}__}"><i class="fas fa-feather-alt"></i> Restaurar </a>
                     </td>
                 </tr>
             </tbody>

@@ -54,15 +54,23 @@ public class CategoriaServicio {
             throw new MiException(e.getMessage());
         }
     }
-    
-        public List<Categoria> listarCategoriasPorNombre(String nombre) throws MiException {
+
+    public List<Categoria> listarCategoriasBaja() throws MiException {
+        try {
+            return categoriaRepositorio.listarCategoriasBaja();
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
+    public List<Categoria> listarCategoriasPorNombre(String nombre) throws MiException {
         try {
             return categoriaRepositorio.findByNombre(nombre);
         } catch (Exception e) {
             throw new MiException(e.getMessage());
         }
     }
-    
+
     public Categoria getOne(String id) {
         return (Categoria) categoriaRepositorio.getOne(id);
     }
@@ -104,4 +112,21 @@ public class CategoriaServicio {
             throw new MiException(e.getMessage());
         }
     }
+
+    @Transactional
+    public void estadoCategoria(String id) throws MiException {
+        Optional<Categoria> respuesta = categoriaRepositorio.findById(id);
+        try {
+            if (respuesta.isPresent()) {
+                Categoria categoria = respuesta.get();
+                categoria.setAlta(true);
+                categoriaRepositorio.save(categoria);
+            } else {
+                throw new MiException("El ID Categoría no corresponde a ninguna categoría existente.");
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
 }

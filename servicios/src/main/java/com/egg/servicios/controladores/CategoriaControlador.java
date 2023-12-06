@@ -58,7 +58,7 @@ public class CategoriaControlador {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/modificar/{id}") // revisar
+    @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo) {
         modelo.put("categoria", categoriaServicio.getOne(id));
         return "test_categoria_modificar.html";
@@ -97,4 +97,30 @@ public class CategoriaControlador {
             return "redirect:../listar";
         }
     }
+
+    @GetMapping("/estado")
+    public String listarCategoriasEstado(ModelMap modelo) {
+        try {
+            List<Categoria> categorias = categoriaServicio.listarCategoriasBaja();
+            modelo.addAttribute("categorias", categorias);
+            return "test_categoria_eliminados.html";
+        } catch (MiException e) {
+            modelo.put("error", e.getMessage());
+            return "test_categoria_eliminados.html";
+        }
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/estado/{id}")
+    public String estado(@PathVariable String id, ModelMap modelo
+    ) {
+        try {
+            categoriaServicio.estadoCategoria(id);
+            return "redirect:../listar";
+        } catch (MiException e) {
+            modelo.put("error", e.getMessage());
+            return "redirect:../listar";
+        }
+    }
+
 }
