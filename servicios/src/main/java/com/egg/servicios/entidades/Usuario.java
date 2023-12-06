@@ -1,16 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.egg.servicios.entidades;
 
 import com.egg.servicios.enumeraciones.Rol;
+import com.egg.servicios.enumeraciones.Ubicacion;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -18,40 +18,44 @@ import org.hibernate.annotations.GenericGenerator;
  * @author Nico
  */
 @Entity
+@Table(name = "usuarios")
 public class Usuario {
 
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-    
-    private String usuario;
+    private String accUsuario;
     private String password;
     private String nombre;
-    
     @OneToOne
     private Imagen imagen;
     private String email;
-    private String ubicacion;
+    private Ubicacion ubicacion;
     
+
     @Enumerated(EnumType.STRING)
     private Rol rol;
     
     private boolean alta;
 
+    
     public Usuario() {
+        this.alta = true;
     }
 
-    public Usuario(String id, String usuario, String password, String nombre, Imagen imagen, String email, String ubicacion, Rol rol, boolean alta) {
+
+    public Usuario(String id, String accUsuario, String password, String nombre, Imagen imagen, String email, Ubicacion ubicacion, Rol rol) {
+
         this.id = id;
-        this.usuario = usuario;
+        this.accUsuario = accUsuario;
         this.password = password;
         this.nombre = nombre;
         this.imagen = imagen;
         this.email = email;
         this.ubicacion = ubicacion;
         this.rol = rol;
-        this.alta = alta;
+        this.alta = true;
     }
 
     public String getId() {
@@ -62,12 +66,12 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getAccUsuario() {
+        return accUsuario;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setAccUsuario(String accUsuario) {
+        this.accUsuario = accUsuario;
     }
 
     public String getPassword() {
@@ -102,11 +106,11 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getUbicacion() {
+    public Ubicacion getUbicacion() {
         return ubicacion;
     }
 
-    public void setUbicacion(String ubicacion) {
+    public void setUbicacion(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
     }
 
@@ -125,7 +129,5 @@ public class Usuario {
     public void setAlta(boolean alta) {
         this.alta = alta;
     }
-    
-    
-    
+
 }

@@ -1,0 +1,16 @@
+/** @format */
+
+.card_body {
+	height: auto;
+}
+
+.img_perfil {
+	width: 60px;
+	height: 60px;
+	border: 2px solid rgb(169, 212, 241);
+	border-radius: 50%;
+	overflow: hidden;
+}
+.img-matricula {
+	width: 300px;
+}
