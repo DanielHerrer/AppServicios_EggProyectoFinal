@@ -17,7 +17,7 @@
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
             />
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="/css/style.css" />
         <link rel="stylesheet" href="/css/servicio-cards.css">
     </head>
@@ -48,7 +48,7 @@
                                         <span class="toggler-icon"></span>
                                     </button>
 
-                                  <div
+                                    <div
                                         class="collapse navbar-collapse sub-menu-bar"
                                         id="navbarSupportedContent6"
                                         >
@@ -111,9 +111,6 @@
                                                             Agregar Servicio</a></li>
 
                                                     <li><a class="dropdown-item" 
-                                                           sec:authorize="hasRole('PROVEEDOR')" th:href="@{/contrato/listar/proveedor}" >
-                                                            Contratos</a></li> 
-                                                    <li><a class="dropdown-item" 
                                                            sec:authorize="hasRole('CLIENTE')" th:href="@{/contrato/listar/cliente}" >
                                                             Contratos</a></li>
 
@@ -145,48 +142,55 @@
                 class="hero-section hero-style img-bg vh-100"
                 style="background-image: url('/img/hero-bg.svg')"
                 >
-                <div class="container">
+                <div class="container" th:if="${session.usuarioSession != null}">
+                    <form class="formulario" th:action="@{/usuario/restablecer}" method="POST" >
 
-                    <!-- agregar -->
-                    <!-- contenido -->
-                    <!-- acá -->
-                    <!-- ! -->
-                    <table class="table">
-                        <thead class="table-dark">
-                            <tr>
-                                <th scope="col">idContrato</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Oferta</th>
-                                <th scope="col">Calificacion</th>
-                                <th scope="col" sec:authorize="hasRole('ADMIN')" >Acciones</th>
-                                <th scope="col" sec:authorize="hasRole('ADMIN')">Eliminar</th>
-                            </tr>
-                        </thead>
+                        <!--<input hidden th:value="${id}" name="id">-->
 
-                        <tbody th:each="contrato : ${contratos}">
-                            <tr>
-                                <th scope="row" th:text="${contrato.id}"></th>
-                                <td scope="row" th:text="${contrato.estadoTrabajo}"></td>                               
-                                <td th:text="${contrato.oferta.id}"></td>
-                                <td scope="row" th:text="${contrato.aptitud}"></td>                              
-                                <td sec:authorize="hasRole('ADMIN')">
-                                    <a th:href= "@{/contrato/modificar/__${contrato.id}__}"><i class="fas fa-feather-alt"></i> Modificar </a>
-                                </td>
-                                <td sec:authorize="hasRole('ADMIN')">
-                                    <a th:href= "@{/contrato/eliminado/__${contrato.id}__}"><i class="fas fa-feather-alt"></i> Eliminar </a>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <div th:if="${error} != null" class="card text-white bg-danger mb-3 mensajeError" >
+                            <div class="card-body">
+                                <h5 class="card-title">Error 👎</h5>
+                                <p class="card-text" th:text="${error}"></p>
+                            </div>
+                        </div>
 
-                    </table>
+                        <div th:if="${exito} != null" class="card text-white bg-success mb-3 mt-3 mensajeExito" >
+                            <div class="card-body">
+                                <h5 class="card-title">Exito👍</h5>
+                                <p class="card-text" th:text="${exito}"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group my-3">
+                            <h3 class="card-title">Administrar perfil </h3>
+                        </div>
+
+                        <div class="form-group my-3">
+                            <label class="">Email</label>
+                            <input type="text" class="form-control" th:value="${email}" name="email" placeholder="Ingresar su Email">
+                        </div>
+
+                        <div class="form-group my-3">
+                            <label class="">Contraseña:</label>
+                            <input type="text" class="form-control" th:value="${password}" name="password" placeholder="Contraseña nueva">
+                        </div>
+                        <div class="form-group my-3">
+                            <label class="">Contraseña:</label>
+                            <input type="text" class="form-control" th:value="${password}" name="password2" placeholder="Repetir contraseña">
+                        </div>
+                        <div class="form-group my-0">                          
+                            <label for="exampleInputUserName" class="form-label">Nombre Usuario (Opcional)</label>
+                            <input type="text" class="form-control" name="accUsuario"  th:value="${accUsuario}" id="exampleInputUserName">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary mt-3 botones">Guardar</button>
+                        <button type="submit" href="@{/}" class="btn btn-primary mt-3 botones">Volver</button>
+
+                    </form>                  
                 </div>
-
-
             </div>
 
         </section>
-
-
 
         <!-- footer -->
 

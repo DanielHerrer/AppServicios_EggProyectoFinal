@@ -170,18 +170,30 @@ public class ServicioControlador {
 
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
-//    @GetMapping("/proveedor/listar")
-//    public String listarServiciosProveedor(ModelMap modelo, HttpSession session) {
-//
-//        Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
-//
-//        List<Servicio> servicios = servicioServicio.listarServiciosPorProveedor(proveedor.getId());
-//
-//        modelo.addAttribute("servicios",servicios);
-//
-//        return "listar-servicios.html";
-//    }
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+    @GetMapping("/listar/proveedor")
+    public String listarServiciosProveedor(ModelMap modelo, HttpSession session) {
+
+        try {
+            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+            modelo.put("usuario", usuario);
+
+            // Se carga la lista de servicios evitando mostrar servicios ya solicitados por el cliente
+            List<Servicio> servicios = servicioServicio.listarServiciosPorCliente(usuario.getId());
+            // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
+            List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
+
+            modelo.addAttribute("servicios",servicios);
+            modelo.addAttribute("puntuaciones",puntuaciones);
+
+            return "test_servicio_read_proveedor.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "test_servicio_read_proveedor.html";
+        }
+
+    }
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")

@@ -1,4 +1,3 @@
-
 <!-- MODELO IARA -->
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -55,7 +54,7 @@
                                         >
                                         <ul id="nav6" class="navbar-nav ms-auto">
                                             <li class="nav-item">
-                                                <a class="page-scroll active" href="index.html">Home</a>
+                                                <a class="page-scroll active" th:href="@{/}">Home</a>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="page-scroll" href="#">Nosotros</a>
@@ -65,13 +64,70 @@
                                             </li>
 
 
-                                            <li class="nav-item">
-                                                <a class="page-scroll" href="login.html">Login</a>
+
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" 
+                                                   th:if="${session.usuarioSession == null}" 
+                                                   href="#" id="navbarDropdown" role="button" 
+                                                   data-bs-toggle="dropdown" 
+                                                   aria-expanded="false">
+                                                    <i class="fa-solid fa-right-to-bracket"></i>
+                                                </a>
+
+                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                    <li><a class="dropdown-item" 
+                                                           th:href="@{/login}" >
+                                                            Iniciar Sesion</a></li>
+                                                    <li><a class="dropdown-item" 
+                                                           th:href="@{/registrar}" >
+                                                            Registrar</a></li>     
+                                                </ul>
                                             </li>
-                                            <li class="nav-item">
-                                                <a class="page-scroll" href="eleccion-usuario.html">Registrar</a>
+
+
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" 
+                                                   th:if="${session.usuarioSession != null}" 
+                                                   href="#" id="navbarDropdown" 
+                                                   role="button" 
+                                                   data-bs-toggle="dropdown" 
+                                                   aria-expanded="false">
+                                                    Perfil
+                                                </a>
+
+                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                    <li><a class="dropdown-item" 
+                                                           sec:authorize="hasRole('CLIENTE')" th:href="@{/usuario/restablecer}" >
+                                                            Usuario</a></li>
+                                                    <li><a class="dropdown-item" 
+                                                           sec:authorize="hasRole('PROVEEDOR')"  th:href="@{/usuario/restablecer}" >
+                                                            Usuario</a></li>
+
+                                                    <li><a class="dropdown-item" 
+                                                           sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/listar}" >
+                                                            Servicios</a></li>
+                                                    <li><a class="dropdown-item" 
+                                                           sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/registrar}" >
+                                                            Agregar Servicio</a></li>
+
+                                                    <li><a class="dropdown-item" 
+                                                           sec:authorize="hasRole('CLIENTE')" th:href="@{/contrato/listar/cliente}" >
+                                                            Contratos</a></li>
+
+
+                                                    <li><a class="dropdown-item" 
+                                                           href="/logout" >
+                                                            Cerrar Sesión
+                                                        </a>
+                                                    </li>
+                                                </ul>
                                             </li>
-                                        </ul>
+                                            <li class="nav-item dropdown" >
+                                                <a class="page-scroll" th:href="@{/}" th:if="${session.usuarioSession != null}">
+                                                    <i class="fa-solid fa-bell"></i>
+                                                </a>  
+                                            </li>
+                                        </ul> 
                                     </div>
                                 </nav>
                                 <!-- fin navbar -->
