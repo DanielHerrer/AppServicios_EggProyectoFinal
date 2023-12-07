@@ -67,7 +67,7 @@ public class CategoriaServicio {
         try {
             return categoriaRepositorio.findByNombre(nombre);
         } catch (Exception e) {
-            throw new MiException(e.getMessage());
+            throw new MiException("Ya existe una categoría con el mismo nombre");
         }
     }
 
@@ -91,9 +91,9 @@ public class CategoriaServicio {
     private void validar(String nombre) throws MiException {
 
         if (nombre.trim().isEmpty() || nombre == null) {
-            throw new MiException("El Nombre no puede ser nulo ni estar vacío.");
+            throw new MiException("Debe ingresar un nombre");
         } else if (existsByNombre(nombre)) {
-            throw new MiException("Ya existe una Categoria con el mismo nombre.");
+            throw new MiException("Ya existe una categoría con el mismo nombre");
         }
     }
 
@@ -106,7 +106,7 @@ public class CategoriaServicio {
                 categoria.setAlta(false);
                 categoriaRepositorio.save(categoria);
             } else {
-                throw new MiException("El ID Categoría no corresponde a ninguna categoría existente.");
+                throw new MiException("El ID categoría no corresponde a ninguna categoría existente.");
             }
         } catch (Exception e) {
             throw new MiException(e.getMessage());
@@ -122,7 +122,7 @@ public class CategoriaServicio {
                 categoria.setAlta(true);
                 categoriaRepositorio.save(categoria);
             } else {
-                throw new MiException("El ID Categoría no corresponde a ninguna categoría existente.");
+                throw new MiException("El ID categoría no corresponde a ninguna categoría existente.");
             }
         } catch (Exception e) {
             throw new MiException(e.getMessage());

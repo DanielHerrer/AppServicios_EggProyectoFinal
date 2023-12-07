@@ -50,7 +50,10 @@ public class ContratoControlador {
     @Autowired
     private OfertaServicio ofertaServicio;
     
+<<<<<<< HEAD
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN','ROLE_USUARIO')")
+=======
+>>>>>>> 3916be43fc600f1f4bc8e3c243a04ad5292e0f3c
     @GetMapping("/lista")
     public String listar(ModelMap modelo) throws MiException {
         List<Contrato> listaContra = contratoServicio.listarContratos();
@@ -93,7 +96,27 @@ public class ContratoControlador {
             return "";
         }
     }
+    
+    /*th:href="@{/contrato/listar/cliente}"*/
 
+     @GetMapping("/listar/cliente")
+    public String listarPorCliente(ModelMap modelo) throws MiException {
+        List<Contrato> contratos = contratoServicio.listarContratos();
+        modelo.addAttribute("contratos", contratos);
+        return "test_contrato_lista.html";   
+    }
+    
+    
+        @GetMapping("/listar/proveedor")
+    public String listarPorProveedor(ModelMap modelo) throws MiException {
+        List<Contrato> contratos = contratoServicio.listarContratos();
+        modelo.addAttribute("contratos", contratos);
+
+        return "test_contrato_lista.html";
+    }
+    
+    
+    
     @GetMapping("/modificar/{id}")
     public String modificarContrato(@PathVariable String id, ModelMap modelo) {
         try {

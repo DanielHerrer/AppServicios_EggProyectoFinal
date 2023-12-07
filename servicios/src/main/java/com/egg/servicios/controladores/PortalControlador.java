@@ -147,7 +147,7 @@ public class PortalControlador {
     public String perfil(ModelMap modelo, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
         modelo.put("usuario", usuario);
-        return "usuario_modificar.html";
+        return "usuario-modificar.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
@@ -167,7 +167,7 @@ public class PortalControlador {
             modelo.put("nombre", nombre);
             modelo.put("email", email);
 
-            return "usuario_modificar.html";
+            return "usuario-modificar.html";
         }
 
     }
