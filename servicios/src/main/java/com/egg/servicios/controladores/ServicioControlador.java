@@ -52,8 +52,8 @@ public class ServicioControlador {
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
     @PostMapping("/registro") // localhost:8080/servicio/registro
     public String registroServicio(@RequestParam String descripcion, @RequestParam Double honorariosHora,
-                           MultipartFile matricula, @RequestParam String idCategoria,
-                           @RequestParam String idProveedor, ModelMap modelo, HttpSession session) {
+            MultipartFile matricula, @RequestParam String idCategoria,
+            @RequestParam String idProveedor, ModelMap modelo, HttpSession session) {
         try {
 
             servicioServicio.crearServicio(descripcion, honorariosHora, matricula, idCategoria, idProveedor);
@@ -90,7 +90,7 @@ public class ServicioControlador {
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
     @PostMapping("/contratar") // localhost:8080/servicio/contratar
     public String registroContrato(@RequestParam String descripcion, @RequestParam String idServicio,
-                                  ModelMap modelo, HttpSession session) {
+            ModelMap modelo, HttpSession session) {
 
         try {
             Usuario cliente = (Usuario) session.getAttribute("usuarioSession");
@@ -99,28 +99,29 @@ public class ServicioControlador {
             Oferta oferta = ofertaServicio.crearOferta(descripcion, idServicio, cliente.getId());
 
             contratoServicio.crearContrato(oferta);
-            return "redirect:../listar/cliente";
+            return "redirect:/servicio/listar/cliente";
 
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
-            return "redirect:../listar/cliente";
+            return "redirect:/servicio/listar/cliente";
         }
 
     }
 
     @GetMapping("/listar")
-    public String listarServicios(ModelMap modelo) {
+    public String listarServicios(ModelMap modelo, HttpSession session) {
 
         try {
+            Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
             // Se carga la lista de servicios en su totalidad
             List<Servicio> servicios = servicioServicio.listarServicios();
             // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
             List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
 
-            modelo.addAttribute("servicios",servicios);
-            modelo.addAttribute("puntuaciones",puntuaciones);
-
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("puntuaciones", puntuaciones);
+     
             return "test_servicio_read.html";
 
         } catch (Exception ex) {
@@ -143,9 +144,9 @@ public class ServicioControlador {
             // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
             List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
 
-            modelo.addAttribute("servicios",servicios);
-            modelo.addAttribute("puntuaciones",puntuaciones);
-
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("puntuaciones", puntuaciones);
+        
             return "test_servicio_cliente_read.html";
 
         } catch (Exception ex) {
@@ -167,7 +168,6 @@ public class ServicioControlador {
 //
 //        return "listar-servicios.html";
 //    }
-
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")
     public String modificarServicio(@PathVariable String id, ModelMap modelo, HttpSession session) {
@@ -183,15 +183,15 @@ public class ServicioControlador {
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
     @PostMapping("/modificado/{id}")
     public String modificado(@PathVariable String id, @RequestParam String descripcion,
-                            @RequestParam Double honorariosHora, MultipartFile matricula,
-                            @RequestParam String idCategoria, @RequestParam String idProveedor, ModelMap modelo) {
+            @RequestParam Double honorariosHora, MultipartFile matricula,
+            @RequestParam String idCategoria, @RequestParam String idProveedor, ModelMap modelo) {
 
         try {
             servicioServicio.actualizarServicio(id, descripcion, honorariosHora, matricula, idCategoria, idProveedor);
 
             cargarModeloConCategorias(modelo);
 
-            modelo.put("exito","Servicio actualizado correctamente!");
+            modelo.put("exito", "Servicio actualizado correctamente!");
 
             return "test_servicio_read.html";
 
@@ -212,7 +212,7 @@ public class ServicioControlador {
 
         try {
             List<Categoria> categorias = categoriaServicio.listarCategorias();
-            modelo.addAttribute("categorias",categorias);
+            modelo.addAttribute("categorias", categorias);
 
         } catch (MiException ex) {
 
@@ -239,7 +239,7 @@ public class ServicioControlador {
                 // Si el contrato fue finalizado y su puntuacion ya esta publicada
                 if (contrato.getEstadoTrabajo().equals(Estados.FINALIZADO) && contrato.getAptitud() != null) {
                     // 1 puntuacion mas
-                    cantCalificaciones ++;
+                    cantCalificaciones++;
                     // Se acumula la cantidad de estrellas recibidas
                     cantEstrellas += contrato.getAptitud().getPuntuacion();
                 }
