@@ -49,7 +49,7 @@ public class ContratoControlador {
     private ContratoServicios contratoServicio;
     @Autowired
     private OfertaServicio ofertaServicio;
-
+    
     @GetMapping("/lista")
     public String listar(ModelMap modelo) throws MiException {
         List<Contrato> listaContra = contratoServicio.listarContratos();
