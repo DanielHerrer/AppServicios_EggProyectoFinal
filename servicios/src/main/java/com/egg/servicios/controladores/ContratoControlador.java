@@ -49,13 +49,14 @@ public class ContratoControlador {
     private ContratoServicios contratoServicio;
     @Autowired
     private OfertaServicio ofertaServicio;
-
+    
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN','ROLE_USUARIO')")
     @GetMapping("/lista")
     public String listar(ModelMap modelo) throws MiException {
         List<Contrato> listaContra = contratoServicio.listarContratos();
         modelo.addAttribute("listaContra", listaContra);
 
-        return "test_contrato_lista.html";
+        return "contrato_historial.html";
     }
 
     @GetMapping("/estados/{id}")
