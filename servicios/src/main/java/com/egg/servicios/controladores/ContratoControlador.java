@@ -73,9 +73,22 @@ public class ContratoControlador {
 
     }
 
-    @GetMapping("/lista")
-    public String listar(ModelMap modelo) {
-        List<Contrato> contratos = contratoServicio.listaCompleta();
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+    @GetMapping("/listar/proveedor")
+    public String listarProveedor(ModelMap modelo, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+        List<Contrato> contratos = contratoServicio.listarContratosPorProveedor(usuario.getId());
+
+        modelo.addAttribute("lista", contratos);
+        return "test_contrato_lista.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
+    @GetMapping("/listar/cliente")
+    public String listarCliente(ModelMap modelo, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+        List<Contrato> contratos = contratoServicio.listarContratosPorCliente(usuario.getId());
+
         modelo.addAttribute("lista", contratos);
         return "test_contrato_lista.html";
     }
@@ -129,29 +142,6 @@ public class ContratoControlador {
     }
 
     /*th:href="@{/contrato/listar/cliente}"*/
-    @GetMapping("/listar/cliente")
-    public String listarPorCliente(ModelMap modelo, HttpSession session) {
-        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
-        
-        List<Contrato> contratos = contratoServicio.listarContratos();
-        modelo.addAttribute("contratos", contratos);
-
-        if (logueado != null) {
-            return "test_contrato_lista.html";
-        }
-
-       
-
-        return "test_contrato_lista.html";
-    }
-
-    @GetMapping("/listar/proveedor")
-    public String listarPorProveedor(ModelMap modelo) {
-        List<Contrato> contratos = contratoServicio.listarContratos();
-        modelo.addAttribute("contratos", contratos);
-
-        return "test_contrato_lista.html";
-    }
 
     @GetMapping("/calificar/{id}")
     public String calificarContrato(@PathVariable String idContrato, ModelMap modelo) {

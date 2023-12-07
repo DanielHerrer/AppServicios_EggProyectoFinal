@@ -6,6 +6,7 @@ import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.enumeraciones.Ubicacion;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.UsuarioRepositorio;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,8 +38,7 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired
     private ImagenServicio imagenServicio;
 
-   
-    public void registrar(MultipartFile archivo, String accUsuario, Rol rol, String nombre, String email, Ubicacion ubicacion, String password, String password2) throws MiException {
+    public void registrar(MultipartFile archivo, String accUsuario, Rol rol, String nombre, String email, Ubicacion ubicacion, String password, String password2) throws MiException, IOException {
 
         validar(nombre, email, accUsuario, ubicacion, password, password2);
 
@@ -47,20 +47,19 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setAccUsuario(accUsuario);
         usuario.setNombre(nombre);
         usuario.setEmail(email);
-        
+
         usuario.setUbicacion(ubicacion);
 
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-        
+
         usuario.setRol(rol);
 
         Imagen imagen = imagenServicio.guardar(archivo);
-
+        
         usuario.setImagen(imagen);
 
         usuarioRepositorio.save(usuario);
     }
-
 
     public void actualizar(MultipartFile archivo, String idUsuario, Rol rol, Ubicacion ubicacion, String nombre, String accUsuario, String email, String password, String password2) throws MiException {
 

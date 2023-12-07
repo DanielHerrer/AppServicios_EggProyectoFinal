@@ -107,6 +107,9 @@
                                                             Agregar Servicio</a></li>
 
                                                     <li><a class="dropdown-item" 
+                                                           sec:authorize="hasRole('PROVEEDOR')" th:href="@{/contrato/listar/proveedor}" >
+                                                            Contratos</a></li> 
+                                                    <li><a class="dropdown-item" 
                                                            sec:authorize="hasRole('CLIENTE')" th:href="@{/contrato/listar/cliente}" >
                                                             Contratos</a></li> 
 

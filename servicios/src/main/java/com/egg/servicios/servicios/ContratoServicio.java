@@ -94,9 +94,11 @@ public class ContratoServicio {
             return contratos;
     }
     
-    public List<Contrato> listarClientesAProveedor(Usuario usuario) {
-        return null;
+        public List<Contrato> listarContratosPorCliente(String idCliente) {
+            List<Contrato> contratos = contratoRepositorio.listarClientes(idCliente);
+            return contratos;
     }
+    
 
 //    public String listarContratoCliente(String idContrato) {
 //        Contrato contrato = new Contrato();
@@ -171,15 +173,13 @@ public class ContratoServicio {
         return contratos;
     }
 
-    public List<Contrato> listarProveedores(String idProveedor) {
-        List<Contrato> contratos = listaCompleta();
-        return contratos;
-    }
 
     public List<Contrato> ListarClientes(String idCliente) {
         List<Contrato> contratos = listaCompleta();
         return contratos;
     }
+    
+
 
     public void validar(Estados estado) throws MiException {
         if (estado.equals(null) || estado == null) {
