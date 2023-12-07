@@ -27,9 +27,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     public List<Usuario> listarUsuariosActivos();
 
     @Query("SELECT u FROM Usuario u WHERE u.alta = false")
-
     public List<Usuario> listarUsuariosInactivos();
-
 
     @Query("""
             SELECT u FROM Usuario u

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.egg.servicios.servicios.ContratoServicio;
+import com.egg.servicios.servicios.OfertaServicio;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class ContratoControlador {
 
     @Autowired
     private ContratoServicio contratoServicio;
+    
+    @Autowired
+    private OfertaServicio ofertaServicio;
 
     @GetMapping("/registrar")
     public String crearContratoAlta(ModelMap modelo) {
@@ -87,19 +91,19 @@ public class ContratoControlador {
         return "test_contrato_lista.html";
     }
 
-    @GetMapping("/contratosproveedores")
-    public String listarProveedores(ModelMap modelo) {
-        List<Contrato> contratos = contratoServicio.listaCompleta();
-        modelo.addAttribute("lista", contratos);
-        return "";
-    }
-
-    @GetMapping("/contratosclientes")
-    public String listarClientes(ModelMap modelo) {
-        List<Contrato> contratos = contratoServicio.listaCompleta();
-        modelo.addAttribute("lista", contratos);
-        return "";
-    }
+//    @GetMapping("/contratosproveedores")
+//    public String listarProveedores(ModelMap modelo) {
+//        List<Contrato> contratos = contratoServicio.listaCompleta();
+//        modelo.addAttribute("lista", contratos);
+//        return "";
+//    }
+//
+//    @GetMapping("/contratosclientes")
+//    public String listarClientes(ModelMap modelo) {
+//        List<Contrato> contratos = contratoServicio.getOne(id);
+//        modelo.addAttribute("lista", contratos);
+//        return "";
+//    }
 
     @GetMapping("/estados/{id}")
     public String modificar(@PathVariable String id, ModelMap modelo) {
@@ -140,7 +144,7 @@ public class ContratoControlador {
         }
     }
 
-    @PostMapping("/aceptarcontrato")
+    @PostMapping("/aceptarcontrato/{id}")
     public String aceptarContrato(ModelMap modelo, String idContrato) {
         try {
             contratoServicio.modificarContrato(idContrato, Estados.ACEPTADO);
@@ -151,7 +155,7 @@ public class ContratoControlador {
         }
     }
 
-    @PostMapping("rechazarcontrato")
+    @PostMapping("/rechazarcontrato/{id}")
     public String rechazarContrato(ModelMap modelo, String idContrato) {
         try {
             contratoServicio.modificarContrato(idContrato, Estados.RECHAZADO);

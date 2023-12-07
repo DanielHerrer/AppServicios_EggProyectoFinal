@@ -33,7 +33,7 @@ public class PortalControlador {
     @GetMapping("/")//mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
     public String index() {
 
-        return "test_index.html";
+        return "index.html";
     }
 
     @GetMapping("/registrar")
@@ -69,7 +69,7 @@ public class PortalControlador {
 
             modelo.put("exito", "Usuario registrado correctamente!");
 
-            return "test_index.html";
+            return "index.html";
 
         } catch (MiException ex) {
 

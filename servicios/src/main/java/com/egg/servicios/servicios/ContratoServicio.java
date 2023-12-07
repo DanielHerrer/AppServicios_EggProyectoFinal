@@ -26,7 +26,7 @@ import com.egg.servicios.repositorios.ContratoRepositorio;
  */
 @Service
 public class ContratoServicio {
-    
+
     @Autowired
     private ContratoRepositorio contratoRepositorio;
 
@@ -38,6 +38,9 @@ public class ContratoServicio {
 
     @Autowired
     private CalificacionRepositorio calificacionRepositorio;
+
+    @Autowired
+    private OfertaServicio ofertaServicio;
 
     @Transactional
     public void crearContrato(String idOferta) throws MiException {
@@ -60,10 +63,10 @@ public class ContratoServicio {
         }
     }
 
+    //ACEPTADO O RECHAZADO
     public void modificarContrato(String idContrato, Estados estado) throws MiException {
         Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
         Contrato contrato = new Contrato();
-        
 
         if (respuestaContrato.isPresent()) {
             contrato = respuestaContrato.get();
@@ -79,13 +82,39 @@ public class ContratoServicio {
         }
     }
 
-    public void calificarContrato(String idContrato, Calificacion calificacion,Estados estado) throws MiException {
+//    public String listarContratoCliente(String idContrato) {
+//        Contrato contrato = new Contrato();
+//        Oferta oferta = new Oferta();
+//
+//        contrato = getOne(idContrato);//traemos contrato lo guardamos en variable contrato
+//        oferta = ofertaServicio.listarPorId(contrato.getOferta().getId());//listamos ofertas por id con el contrato traido
+//        return oferta.getCliente().getId();//devolvemos el id correspondiente al cliente de la oferta
+//    }
+//
+//    public String listarContratoProveedor(String idContrato) {
+//        Contrato contrato = new Contrato();
+//        Oferta oferta = new Oferta();
+//
+//        contrato = getOne(idContrato);//traemos contrato lo guardamos en variable contrato
+//        oferta = ofertaServicio.listarPorId(contrato.getOferta().getId());//listamos ofertas por id con el contrato traido
+//
+//        return oferta.getServicio().getId();//devolvemos el id correspondiente al proveedor de la oferta
+//    }
+//    
+//    public String listarContratosCliente(String idCliente) {
+//        List<Contrato> contratos = contratoRepositorio.findAllById(idCliente);
+//        return contratos;
+//    }
+
+    //FINALIZADO
+    public void calificarContrato(String idContrato, Calificacion calificacion, Estados estado) throws MiException {
         Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
         Contrato contrato = new Contrato();
-        
+
         if (respuestaContrato.isPresent()) {
             contrato = respuestaContrato.get();
             contrato.setEstadoTrabajo(estado.FINALIZADO);
+            contrato.setAlta(false);
 
             contratoRepositorio.save(contrato);
         }
@@ -113,7 +142,7 @@ public class ContratoServicio {
     }
 
     public List<Contrato> listarRechazados() {
-        List<Contrato> contratos = contratoRepositorio.listarRechazados() ;
+        List<Contrato> contratos = contratoRepositorio.listarRechazados();
         return contratos;
     }
 
@@ -123,7 +152,7 @@ public class ContratoServicio {
     }
 
     public List<Contrato> listarFinalizados() {
-        List<Contrato> contratos = contratoRepositorio.listarFinalizado() ;
+        List<Contrato> contratos = contratoRepositorio.listarFinalizado();
         return contratos;
     }
 
@@ -131,24 +160,24 @@ public class ContratoServicio {
         List<Contrato> contratos = listaCompleta();
         return contratos;
     }
-    
-    public List<Contrato> ListarClientes(String idCliente){
+
+    public List<Contrato> ListarClientes(String idCliente) {
         List<Contrato> contratos = listaCompleta();
         return contratos;
     }
-    
+
     public void validar(Estados estado) throws MiException {
         if (estado.equals(null) || estado == null) {
             throw new MiException("El Estado no puede ser nulo !");
         }
 
     }
-    
-        public List<Contrato> listaCompleta() {
+
+    public List<Contrato> listaCompleta() {
         List<Contrato> contratos = contratoRepositorio.findAll();
         return contratos;
     }
-    
+
     public Contrato getOne(String id) {
         return contratoRepositorio.getOne(id);
     }
