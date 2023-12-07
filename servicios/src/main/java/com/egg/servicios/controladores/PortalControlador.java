@@ -115,7 +115,7 @@ public class PortalControlador {
             } else if (rol.equals(Rol.CLIENTE)) {
                 modelo.put("rol", Rol.CLIENTE);
                 modelo.addAttribute("ubicaciones", Ubicacion.values());
-                return "registrar-cliente.html";
+                return "registrar-usuario.html";
 
             } else {
                 return "eleccion-usuario.html";
