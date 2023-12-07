@@ -97,8 +97,11 @@
 
                                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                                     <li><a class="dropdown-item" 
-                                                           th:href="@{/perfil}" >
-                                                            Editar Perfil</a></li>
+                                                           sec:authorize="hasRole('CLIENTE')" th:href="@{/usuario/restablecer}" >
+                                                            Usuario</a></li>
+                                                    <li><a class="dropdown-item" 
+                                                           sec:authorize="hasRole('PROVEEDOR')"  th:href="@{/usuario/restablecer}" >
+                                                            Usuario</a></li>
 
                                                     <li><a class="dropdown-item" 
                                                            sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/listar}" >
@@ -124,9 +127,7 @@
                                                     <i class="fa-solid fa-bell"></i>
                                                 </a>  
                                             </li>
-
-
-                                        </ul>
+                                        </ul> 
                                     </div>
                                 </nav>
                                 <!-- fin navbar -->

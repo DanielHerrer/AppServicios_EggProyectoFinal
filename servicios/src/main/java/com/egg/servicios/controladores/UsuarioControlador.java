@@ -7,6 +7,7 @@ package com.egg.servicios.controladores;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.servicios.UsuarioServicio;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -39,7 +40,6 @@ public class UsuarioControlador {
         List<Usuario> usuarios = usuarioServicio.listarUsuariosInactivos();
         modelo.addAttribute("usuarios", usuarios);
 
-        
         return "usuarios_list.html";
     }
 
@@ -97,5 +97,25 @@ public class UsuarioControlador {
         }
 
     }
+
+    @PostMapping("/restablecer")
+    public String modificar(String email, String password,String password2,String accUsuario,HttpSession session, ModelMap modelo) {
+        try {
+            Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+              usuarioServicio.configurarUsuario(email, password, accUsuario);
+            if (logueado != null) {
+               return "index.html";
+            }
+         return "test_modificar_pass.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "test_modificar_pass.html";
+        }
+
+    }
+  
+    
+    
 
 }

@@ -211,7 +211,28 @@ public class UsuarioServicio implements UserDetailsService {
             throw new MiException(e.getMessage());
         }
     }
-
+    
+    
+     public boolean configurarUsuario(String email,String password,String accUsuario) throws MiException {
+         validarEditarUsuario(email, password);
+        try {
+            Optional<Usuario> usuarioRespuesta = usuarioRepositorio.findByEmail(email);
+            if (usuarioRespuesta.isPresent()) {
+              Usuario user = usuarioRespuesta.get();
+              user.setPassword(password);
+                if (!accUsuario.isEmpty()) {
+                user.setAccUsuario(accUsuario);
+                }             
+              usuarioRepositorio.save(user);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+     
     private void validar(String nombre, String email, String accUsuario, Ubicacion ubicacion, String password, String password2) throws MiException {
 
         if (nombre.trim().isEmpty() || nombre == null) {
@@ -235,6 +256,20 @@ public class UsuarioServicio implements UserDetailsService {
         }
         if (!password.equals(password2)) {
             throw new MiException("Las Contraseñas ingresadas deben ser iguales");
+        }
+
+    }
+    
+    private void validarEditarUsuario(String email, String password) throws MiException {
+
+     
+        if (email.isEmpty() || email == null) {
+            throw new MiException("El Email no puede ser nulo o estar vacio");
+        } else if (existsByEmail(email)) {
+            throw new MiException("Ya existe una cuenta con ese Email registrado..");
+        }
+        if (password.isEmpty() || password == null || password.length() <= 5) {
+            throw new MiException("La Contraseña no puede estar vacía, y debe tener más de 5 dígitos");
         }
 
     }

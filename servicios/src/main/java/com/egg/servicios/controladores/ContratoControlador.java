@@ -99,7 +99,6 @@ public class ContratoControlador {
     public String listarPorCliente(ModelMap modelo) throws MiException {
         List<Contrato> contratos = contratoServicio.listarContratos();
         modelo.addAttribute("contratos", contratos);
-
         return "test_contrato_lista.html";   
     }
     
