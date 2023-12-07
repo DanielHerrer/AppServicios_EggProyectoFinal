@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8" />
-        <title>Listar Servicios</title>
+        <title>Listar Servicios Cliente</title>
         <meta name="description" content="" />
         <!--	<meta name="viewport" content="width=device-width, initial-scale=1" />-->
         <!-- Bootstrap -->
@@ -19,7 +19,6 @@
         <link rel="stylesheet" href="/css/servicio-cards.css">
     </head>
     <body>
-
         <!--header -->
         <header class="header">
             <div class="navbar-area sticky"><!-- sticky prueba barra fijada  -->
@@ -65,9 +64,6 @@
                                         <li th:if="${session.usuarioSession != null}" sec:authorize="hasRole('PROVEEDOR')" class="nav-item">
                                             <a class="page-scroll" href="/servicio/listar/proveedor">Servicios</a>
                                         </li>
-
-
-
 
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle"
@@ -195,6 +191,68 @@
                                         class="text-secundary descripcion-card py-2"
                                         ></div>
                                 </div>
+                                <div
+                                    th:if="${servicio.matricula != null}"
+                                    class="row border-top border-primary"
+                                    >
+                                    <div class="col-7 py-2">Matricula:</div>
+                                    <div class="col-5 py-2">
+                                        <button
+                                            class="btn btn-sm boton-card"
+                                            data-bs-toggle="modal"
+                                            th:data-bs-target="'#exampleModal_' + ${iterStat.index}"
+                                            >
+                                            Ver Matricula
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- =========================== MODAL VER MATRICULA =========================== -->
+                                <div
+                                    class="modal fade"
+                                    th:id="'exampleModal_' + ${iterStat.index}"
+                                    tabindex="-1"
+                                    aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true"
+                                    >
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                    Matricula profesional
+                                                </h1>
+                                                <button
+                                                    type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"
+                                                    ></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <img
+                                                    th:src="@{/imagen/matricula/__${servicio.id}__}"
+                                                    class="img-matricula"
+                                                    alt="imagen de matricula"
+                                                    />
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-secondary"
+                                                    data-bs-dismiss="modal"
+                                                    >
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row border-top border-primary">
+                                    <div class="col-7 py-2">Honorarios p/ hora:</div>
+                                    <div class="col-5 py-2">
+                                        <b>$</b><b th:text="${servicio.honorariosHora}"></b>
+                                    </div>
+                                </div>
                                 <div class="row border-top py-2">
                                     <div class="col-7 align-self-end">Calificación Proveedor:</div>
                                     <div class="col-5">
@@ -208,7 +266,55 @@
                                 </div>
                                 <div class="row border-top py-2">
                                     <div class="col-12 py-2 text-center">
-                                        <!-- Sin boton de Contratar ya que esta vista es para GUESTS -->
+                                        <button
+                                            class="btn btn-sm boton-card"
+                                            data-bs-toggle="modal"
+                                            th:data-bs-target="'#ofertaModal_' + ${iterStat.index}">
+                                            Contratar
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- =========================== MODAL CONTRATAR SERVICIO =========================== -->
+                                <div
+                                    class="modal fade"
+                                    th:id="'ofertaModal_' + ${iterStat.index}"
+                                    tabindex="-1"
+                                    aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true"
+                                    >
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                    Contratar Servicio
+                                                </h1>
+                                                <button
+                                                    type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"
+                                                    ></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <h4 class="modal-title">Registrar Oferta</h4>
+                                                <form id="form-oferta" action="/servicio/contratar" method="POST">
+                                                    <input type="text" name="idServicio" id="idServicio" th:value="${servicio.id}" hidden>
+                                                    <label for="descripcion">Descripcion</label>
+                                                    <textarea rows="4" style="resize: none;" name="descripcion" id="descripcion" required></textarea>
+
+                                                    <button class="btn-oferta" type="submit">Solicitar Contrato</button>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-secondary"
+                                                    data-bs-dismiss="modal"
+                                                    >
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

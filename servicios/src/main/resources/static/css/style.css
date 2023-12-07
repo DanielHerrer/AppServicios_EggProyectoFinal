@@ -11,6 +11,7 @@ html {
 body {
 	font-family: "Heebo", sans-serif;
 	color: #585978;
+	background-image: url('../img/hero-bg.svg');
 }
 
 
@@ -117,6 +118,13 @@ button:focus {
 	padding: 0 25px;
 }
 
+.buscador{
+	padding-left:80px;
+}
+
+.inputBuscador{
+	border-radius: 50px;
+}
 .button i {
 	padding-left: 20px;
 }
@@ -150,6 +158,7 @@ button:focus {
 	color: #2f80ed;
 	border-color: #2f80ed;
 }
+
 
 .button.border-button::before {
 	background: rgba(47, 128, 237, 0.16);
