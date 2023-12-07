@@ -4,6 +4,7 @@ import com.egg.servicios.entidades.Calificacion;
 import com.egg.servicios.entidades.Contrato;
 
 import com.egg.servicios.entidades.Oferta;
+import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Estados;
 
 import com.egg.servicios.excepciones.MiException;
@@ -63,8 +64,19 @@ public class ContratoServicio {
         }
     }
 
+    public void altaBajaContrato(String idContrato, Boolean alta) {
+        Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
+        Contrato contrato = new Contrato();
+
+        if (respuestaContrato.isPresent()) {
+            contrato = respuestaContrato.get();
+        }
+        contrato.setAlta(alta);
+        contratoRepositorio.save(contrato);
+    }
+
     //ACEPTADO O RECHAZADO
-    public void modificarContrato(String idContrato, Estados estado) throws MiException {
+    public void modificarContrato(String idContrato, Estados estado) {
         Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
         Contrato contrato = new Contrato();
 
@@ -75,21 +87,15 @@ public class ContratoServicio {
             contratoRepositorio.save(contrato);
         }
 
-        try {
-
-        } catch (Exception e) {
-            throw new MiException(e.getMessage());
-        }
     }
-    
-        public List<Contrato> listarContratosPorProveedor(String idProveedor) throws MiException {
-        try {
+
+    public List<Contrato> listarContratosPorProveedor(String idProveedor) {
             List<Contrato> contratos = contratoRepositorio.listarProveedor(idProveedor);
             return contratos;
-
-        } catch (Exception e) {
-            throw new MiException(e.getMessage());
-        }
+    }
+    
+    public List<Contrato> listarClientesAProveedor(Usuario usuario) {
+        return null;
     }
 
 //    public String listarContratoCliente(String idContrato) {
@@ -115,25 +121,24 @@ public class ContratoServicio {
 //        List<Contrato> contratos = contratoRepositorio.findAllById(idCliente);
 //        return contratos;
 //    }
-
     //FINALIZADO
-    public void calificarContrato(String idContrato, Calificacion calificacion, Estados estado) throws MiException {
+    public void calificarContrato(String idContrato, Calificacion calificacion) {
         Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
         Contrato contrato = new Contrato();
 
         if (respuestaContrato.isPresent()) {
             contrato = respuestaContrato.get();
-            contrato.setEstadoTrabajo(estado.FINALIZADO);
+            contrato.setEstadoTrabajo(Estados.FINALIZADO);
             contrato.setAlta(false);
 
             contratoRepositorio.save(contrato);
         }
 
-        try {
+    }
 
-        } catch (Exception e) {
-            throw new MiException(e.getMessage());
-        }
+    public List<Contrato> listarContratos() {
+        List<Contrato> contratos = contratoRepositorio.findAll();
+        return contratos;
     }
 
     public List<Contrato> listarActivos() {
