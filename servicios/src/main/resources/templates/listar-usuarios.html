@@ -29,7 +29,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <section id="home" class="hero-section">
 			<div
 				class="hero-section hero-style img-bg vh-100"
-				style="background-image: url('img/hero-bg.svg')"
+				style="background-image: url('/img/hero-bg.svg')"
 			>  <div th:if="${exito}!=null" class="card text-white bg-success mb-3 mt-3 mensajeExito" >
                 <div class="card-body">
                     <h5 class="card-title">Exito ð</h5>
@@ -46,10 +46,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             <div class="container">
                 <div class="row d-flex justify-content-center">
                     <div class="col-md-12">
-                        <div class="card border-0 p-4 card-login mb-2">
-                         
+                        <div class="card border-0 p-4 card-login mb-2 mt-5">
+                          <h3 class="text-center fw-bold text-center ">Listado de Usuarios</h3>
 
-            <table class="table table-primary text-primary">
+            <table class="table table-primary text-primary mt-5">
                 <thead>
                     <tr class="texto-tabla">
                         <th scope="col" >id</th>
@@ -83,6 +83,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
           
         </div>
     </div>
+                    <div class="row d-flex " style="height:180px;">
+
+                        <div class="col-md-12 d-flex justify-content-end align-items-end mb-2">
+                            <a class="btn btn-dark" href="/">volver</a>
+
+                        </div>
+                    </div>
 </div>
 
 

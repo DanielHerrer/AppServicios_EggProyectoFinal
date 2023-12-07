@@ -26,7 +26,7 @@ public class CategoriaControlador {
     @GetMapping("/registrar") // localhost:8080/categoria/registrar
     public String registrarCategoria() {
 
-        return "test_categoria_form.html";
+        return "registrar-categoria.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -37,13 +37,13 @@ public class CategoriaControlador {
             modelo.put("exito","La Categoria se ha creado correctamente!");
             categoriaServicio.crearCategoria(nombre);
 
-            return "test_categoria_form.html";
+            return "registrar-categoria.html";
 
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
             modelo.put("nombre",nombre);
 
-            return "test_categoria_form.html";
+            return "registrar-categoria.html";
         }
     }
 
@@ -54,11 +54,11 @@ public class CategoriaControlador {
             List<Categoria> categorias = categoriaServicio.listarCategorias();
             modelo.addAttribute("categorias",categorias);
 
-            return "test_categoria_lista.html";
+            return "listar-categorias.html";
 
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
-            return "test_categoria_lista.html";
+            return "listar-categorias.html";
         }
     }
 
