@@ -108,8 +108,11 @@ public class ServicioServicio {
         return servicioRepositorio.listarServiciosActivos();
     }
 
+    public List<Servicio> listarServiciosPorCliente(String idCliente) {
+        return servicioRepositorio.listarServiciosActivosPorCliente(idCliente);
+    }
     public List<Servicio> listarServiciosPorProveedor(String idProveedor) {
-        return servicioRepositorio.listarServiciosActivosPorProveedor(idProveedor);
+        return servicioRepositorio.listarServiciosPorProveedor(idProveedor);
     }
 
     public boolean existsByDescripcion(String descripcion) throws MiException {

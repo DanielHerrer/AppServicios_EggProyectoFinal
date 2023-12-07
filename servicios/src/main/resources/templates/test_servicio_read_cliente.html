@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8" />
-        <title>Test Listar Servicios</title>
+        <title>Test Listar Servicios Cliente</title>
         <meta name="description" content="" />
         <!--	<meta name="viewport" content="width=device-width, initial-scale=1" />-->
         <!-- Bootstrap -->
@@ -19,7 +19,6 @@
         <link rel="stylesheet" href="/css/servicio-cards.css">
     </head>
     <body>
-
         <!--header -->
         <header class="header">
             <div class="navbar-area sticky"><!-- sticky prueba barra fijada  -->
@@ -59,6 +58,9 @@
                                         <li class="nav-item">
                                             <a class="page-scroll" href="#servicios">Servicios</a>
                                         </li>
+
+
+
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle" 
                                                th:if="${session.usuarioSession == null}" 
@@ -77,6 +79,8 @@
                                                         Registrar</a></li>     
                                             </ul>
                                         </li>
+
+
                                         <li class="nav-item dropdown">
                                             <a class="nav-link dropdown-toggle" 
                                                th:if="${session.usuarioSession != null}" 
@@ -90,17 +94,20 @@
                                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                                 <li><a class="dropdown-item" 
                                                        th:href="@{/perfil}" >
-                                                        Editar Perfil</a>
-                                                </li>
+                                                        Editar Perfil</a></li>
+
                                                 <li><a class="dropdown-item" 
                                                        sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/listar}" >
                                                         Servicios</a></li>
                                                 <li><a class="dropdown-item" 
                                                        sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/registrar}" >
                                                         Agregar Servicio</a></li>
+
                                                 <li><a class="dropdown-item" 
                                                        sec:authorize="hasRole('CLIENTE')" th:href="@{/servicio/listar/cliente}" >
-                                                        Contratos</a></li>
+                                                        Contratos</a></li> 
+
+
                                                 <li><a class="dropdown-item" 
                                                        href="/logout" >
                                                         Cerrar Sesión
@@ -108,13 +115,13 @@
                                                 </li>
                                             </ul>
                                         </li>
-                                        
                                         <li class="nav-item dropdown" >
                                             <a class="page-scroll" th:href="@{/}" th:if="${session.usuarioSession != null}">
                                                 <i class="fa-solid fa-bell"></i>
                                             </a>  
                                         </li>
-                                        
+
+
                                     </ul>
                                 </div>
                             </nav>
@@ -242,7 +249,55 @@
                                 </div>
                                 <div class="row border-top py-2">
                                     <div class="col-12 py-2 text-center">
-                                        <!-- Sin boton de Contratar ya que esta vista es para GUESTS -->
+                                        <button
+                                            class="btn btn-sm boton-card"
+                                            data-bs-toggle="modal"
+                                            th:data-bs-target="'#ofertaModal_' + ${iterStat.index}">
+                                            Contratar
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- =========================== MODAL CONTRATAR SERVICIO =========================== -->
+                                <div
+                                    class="modal fade"
+                                    th:id="'ofertaModal_' + ${iterStat.index}"
+                                    tabindex="-1"
+                                    aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true"
+                                    >
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                    Contratar Servicio
+                                                </h1>
+                                                <button
+                                                    type="button"
+                                                    class="btn-close"
+                                                    data-bs-dismiss="modal"
+                                                    aria-label="Close"
+                                                    ></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <h4 class="modal-title">Registrar Oferta</h4>
+                                                <form id="form-oferta" action="/servicio/contratar" method="POST">
+                                                    <input type="text" name="idServicio" id="idServicio" th:value="${servicio.id}" hidden>
+                                                    <label for="descripcion">Descripcion</label>
+                                                    <textarea rows="4" style="resize: none;" name="descripcion" id="descripcion" required></textarea>
+
+                                                    <button class="btn-oferta" type="submit">Solicitar Contrato</button>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-secondary"
+                                                    data-bs-dismiss="modal"
+                                                    >
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

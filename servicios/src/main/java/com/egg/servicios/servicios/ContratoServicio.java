@@ -81,6 +81,16 @@ public class ContratoServicio {
             throw new MiException(e.getMessage());
         }
     }
+    
+        public List<Contrato> listarContratosPorProveedor(String idProveedor) throws MiException {
+        try {
+            List<Contrato> contratos = contratoRepositorio.listarProveedor(idProveedor);
+            return contratos;
+
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
 
 //    public String listarContratoCliente(String idContrato) {
 //        Contrato contrato = new Contrato();

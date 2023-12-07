@@ -37,27 +37,48 @@ public class PortalControlador {
     }
 
     @GetMapping("/registrar")
-    public String registrar(ModelMap modelo) {
+    public String registrar(ModelMap modelo, HttpSession session) {
 
-        return "eleccion-usuario.html";
+         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+
+         if (logueado != null) {
+            return "redirect:/inicio";
+              }
+           return "eleccion-usuario.html";
+        
     }
 
     @GetMapping("/registrar/cliente")
-    public String registrarCliente(ModelMap modelo) {
+    public String registrarCliente(ModelMap modelo,HttpSession session) {
 
         modelo.put("rol", Rol.CLIENTE);
 
         modelo.addAttribute("ubicaciones", Ubicacion.values());
+        
+         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+
+         if (logueado != null) {
+            return "redirect:/inicio";
+              }
+
         return "registrar-usuario.html";
     }
 
     @GetMapping("/registrar/proveedor")
-    public String registrarProveedor(ModelMap modelo) {
+    public String registrarProveedor(ModelMap modelo,HttpSession session) {
 
         modelo.put("rol", Rol.PROVEEDOR);
 
         modelo.addAttribute("ubicaciones", Ubicacion.values());
+        
+         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+
+         if (logueado != null) {
+            return "redirect:/inicio";
+              }
+   
         return "registrar-proveedor.html";
+
     }
 
     @PostMapping("/registro")
@@ -66,7 +87,6 @@ public class PortalControlador {
 
         try {
             usuarioServicio.registrar(archivo, accUsuario, rol, nombre, email, ubicacion, password, password2);
-
             modelo.put("exito", "Usuario registrado correctamente!");
 
             return "index.html";
@@ -96,8 +116,9 @@ public class PortalControlador {
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam(required = false) String error, ModelMap modelo,HttpSession session) {
-            
+
+    public String login(@RequestParam(required = false) String error, ModelMap modelo, HttpSession session) {
+
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
         if (error != null) {
             modelo.put("error", "Usuario o Contraseña invalidos!");
@@ -114,14 +135,14 @@ public class PortalControlador {
     public String inicio(ModelMap modelo, HttpSession session) {
 
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+
         System.out.println("Usuario en sesión: " + logueado);
-        modelo.addAttribute("usuario", logueado);
+        modelo.addAttribute("logueado", logueado);
 
         if (logueado.getRol().toString().equals("ADMIN")) {
             return "redirect:/admin/dashboard";
         }
-
-        return "test_index.html";
+        return "index.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
@@ -154,4 +175,25 @@ public class PortalControlador {
 
     }
 
+    /* 
+
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
+    @GetMapping("/contrato")
+    public String Contrato(ModelMap modelo, Striing idProveedor  ) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+        modelo.put("usuario", usuario);
+        return "usuario_modificar.html";
+    }
+    
+    
+      @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+    @GetMapping("/contrato")
+    public String Contrato(ModelMap modelo, Striing idProveedor  ) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+        modelo.put("usuario", usuario);
+        return "usuario_modificar.html";
+    }
+    
+    
+     */
 }
