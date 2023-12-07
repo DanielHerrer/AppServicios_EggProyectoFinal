@@ -98,8 +98,24 @@ public class UsuarioControlador {
 
     }
 
+       @GetMapping("/restablecer")
+    public String modificarUsuario(String email, String password,String password2,String accUsuario,HttpSession session, ModelMap modelo) {
+        try {
+            Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+              usuarioServicio.configurarUsuario(email, password, accUsuario);
+            if (logueado != null) {
+               return "index.html";
+            }
+         return "test_modificar_pass.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "test_modificar_pass.html";
+        }
+    }
+    
     @PostMapping("/restablecer")
-    public String modificar(String email, String password,String password2,String accUsuario,HttpSession session, ModelMap modelo) {
+    public String modificarUsuario1(String email, String password,String password2,String accUsuario,HttpSession session, ModelMap modelo) {
         try {
             Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
               usuarioServicio.configurarUsuario(email, password, accUsuario);
@@ -115,7 +131,6 @@ public class UsuarioControlador {
 
     }
   
-    
-    
+
 
 }

@@ -143,7 +143,7 @@
                 style="background-image: url('/img/hero-bg.svg')"
                 >
                 <div class="container" th:if="${session.usuarioSession != null}">
-                    <form class="formulario" th:action="@{/usuario/restablecer}" >
+                    <form class="formulario" th:action="@{/usuario/restablecer}" method="POST" >
 
                         <!--<input hidden th:value="${id}" name="id">-->
 
