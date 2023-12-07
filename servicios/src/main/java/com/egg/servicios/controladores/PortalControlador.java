@@ -32,7 +32,7 @@ public class PortalControlador {
     //primer metodo que se va a ejecutar en el localhost
     @GetMapping("/")//mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
     public String index() {
-
+        
         return "index.html";
     }
 
@@ -142,7 +142,7 @@ public class PortalControlador {
         if (logueado.getRol().toString().equals("ADMIN")) {
             return "redirect:/admin/dashboard";
         }
-        return "index.html";
+        return "inicio.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
@@ -150,7 +150,7 @@ public class PortalControlador {
     public String perfil(ModelMap modelo, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
         modelo.put("usuario", usuario);
-        return "usuario_modificar.html";
+        return "usuario-modificar.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
@@ -170,7 +170,7 @@ public class PortalControlador {
             modelo.put("nombre", nombre);
             modelo.put("email", email);
 
-            return "usuario_modificar.html";
+            return "usuario-modificar.html";
         }
 
     }
