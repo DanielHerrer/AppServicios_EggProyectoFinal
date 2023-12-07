@@ -66,14 +66,16 @@ public class CategoriaControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/modificado/{id}")
-    public String modificado(@PathVariable String id, @RequestParam String nombre, ModelMap modelo) {
+    public String modificado(@PathVariable String id, @RequestParam String nombre, ModelMap modelo) throws InterruptedException {
         try {
             categoriaServicio.modificarCategoria(id, nombre);
-            modelo.put("exito", "La categoría se ha modificado con éxito!.");
+            modelo.put("exito", "La categoría se ha modificado con éxito!"); 
+            Thread.sleep(1000);
             return "redirect:../listar";
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
-            return "test_categoria_modificar.html";
+            Thread.sleep(1000);
+            return "redirect:../modificar/{id}";
         }
     }
 
