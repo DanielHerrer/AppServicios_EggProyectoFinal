@@ -101,13 +101,24 @@
                                                     <li><a class="dropdown-item" 
                                                            th:href="@{/perfil}" >
                                                             Editar Perfil</a></li>
+
                                                     <li><a class="dropdown-item" 
-                                                           th:sec th:href="@{/}" >
-                                                            Contratos</a></li>            
+                                                           sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/listar}" >
+                                                            Servicios</a></li>
+                                                    <li><a class="dropdown-item" 
+                                                           sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/registrar}" >
+                                                            Agregar Servicio</a></li>
+
+                                                    <li><a class="dropdown-item" 
+                                                           sec:authorize="hasRole('CLIENTE')" th:href="@{/contrato/listar/cliente}" >
+                                                            Contratos</a></li>
+
+
                                                     <li><a class="dropdown-item" 
                                                            href="/logout" >
                                                             Cerrar Sesión
-                                                        </a></li>
+                                                        </a>
+                                                    </li>
                                                 </ul>
                                             </li>
                                             <li class="nav-item dropdown" >

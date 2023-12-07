@@ -92,7 +92,28 @@ public class ContratoControlador {
             return "";
         }
     }
+    
+    /*th:href="@{/contrato/listar/cliente}"*/
 
+     @GetMapping("/listar/cliente")
+    public String listarPorCliente(ModelMap modelo) throws MiException {
+        List<Contrato> contratos = contratoServicio.listarContratos();
+        modelo.addAttribute("contratos", contratos);
+
+        return "test_contrato_lista.html";   
+    }
+    
+    
+        @GetMapping("/listar/proveedor")
+    public String listarPorProveedor(ModelMap modelo) throws MiException {
+        List<Contrato> contratos = contratoServicio.listarContratos();
+        modelo.addAttribute("contratos", contratos);
+
+        return "test_contrato_lista.html";
+    }
+    
+    
+    
     @GetMapping("/modificar/{id}")
     public String modificarContrato(@PathVariable String id, ModelMap modelo) {
         try {
