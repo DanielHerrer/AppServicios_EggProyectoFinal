@@ -118,68 +118,6 @@
 									class="text-secundary descripcion-card py-2"
 							></div>
 						</div>
-						<div
-								th:if="${servicio.matricula != null}"
-								class="row border-top border-primary"
-						>
-							<div class="col-7 py-2">Matricula:</div>
-							<div class="col-5 py-2">
-								<button
-										class="btn btn-sm boton-card"
-										data-bs-toggle="modal"
-										th:data-bs-target="'#exampleModal_' + ${iterStat.index}"
-								>
-									Ver Matricula
-								</button>
-							</div>
-						</div>
-						<!-- =========================== MODAL VER MATRICULA =========================== -->
-						<div
-								class="modal fade"
-								th:id="'exampleModal_' + ${iterStat.index}"
-								tabindex="-1"
-								aria-labelledby="exampleModalLabel"
-								aria-hidden="true"
-						>
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h1 class="modal-title fs-5" id="exampleModalLabel">
-											Matricula profesional
-										</h1>
-										<button
-												type="button"
-												class="btn-close"
-												data-bs-dismiss="modal"
-												aria-label="Close"
-										></button>
-									</div>
-									<div class="modal-body text-center">
-										<img
-												th:src="@{/imagen/matricula/__${servicio.id}__}"
-												class="img-matricula"
-												alt="imagen de matricula"
-										/>
-									</div>
-									<div class="modal-footer">
-										<button
-												type="button"
-												class="btn btn-secondary"
-												data-bs-dismiss="modal"
-										>
-											Close
-										</button>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row border-top border-primary">
-							<div class="col-7 py-2">Honorarios p/ hora:</div>
-							<div class="col-5 py-2">
-								<b>$</b><b th:text="${servicio.honorariosHora}"></b>
-							</div>
-						</div>
 						<div class="row border-top py-2">
 							<div class="col-7 align-self-end">Calificación Proveedor:</div>
 							<div class="col-5">
@@ -252,7 +190,7 @@
 						<ul class="links">
 							<li><a href="/inicio">Home</a></li>
 							<li><a href="/">Nosotros</a></li>
-							<li><a href="/servicio/listar">servicios</a></li>
+							<li><a href="/servicio/listar">Servicios</a></li>
 							<li><a href="/">Perfil</a></li>
 						</ul>
 					</div>

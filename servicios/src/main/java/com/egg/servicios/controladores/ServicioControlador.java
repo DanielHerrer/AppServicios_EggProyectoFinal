@@ -4,6 +4,7 @@ import com.egg.servicios.entidades.*;
 import com.egg.servicios.enumeraciones.Estados;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.ContratoRepositorios;
+import com.egg.servicios.repositorios.OfertaRepositorio;
 import com.egg.servicios.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,9 +37,11 @@ public class ServicioControlador {
     private ContratoRepositorios contratoRepositorios;
     @Autowired
     private CalificacionServicio calificacionServicio;
+    @Autowired
+    private OfertaRepositorio ofertaRepositorio;
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
-    @GetMapping("/registrar") // localhost:8080/servicio/proveedor/registrar
+    @GetMapping("/registrar") // localhost:8080/servicio/registrar
     public String registrarServicio(ModelMap modelo, HttpSession session) {
 
         cargarModeloConCategorias(modelo);
@@ -96,15 +99,20 @@ public class ServicioControlador {
             Usuario cliente = (Usuario) session.getAttribute("usuarioSession");
             modelo.addAttribute("cliente", cliente);
 
-            Oferta oferta = ofertaServicio.crearOferta(descripcion, idServicio, cliente.getId());
+            Oferta oferta = new Oferta();
+            oferta.setDescripcion(descripcion);
+            Servicio servicio = servicioServicio.listarPorId(idServicio);
+            oferta.setServicio(servicio);
+            oferta.setCliente(cliente);
+            ofertaRepositorio.save(oferta);
 
             contratoServicio.crearContrato(oferta);
-            return "redirect:../listar/cliente";
+            return "redirect:/servicio/listar/cliente";
 
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
-            return "redirect:../listar/cliente";
+            return "redirect:/servicio/listar/cliente";
         }
 
     }
@@ -146,11 +154,11 @@ public class ServicioControlador {
             modelo.addAttribute("servicios",servicios);
             modelo.addAttribute("puntuaciones",puntuaciones);
 
-            return "test_servicio_cliente_read.html";
+            return "test_servicio_read_cliente.html";
 
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
-            return "test_servicio_cliente_read.html";
+            return "test_servicio_read_cliente.html";
         }
 
     }
