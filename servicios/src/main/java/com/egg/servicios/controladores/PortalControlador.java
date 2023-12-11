@@ -105,10 +105,10 @@ public class PortalControlador {
             } else if (rol.equals(Rol.CLIENTE)) {
                 modelo.put("rol", Rol.CLIENTE);
                 modelo.addAttribute("ubicaciones", Ubicacion.values());
-                return "registrar-cliente.html";
+                 return "registrar-usuario.html";
 
             } else {
-                return "eleccion-usuario.html";
+                return "registrar-usuario.html";
             }
         }
     }
@@ -139,12 +139,13 @@ public class PortalControlador {
         if (logueado.getRol().toString().equals("ADMIN")) {
             return "redirect:/admin/dashboard";
         }
-        return "index.html";
+        return "inicio.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, HttpSession session) {
+         modelo.addAttribute("ubicaciones", Ubicacion.values());
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
         modelo.put("usuario", usuario);
         return "usuario-modificar.html";
@@ -171,26 +172,4 @@ public class PortalControlador {
         }
 
     }
-
-    /* 
-
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
-    @GetMapping("/contrato")
-    public String Contrato(ModelMap modelo, Striing idProveedor  ) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-        modelo.put("usuario", usuario);
-        return "usuario_modificar.html";
-    }
-    
-    
-      @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
-    @GetMapping("/contrato")
-    public String Contrato(ModelMap modelo, Striing idProveedor  ) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-        modelo.put("usuario", usuario);
-        return "usuario_modificar.html";
-    }
-    
-    
-     */
 }

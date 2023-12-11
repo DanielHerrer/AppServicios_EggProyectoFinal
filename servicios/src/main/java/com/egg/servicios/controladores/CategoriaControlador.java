@@ -45,7 +45,7 @@ public class CategoriaControlador {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    
     @GetMapping("/listar") // localhost:8080/categoria/listar
     public String listarCategorias(ModelMap modelo) {
         try {
