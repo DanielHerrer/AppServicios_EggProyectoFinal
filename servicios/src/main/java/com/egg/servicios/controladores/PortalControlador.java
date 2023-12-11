@@ -5,6 +5,7 @@ import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.enumeraciones.Ubicacion;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.servicios.UsuarioServicio;
+import java.io.IOException;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,50 +27,77 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/") // localhost:8080/
 public class PortalControlador {
 
+    private static final String CARPETA_IMAGENES = "src/main/resources/static/img/";
+    private static final String IMAGEN_POR_DEFECTO = "default.jpg";
+
     @Autowired
     UsuarioServicio usuarioServicio;
 
     //primer metodo que se va a ejecutar en el localhost
     @GetMapping("/")//mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
-    public String index() {
-
-        return "test_index.html";
+    public String index(ModelMap modelo, HttpSession session) {
+        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+        if (logueado != null) {
+            return "redirect:/inicio";
+        }
+        return "index.html";
     }
 
     @GetMapping("/registrar")
-    public String registrar(ModelMap modelo) {
+    public String registrar(ModelMap modelo, HttpSession session) {
 
+        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+
+        if (logueado != null) {
+            return "redirect:/inicio";
+        }
         return "eleccion-usuario.html";
+
     }
 
     @GetMapping("/registrar/cliente")
-    public String registrarCliente(ModelMap modelo) {
+    public String registrarCliente(ModelMap modelo, HttpSession session) {
 
         modelo.put("rol", Rol.CLIENTE);
 
         modelo.addAttribute("ubicaciones", Ubicacion.values());
+
+        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+
+        if (logueado != null) {
+            return "redirect:/inicio";
+        }
+
         return "registrar-usuario.html";
     }
 
     @GetMapping("/registrar/proveedor")
-    public String registrarProveedor(ModelMap modelo) {
+    public String registrarProveedor(ModelMap modelo, HttpSession session) {
 
         modelo.put("rol", Rol.PROVEEDOR);
 
         modelo.addAttribute("ubicaciones", Ubicacion.values());
+
+        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+
+        if (logueado != null) {
+            return "redirect:/inicio";
+        }
+
         return "registrar-proveedor.html";
+
     }
 
     @PostMapping("/registro")
     public String registro(@RequestParam String accUsuario, @RequestParam Rol rol, @RequestParam Ubicacion ubicacion, @RequestParam String nombre, @RequestParam String email, @RequestParam String password,
-            String password2, ModelMap modelo, MultipartFile archivo) {
+            String password2, ModelMap modelo, MultipartFile archivo) throws IOException {
 
         try {
-            usuarioServicio.registrar(archivo, accUsuario, rol, nombre, email, ubicacion, password, password2);
 
+            usuarioServicio.registrar(archivo, accUsuario, rol, nombre, email, ubicacion, password, password2);
             modelo.put("exito", "Usuario registrado correctamente!");
 
-            return "test_index.html";
+            return "index.html";
 
         } catch (MiException ex) {
 
@@ -87,19 +115,24 @@ public class PortalControlador {
             } else if (rol.equals(Rol.CLIENTE)) {
                 modelo.put("rol", Rol.CLIENTE);
                 modelo.addAttribute("ubicaciones", Ubicacion.values());
-                return "registrar-cliente.html";
+
+                return "registrar-usuario.html";
 
             } else {
-                return "eleccion-usuario.html";
+                return "registrar-usuario.html";
             }
         }
     }
 
     @GetMapping("/login")
-    public String login(@RequestParam(required = false) String error, ModelMap modelo) {
+    public String login(@RequestParam(required = false) String error, ModelMap modelo, HttpSession session) {
 
+        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
         if (error != null) {
             modelo.put("error", "Usuario o Contraseña invalidos!");
+        }
+        if (logueado != null) {
+            return "redirect:/inicio";
         }
 
         return "login.html";
@@ -110,22 +143,23 @@ public class PortalControlador {
     public String inicio(ModelMap modelo, HttpSession session) {
 
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+
         System.out.println("Usuario en sesión: " + logueado);
-        modelo.addAttribute("usuario", logueado);
+        modelo.addAttribute("logueado", logueado);
 
         if (logueado.getRol().toString().equals("ADMIN")) {
             return "redirect:/admin/dashboard";
         }
-
-        return "test_index.html";
+        return "inicio.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
     @GetMapping("/perfil")
     public String perfil(ModelMap modelo, HttpSession session) {
+         modelo.addAttribute("ubicaciones", Ubicacion.values());
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
         modelo.put("usuario", usuario);
-        return "usuario_modificar.html";
+        return "usuario-modificar.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
@@ -145,9 +179,8 @@ public class PortalControlador {
             modelo.put("nombre", nombre);
             modelo.put("email", email);
 
-            return "usuario_modificar.html";
+            return "usuario-modificar.html";
         }
 
     }
-
 }

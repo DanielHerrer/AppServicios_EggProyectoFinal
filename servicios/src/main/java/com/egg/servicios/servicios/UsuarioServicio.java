@@ -1,13 +1,12 @@
 package com.egg.servicios.servicios;
 
 import com.egg.servicios.entidades.Imagen;
-import com.egg.servicios.entidades.Servicio;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.enumeraciones.Ubicacion;
-import com.egg.servicios.servicios.ImagenServicio;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.UsuarioRepositorio;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +20,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,7 +37,6 @@ public class UsuarioServicio implements UserDetailsService {
     @Autowired
     private ImagenServicio imagenServicio;
 
-    @Transactional
     public void registrar(MultipartFile archivo, String accUsuario, Rol rol, String nombre, String email, Ubicacion ubicacion, String password, String password2) throws MiException {
 
         validar(nombre, email, accUsuario, ubicacion, password, password2);
@@ -49,21 +46,20 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setAccUsuario(accUsuario);
         usuario.setNombre(nombre);
         usuario.setEmail(email);
-        
+
         usuario.setUbicacion(ubicacion);
 
         usuario.setPassword(new BCryptPasswordEncoder().encode(password));
-        
+
         usuario.setRol(rol);
 
         Imagen imagen = imagenServicio.guardar(archivo);
-
+        
         usuario.setImagen(imagen);
 
         usuarioRepositorio.save(usuario);
     }
 
-    @Transactional
     public void actualizar(MultipartFile archivo, String idUsuario, Rol rol, Ubicacion ubicacion, String nombre, String accUsuario, String email, String password, String password2) throws MiException {
 
         validar(nombre, email, accUsuario, ubicacion, password, password2);
@@ -214,6 +210,69 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
+    public boolean configurarUsuario(MultipartFile archivo, String nombre, String email, String id, String password, String password2, String accUsuario, Ubicacion ubicacion) throws MiException {
+        try {
+             
+            validarUsuario(email,id,password, password2);
+           Optional<Usuario> userResponse = usuarioRepositorio.findById(id);
+            if (userResponse.isPresent()) {
+                Usuario user = userResponse.get();
+                
+                if (!email.isEmpty()) {
+                    user.setEmail(email);
+                }
+                if (!nombre.isEmpty()) {
+                    user.setNombre(nombre);
+                }
+                if (!password.isEmpty()) {
+            user.setPassword(new BCryptPasswordEncoder().encode(password));           
+                }
+                if (ubicacion != null) {
+                    user.setUbicacion(ubicacion);
+                }
+                if (!accUsuario.isEmpty()) {
+                    user.setAccUsuario(accUsuario);
+                }       
+                String idImagen ="";
+                
+                if (!archivo.isEmpty()) {                       
+                  if (user.getImagen() != null) {
+                        idImagen = user.getImagen().getId();
+                    }
+                    Imagen imagen = (Imagen) imagenServicio.actualizar(archivo, idImagen);
+                    user.setImagen(imagen);
+                }
+                
+                usuarioRepositorio.save(user);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
+    private void validarUsuario(String email,String id, String password, String password2) throws MiException {
+   Optional<Usuario> user1 = usuarioRepositorio.findByEmail(email);
+        Usuario u1 = user1.get();
+        Optional<Usuario> user2 = usuarioRepositorio.findById(id);
+        Usuario u2 = user2.get();
+        if (u1.getEmail() != u2.getEmail()) {
+           throw new MiException("Estas ingresando con un email que no pertenece a esta cuenta");
+        }
+        if (password.isEmpty() || password == null) {
+            throw new MiException("La contraseña no puede ser nulo o estar vacio.");
+        }
+        if (!password.equals(password2)) {
+            throw new MiException("Las contraseñas ingresadas deben ser iguales.");
+        }
+
+    }
+    
+    
+    
+    
     private void validar(String nombre, String email, String accUsuario, Ubicacion ubicacion, String password, String password2) throws MiException {
 
         if (nombre.trim().isEmpty() || nombre == null) {
@@ -240,5 +299,7 @@ public class UsuarioServicio implements UserDetailsService {
         }
 
     }
+
+   
 
 }

@@ -27,4 +27,7 @@ public interface ContratoRepositorios extends JpaRepository<Contrato, String> {
     @Query("SELECT c FROM Contrato c WHERE c.oferta.servicio.proveedor.id = :idProveedor")
     public List<Contrato> listarContratosPorProveedor(@Param("idProveedor") String idProveedor);
 
+    @Query("SELECT c FROM Contrato c WHERE c.oferta.cliente.id = :idCliente")
+    public List<Contrato> listarProveedor(@Param("idCliente") String idCliente);
+
 }
