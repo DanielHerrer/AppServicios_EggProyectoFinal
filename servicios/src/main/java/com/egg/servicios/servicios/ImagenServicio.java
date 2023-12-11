@@ -24,10 +24,12 @@ public class ImagenServicio {
     @Autowired
     private ImagenRepositorio imagenRepositorio;
 
-    public Imagen guardar(MultipartFile archivo) throws MiException, IOException {
+    public Imagen guardar(MultipartFile archivo) throws MiException {
 
-        if (archivo == null || archivo.isEmpty()) {
-    
+        try {
+            
+            if (archivo == null || archivo.isEmpty()) {
+
                 Imagen imagen = new Imagen();
 
                 // Cargar imagen predeterminada desde la carpeta resources/static/img/
@@ -39,12 +41,8 @@ public class ImagenServicio {
                 imagen.setContenido(defaultImageBytes);
 
                 return imagenRepositorio.save(imagen);
-
-        }
-
-        if (archivo != null) {
-            try {
-
+            } else if (archivo != null) {
+                
                 Imagen imagen = new Imagen();
 
                 imagen.setMime(archivo.getContentType());
@@ -53,13 +51,14 @@ public class ImagenServicio {
 
                 imagen.setContenido(archivo.getBytes());
 
-                return (Imagen) imagenRepositorio.save(imagen);
-
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
+                return (Imagen) imagenRepositorio.save(imagen);                
             }
+            
+            return null;
+            
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
         }
-        return null;
     }
 
     public Imagen actualizar(MultipartFile archivo, String idImagen) throws MiException {

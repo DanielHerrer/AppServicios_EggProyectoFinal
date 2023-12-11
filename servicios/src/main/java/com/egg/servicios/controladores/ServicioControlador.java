@@ -74,7 +74,7 @@ public class ServicioControlador {
 
         } catch (MiException ex) {
 
-            cargarModeloConCategorias(modelo);
+            cargarModeloConCategorias(modelo);  
 
             Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
             modelo.addAttribute("proveedor", proveedor);
@@ -280,5 +280,23 @@ public class ServicioControlador {
 
         return puntuaciones;
     }
+    
+    @GetMapping("/categorias")
+    public String seleccionarServicio(ModelMap modelo, HttpSession session,String nameCate){       
+        try {     
+             modelo.addAttribute("categoria",  categoriaServicio.listarCategorias());      
+            return "index.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "test_servicio_read_proveedor.html";
+        }
+        
+        
+            
+    }
+            
+            
+            
 
 }

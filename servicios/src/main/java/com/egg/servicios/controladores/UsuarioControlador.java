@@ -5,16 +5,20 @@
 package com.egg.servicios.controladores;
 
 import com.egg.servicios.entidades.Usuario;
+import com.egg.servicios.enumeraciones.Rol;
+import com.egg.servicios.enumeraciones.Ubicacion;
 import com.egg.servicios.servicios.UsuarioServicio;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -71,7 +75,6 @@ public class UsuarioControlador {
     public String listarTodos(ModelMap modelo) {
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
         modelo.addAttribute("usuarios", usuarios);
-
         return "usuarios_list.html";
     }
 
@@ -97,40 +100,76 @@ public class UsuarioControlador {
         }
 
     }
+    
 
-       @GetMapping("/restablecer")
-    public String modificarUsuario(String email, String password,String password2,String accUsuario,HttpSession session, ModelMap modelo) {
+       @GetMapping("/restablecer/proveedor")
+    public String modificarProveedor(HttpSession session, ModelMap modelo) {
         try {
-            Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
-              usuarioServicio.configurarUsuario(email, password, accUsuario);
-            if (logueado != null) {
-               return "index.html";
+            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+            modelo.addAttribute("ubicaciones", Ubicacion.values());
+              modelo.put("rol", Rol.PROVEEDOR);
+              modelo.put("usuario", usuario);
+            if (usuario != null) {
+             return "test_modificar_pass.html";    
             }
-         return "test_modificar_pass.html";
-
+          return "index.html";
+           
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
             return "test_modificar_pass.html";
         }
     }
     
-    @PostMapping("/restablecer")
-    public String modificarUsuario1(String email, String password,String password2,String accUsuario,HttpSession session, ModelMap modelo) {
+      @GetMapping("/restablecer/cliente")
+    public String modificarCliente(HttpSession session, ModelMap modelo) {
         try {
-            Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
-              usuarioServicio.configurarUsuario(email, password, accUsuario);
-            if (logueado != null) {
-               return "index.html";
+            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+            modelo.addAttribute("ubicaciones", Ubicacion.values());
+              modelo.put("rol", Rol.CLIENTE);
+              modelo.put("usuario", usuario);
+            if (usuario != null) {
+             return "test_modificar_pass.html";    
             }
-         return "test_modificar_pass.html";
-
+          return "index.html";
+           
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
             return "test_modificar_pass.html";
         }
+    }
+    
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_ADMIN','ROLE_PROVEEDOR')")
+    @PostMapping("/restablecer/{id}")
+    public String modificarUsuario1(@PathVariable String id, MultipartFile archivo,String nombre,String email, String password,String password2,String accUsuario,Ubicacion ubicacion,HttpSession session, Rol rol,ModelMap modelo) {
+        try {
+        
+            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+            modelo.put("usuario", usuario);
+              usuarioServicio.configurarUsuario(archivo, nombre, email,id, password, password2, accUsuario, ubicacion);              
+                  if (usuario != null) {
+             return "redirect:/logout";    
+                  }
+               return "index.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            modelo.put("nombre", nombre);
+            modelo.put("accUsuario", accUsuario);
+            modelo.put("email", email);
+            modelo.put("ubicacion", ubicacion);
+            
+             if (rol.equals(Rol.PROVEEDOR)) {
+                modelo.put("rol", Rol.PROVEEDOR);
+                modelo.addAttribute("ubicaciones", Ubicacion.values());
+                return "test_modificar_pass.html";
+            } 
+            if (rol.equals(Rol.CLIENTE)) {
+                modelo.put("rol", Rol.CLIENTE);
+                modelo.addAttribute("ubicaciones", Ubicacion.values());
+                return "test_modificar_pass.html";    
+            }
+           return "test_modificar_pass.html";    
+        }
 
     }
-  
-
-
 }
