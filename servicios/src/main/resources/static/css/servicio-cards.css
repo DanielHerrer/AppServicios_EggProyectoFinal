@@ -5,12 +5,13 @@
 }
 
 .img_perfil_nav {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border: 2px solid rgb(169, 212, 241);
     border-radius: 50%;
     overflow: hidden;
     margin-top: -7px; 
+    border:3px solid #fff;
 }
 .img-matricula {
     width: 300px;
