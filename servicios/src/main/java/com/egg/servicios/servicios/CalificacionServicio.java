@@ -37,15 +37,12 @@ public class CalificacionServicio {
 
     
     public List<Calificacion> listarCalificaciones() {
-
         List<Calificacion> calificaciones = calificacionRepositorio.listarCalificacionesActivos();
-
         return calificaciones;
     }
 
     public Calificacion listarPorId(String id) {
-        return calificacionRepositorio.getReferenceById(id);
-
+        return calificacionRepositorio.getById(id);
     }
 
     public void modificarCalificacion(String comentario, Integer puntuacion, String id) throws MiException {

@@ -5,6 +5,7 @@ import com.egg.servicios.enumeraciones.Estados;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.ContratoRepositorios;
 import com.egg.servicios.repositorios.OfertaRepositorio;
+
 import com.egg.servicios.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import com.egg.servicios.repositorios.ContratoRepositorio;
 
 /**
  *
@@ -32,9 +34,9 @@ public class ServicioControlador {
     @Autowired
     private OfertaServicio ofertaServicio;
     @Autowired
-    private ContratoServicios contratoServicio;
+    private ContratoServicio contratoServicio;
     @Autowired
-    private ContratoRepositorios contratoRepositorios;
+    private ContratoRepositorio contratoRepositorios;
     @Autowired
     private CalificacionServicio calificacionServicio;
     @Autowired
@@ -72,7 +74,7 @@ public class ServicioControlador {
 
         } catch (MiException ex) {
 
-            cargarModeloConCategorias(modelo);
+            cargarModeloConCategorias(modelo);  
 
             Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
             modelo.addAttribute("proveedor", proveedor);
@@ -90,10 +92,12 @@ public class ServicioControlador {
 
     }
 
+
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
     @PostMapping("/contratar") // localhost:8080/servicio/contratar
     public String registroContrato(@RequestParam String descripcion, @RequestParam String idServicio,
             ModelMap modelo, HttpSession session) {
+
 
         try {
             Usuario cliente = (Usuario) session.getAttribute("usuarioSession");
@@ -106,8 +110,10 @@ public class ServicioControlador {
             oferta.setCliente(cliente);
             ofertaRepositorio.save(oferta);
 
-            contratoServicio.crearContrato(oferta);
+
+            contratoServicio.crearContrato(oferta.getId());
             return "redirect:/servicio/listar/cliente";
+
 
         } catch (MiException ex) {
 
@@ -127,10 +133,10 @@ public class ServicioControlador {
             // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
             List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
 
-            modelo.addAttribute("servicios", servicios);
-            modelo.addAttribute("puntuaciones", puntuaciones);
-     
-            return "test_servicio_read.html";
+            modelo.addAttribute("servicios",servicios);
+            modelo.addAttribute("puntuaciones",puntuaciones);
+
+            return "listar-servicios.html";
 
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
@@ -274,5 +280,23 @@ public class ServicioControlador {
 
         return puntuaciones;
     }
+    
+    @GetMapping("/categorias")
+    public String seleccionarServicio(ModelMap modelo, HttpSession session,String nameCate){       
+        try {     
+             modelo.addAttribute("categoria",  categoriaServicio.listarCategorias());      
+            return "index.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "test_servicio_read_proveedor.html";
+        }
+        
+        
+            
+    }
+            
+            
+            
 
 }

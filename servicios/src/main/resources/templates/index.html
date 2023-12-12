@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+ <!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="utf-8" />
 
-        <title>servicio</title>
+        <title>Inicio</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -30,55 +29,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                         <div class="row align-items-center">
                             <div class="col-lg-12">
                                 <!-- navbar -->
-                                <nav class="navbar navbar-expand-lg pt-3">
-                                    <a class="navbar-brand" href="index.html">
-                                        <img src="/img/logo2.png" alt="Logo" />
-                                    </a>
-                                    <button
-                                        class="navbar-toggler"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#navbarSupportedContent6"
-                                        aria-controls="navbarSupportedContent6"
-                                        aria-expanded="false"
-                                        aria-label="Toggle navigation"
-                                        >
-                                        <span class="toggler-icon"></span>
-                                        <span class="toggler-icon"></span>
-                                        <span class="toggler-icon"></span>
-                                    </button>
+                                <nav th:replace="~{/fragments/nav.html :: nav}"></nav>           
 
-                                    <div
-                                        class="collapse navbar-collapse sub-menu-bar"
-                                        id="navbarSupportedContent6"
-                                        >
-                                        <ul id="nav6" class="navbar-nav ms-auto">
-                                            <li class="nav-item">
-                                                <a class="page-scroll active" href="/">Home</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="page-scroll" href="#nosotros">Nosotros</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="page-scroll" href="#servicios">Servicios</a>
-                                            </li>
-
-
-                                            <li class="dropdown">
-                                                <a class="nav-link dropdown-toggle icono-nav" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-                                                    <i class="bi bi-person-fill"></i>
-
-                                                </a>
-                                                <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item submenu" href="/login">Login</a></li>
-                                                    <li><a class="dropdown-item submenu" href="/registrar">Registrar</a></li>
-
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </nav>
                                 <!-- fin navbar -->
                             </div>
                         </div>
@@ -131,55 +83,55 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
                     <div class="row mt-5">
                         <div class="col-lg-4 col-md-6">
-                                
+
                             <div class="card profile-card-3">
                                 <div class="figure background-block">
                                     <img src="/img/plomero.jpg" alt="profile-sample1" class="card-img-top" />
                                 </div>
-                                
+
                                 <div class="card-content">
-                                <h2>lomeros</h3>
+                                    <h3>Plomeros</h3>
                                     <p>Reparaciones en general</p>
-                                <div class="icon-block py-2"><a href="#">ver +</a></div>
+                                    <div class="icon-block py-2"><a href="#">Ver más</a></div>
                                 </div>
                             </div>
-                          
+
                         </div>
-                             <div class="col-lg-4 col-md-6">
-                                
+                        <div class="col-lg-4 col-md-6">
+
                             <div class="card profile-card-3">
                                 <div class="figure background-block">
                                     <img src="/img/electricista.jpg" alt="profile-sample1" class="card-img-top" />
                                 </div>
-                                
+
                                 <div class="card-content">
-                                <h2>Electricistas</h3>
+                                    <h3>Electricistas</h3>
                                     <p>Reparaciones en general</p>
-                                <div class="icon-block py-2"><a href="#">ver +</a></div>
+                                    <div class="icon-block py-2"><a href="#">Ver más</a></div>
                                 </div>
                             </div>
-                          
+
                         </div>
-                     
-                             <div class="col-lg-4 col-md-6 pb-5">
-                                
+
+                        <div class="col-lg-4 col-md-6 pb-5">
+
                             <div class="card profile-card-3">
                                 <div class="figure background-block">
                                     <img src="/img/gasista.jpg" alt="profile-sample1" class="card-img-top" />
                                 </div>
-                                
+
                                 <div class="card-content">
-                                <h2>Gasistas</h3>
+                                    <h3>Gasistas</h3>
                                     <p>Reparaciones en general</p>
-                                <div class="icon-block py-2"><a href="#">ver +</a></div>
+                                    <div class="icon-block py-2"><a href="#">Ver más</a></div>
                                 </div>
                             </div>
-                          
+
                         </div>
-                     
-                     
-                         
-                       
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -289,9 +241,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
             </div>
         </section>
-
-
-        <!-- footer -->
 
         <footer class="footer footer-style">
             <div class="container">
