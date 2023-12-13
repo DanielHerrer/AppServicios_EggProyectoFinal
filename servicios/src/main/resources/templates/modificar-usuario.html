@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />
 
-	<title>ReparApp · Administrar Perfil</title>
+	<title>Administrar Perfil · ReparApp</title>
 	<meta name="description" content="" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -56,6 +56,7 @@
 			<div class="row d-flex justify-content-center">
 				<div class="col-md-6">
 					<div class="card border-0 p-4 card-login mb-2">
+						<a class="btn-danger" href="/usuario/restablecer/password">Modificar contraseña</a>
 						<a
 								class="col-md-12 d-flex justify-content-center pb-3"
 								href="index.html"
@@ -89,37 +90,26 @@
 							<input type="hidden" name="rol" th:value="${rol}">
 
 							<div class="form-group my-0">
-								<label for="exampleInputUser" class="form-label">Nombre</label>
-								<input type="text" class="form-control" name="nombre"  th:value="${usuario.nombre}" >
+								<label for="nombre" class="form-label">Nombre</label>
+								<input type="text" class="form-control" id="nombre" name="nombre"  th:value="${usuario.nombre}" >
 							</div>
 
 							<div class="form-group my-0">
-								<label for="exampleInputEmail" class="form-label">Email</label>
-								<input type="email" class="form-control" name="email"  th:value="${usuario.email}" >
+								<label for="email" class="form-label">Email</label>
+								<input type="email" class="form-control" id="email" name="email"  th:value="${usuario.email}" >
 							</div>
 
 							<div class="form-group my-0">
-								<label for="exampleInputUserName" class="form-label">Nombre Usuario</label>
-								<input type="text" class="form-control" name="accUsuario" th:value="${usuario.accUsuario}">
+								<label for="accUsuario" class="form-label">Nombre Usuario</label>
+								<input type="text" class="form-control" id="accUsuario" name="accUsuario" th:value="${usuario.accUsuario}">
 							</div>
 
 							<div class="form-group my-0">
-								<label for="exampleInputUserName" class="form-label">Ubicación</label>
-								<select class="form-select" aria-label="Default select" name="ubicacion" th:value="${usuario.ubicacion}" required>
+								<label for="ubicacion" class="form-label">Ubicación</label>
+								<select class="form-select" aria-label="Default select" id="ubicacion" name="ubicacion" th:value="${usuario.ubicacion}" required>
 									<option selected disabled value="">Ubicacion</option>
 									<option th:each="ubicacion : ${ubicaciones}" th:value="${usuario.ubicacion}" th:text="${ubicacion.name()}"></option>
 								</select>
-							</div>
-
-							<div class="form-group my-1">
-								<label for="exampleInputPassword1" class="form-label">Password</label>
-								<input type="password" class="form-control" name="password" >
-							</div>
-
-							<div class="form-group my-3">
-								<label for="exampleInputPassword2" class="form-label"
-								>Repetir Password</label>
-								<input type="password" class="form-control" name="password2" >
 							</div>
 
 							<div class="text-center mt-5">
@@ -130,15 +120,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-md-12 d-flex justify-content-center">
-                            <span class="fw-bolder"
-							>Si ya tenes un usuario ingresa desde </span
-							><a class="link-primary fw-bolder mx-1" href="/login">
-					aquí</a
-				>
-				</div>
-			</div>
+
 			<div class="row">
 				<div class="col-md-12 d-flex justify-content-end mb-2">
 					<a class="btn btn-dark" href="/registrar">Volver</a>
