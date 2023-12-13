@@ -131,10 +131,12 @@ public class PortalControlador {
             modelo.put("error", "Usuario o Contraseña invalidos!");
         }
 
-        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
-        if (logueado != null) {
-            return "redirect:/inicio";
-        }
+// GENERA BUG AL INGRESAR ERRONEAMENTE LA CONTRASENIA
+//        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+//
+//        if (logueado != null) {
+//            return "redirect:/inicio";
+//        }
 
         return "login.html";
     }

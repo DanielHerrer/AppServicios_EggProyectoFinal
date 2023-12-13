@@ -112,7 +112,6 @@ public class UsuarioServicio implements UserDetailsService {
         } else {
             throw new MiException("El usuario con ID " + idUsuario + " no fue encontrado.");
         }
-
     }
 
     public List<Usuario> listarUsuarios() {
