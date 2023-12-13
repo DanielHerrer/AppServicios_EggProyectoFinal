@@ -101,6 +101,7 @@ public class ServicioServicio {
     }
 
     //AGREGADO -- PARA SERVICIO CONTROLADOR 13/12
+    @Transactional
     public void darBaja(String idServicio) throws MiException {
         try {
             Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
@@ -116,6 +117,23 @@ public class ServicioServicio {
             throw new MiException(e.getMessage());
         }
     }
+        
+        @Transactional
+        public void darAlta(String idServicio) throws MiException {
+        try {
+            Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
+
+            if (respuesta.isPresent()) {
+
+                Servicio servicio = respuesta.get();
+                servicio.setAlta(Boolean.TRUE);
+
+                servicioRepositorio.save(servicio);
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
 
     //AGREGADO -- PARA SERVICIO CONTROLADOR 13/12
     
@@ -124,6 +142,10 @@ public class ServicioServicio {
         return servicioRepositorio.getReferenceById(idServicio);
     }
 
+    public List<Servicio> listarServiciosTodos() {
+        return servicioRepositorio.findAll();
+    }
+    
     public List<Servicio> listarServicios() {
         return servicioRepositorio.listarServiciosActivos();
     }

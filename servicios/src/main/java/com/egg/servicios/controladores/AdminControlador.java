@@ -4,6 +4,7 @@
  */
 package com.egg.servicios.controladores;
 
+import com.egg.servicios.entidades.Servicio;
 import com.egg.servicios.entidades.Usuario;
 import com.egg.servicios.enumeraciones.Rol;
 import com.egg.servicios.enumeraciones.Ubicacion;
@@ -78,7 +79,7 @@ public class AdminControlador {
         return "registrar-proveedor.html";
 
     }
-    
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/registro")
     public String registro(@RequestParam String accUsuario, @RequestParam Rol rol, @RequestParam Ubicacion ubicacion, @RequestParam String nombre, @RequestParam String email, @RequestParam String password,
@@ -161,17 +162,27 @@ public class AdminControlador {
 
     //SERVICIOS ------------------------------------->
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/listadm/servicios")
-    public String listarServicios(ModelMap modelo) {
-        return "redirect:../servicios/listarservicios";
+    @GetMapping("/listarservicios")
+    public String listarServiciosADM(ModelMap modelo) {
+        List<Servicio> servicios = servicioServicio.listarServiciosTodos();
+        modelo.addAttribute("servicios", servicios);
+        return "listar-servicios-adm.html";
     }
 
     //BOTON DAR DE BAJA
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @PostMapping("/darbaja/{id}")
+    @PostMapping("/baja/{id}")
     public String darBaja(@PathVariable String id, ModelMap modelo) throws MiException {
         servicioServicio.darBaja(id);
-        return "redirect:../listar/servicios";
+        return "redirect:../listarservicios";
+    }
+
+    //BOTON DAR DE ALTA
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping("/alta/{id}")
+    public String darAlta(@PathVariable String id, ModelMap modelo) throws MiException {
+        servicioServicio.darAlta(id);
+        return "redirect:../listarservicios";
     }
 
 }

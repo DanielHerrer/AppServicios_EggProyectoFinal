@@ -123,9 +123,9 @@ public class ServicioControlador {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listarservicios")
     public String listarServiciosADM(ModelMap modelo) {
-        List<Servicio> servicios = servicioServicio.listarServicios();
+        List<Servicio> servicios = servicioServicio.listarServiciosTodos();
         modelo.addAttribute("servicios", servicios);
-        return "listar-servicios.html";
+        return "listar-servicios-adm.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
