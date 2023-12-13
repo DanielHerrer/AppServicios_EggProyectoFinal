@@ -110,7 +110,6 @@ public class ServicioControlador {
             oferta.setCliente(cliente);
             ofertaRepositorio.save(oferta);
 
-
             contratoServicio.crearContrato(oferta.getId());
             return "redirect:/servicio/listar/cliente";
 
