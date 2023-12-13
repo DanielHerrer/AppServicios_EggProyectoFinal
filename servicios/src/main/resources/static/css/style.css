@@ -369,6 +369,11 @@ button.navbar-toggler {
 	border: 2px solid rgb(169, 212, 241);
 	border-radius: 50%;
 }
+
+.contrato {
+        margin: 0 0 20px 0;
+}
+
 .card_body {
 	height: 500px;
 }
