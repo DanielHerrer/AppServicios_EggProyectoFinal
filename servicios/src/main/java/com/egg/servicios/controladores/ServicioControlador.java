@@ -136,11 +136,11 @@ public class ServicioControlador {
             modelo.addAttribute("servicios",servicios);
             modelo.addAttribute("puntuaciones",puntuaciones);
 
-            return "listar-servicios.html";
+            return "test_servicio_read.html";
 
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
-            return "listar-servicios.html";
+            return "test_servicio_read.html";
         }
 
     }

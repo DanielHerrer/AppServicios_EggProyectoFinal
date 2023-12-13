@@ -79,8 +79,9 @@
                            sec:authorize="hasRole('PROVEEDOR')"  th:href="@{/usuario/restablecer/proveedor}" >
                             Usuario</a></li>
 
+
                     <li><a class="dropdown-item" 
-                           sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/listar}" >
+                           sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/listar/proveedor}" >
                             Servicios</a></li>
                     <li><a class="dropdown-item" 
                            sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/registrar}" >
