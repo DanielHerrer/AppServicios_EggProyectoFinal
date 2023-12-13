@@ -70,7 +70,8 @@ public class UsuarioControlador {
 
         return "usuarios_list.html";
     }
-
+    
+    
     @GetMapping("/listacompleta")
     public String listarTodos(ModelMap modelo) {
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();
@@ -87,7 +88,7 @@ public class UsuarioControlador {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @PostMapping("/modificar/{id}")
+    @PostMapping("/rol/{id}")
     public String modificarRolAdmin(@PathVariable String id, ModelMap modelo) {
         try {
             usuarioServicio.modificarRolAdmin(id);

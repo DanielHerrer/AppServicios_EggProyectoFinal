@@ -1,7 +1,7 @@
 <!-- @format -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="utf-8" />
 
@@ -55,21 +55,20 @@
                                 <div class="row">
                                     <div class="col-md-4 d-flex flex-column">
                                         <h6 class="text-primary pb-3 text-center">Usuarios</h6>
-                                        <a href="registrar-usuario.html" class="btn  boton my-1">Registrar usuario</a>
-                                        <a href="listar-usuarios.html" class="btn  boton my-1">Listar usuarios</a>
-
+                                        <a sec:authorize="hasRole('ADMIN')"><a href="/admin/registrar/cliente" class="btn  boton my-1">Registrar Cliente</a>
+                                        <a sec:authorize="hasRole('ADMIN')"><a href="/admin/listadmclientes" class="btn  boton my-1">Listar Usuarios</a>
                                     </div>
                                     <div class="col-md-4 d-flex flex-column">
                                         <h6 class="text-primary pb-3 text-center">Profesionales</h6>
-                                        <a href="registrar-servicio.html" class="btn b boton my-1">Registrar Profesional</a>
-                                        <a href="listar-servicios.html" class="btn b boton my-1">Listar Profesionales</a>
-                                        <a href="modificar-servicio.html" class="btn  boton my-1">Modificar Profesional</a>
+                                        <a sec:authorize="hasRole('ADMIN')" href="/admin/registrar/proveedor" class="btn b boton my-1">Registrar Profesional</a>
+                                        <a sec:authorize="hasRole('ADMIN')" href="/admin/listadmproveedores" class="btn b boton my-1">Listar Profesionales</a>
+                                        <!-- <a sec:authorize="hasRole('ADMIN')" href="/servicio/listar/cliente" class="btn  boton my-1">Modificar Profesional</a> -->
                                     </div>
                                     <div class="col-md-4 d-flex flex-column">
                                         <h6 class="text-primary pb-3 text-center">Servicios</h6>
-                                        <a href="#" class="btn  boton my-1">Registrar Servicio</a>
-                                        <a href="#" class="btn  boton my-1">Listar Servicios</a>
-                                        <a href="#" class="btn  boton my-1">Modificar Servicios</a>
+                                        <a sec:authorize="hasRole('ADMIN')" href="/servicio/listar/cliente" class="btn  boton my-1">Registrar Servicio x</a>
+                                        <a sec:authorize="hasRole('ADMIN')" href="/admin/listadm/servicios" class="btn  boton my-1">Listar Servicios</a>
+                                        <!--<a sec:authorize="hasRole('ADMIN')" href="/servicio/listar/cliente" class="btn  boton my-1">Modificar Servicios x</a>-->
                                     </div>
                                 </div>
                             </div>
