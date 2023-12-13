@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
 
-        <title>Inicio</title>
+        <title>ReparApp</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
@@ -31,8 +31,17 @@
                             <div class="col-lg-12">
                                 <!-- navbar -->
                                 <nav th:replace="~{/fragments/nav.html :: nav}"></nav>           
-
                                 <!-- fin navbar -->
+                            </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <!-- buscador para invitados -->
+                                <div class="col-4 buscador" th:if="${session.usuarioSession == null}" >
+                                    <form class="d-flex" role="search" action="/servicio/listar/buscar" METHOD="GET">
+                                        <input name="input" class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
+                                        <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -35,4 +35,20 @@ public interface ServicioRepositorio extends JpaRepository<Servicio, String> {
             "AND s.id NOT IN (SELECT c.oferta.servicio.id FROM Contrato c WHERE c.oferta.cliente.id = :idCliente)")
     public List<Servicio> listarServiciosActivosPorCliente(@Param("idCliente") String idCliente);
 
+    // Selecciona servicios relacionados según la lupa de búsqueda
+    @Query("SELECT s FROM Servicio s " +
+            "WHERE s.alta = true " +
+            "AND (s.categoria.nombre LIKE %:input% " +
+            "OR s.proveedor.nombre LIKE %:input% " +
+            "OR s.descripcion LIKE %:input%)")
+    public List<Servicio> listarServiciosBusqueda(@Param("input") String input);
+
+    // Selecciona servicios relacionados según la lupa de búsqueda y que el cliente NO HAYA SOLICITADO
+    @Query("SELECT s FROM Servicio s WHERE s.alta = true " +
+            "AND s.id NOT IN (SELECT c.oferta.servicio.id FROM Contrato c WHERE c.oferta.cliente.id = :idCliente) " +
+            "AND (s.categoria.nombre LIKE %:input% " +
+            "OR s.proveedor.nombre LIKE %:input% " +
+            "OR s.descripcion LIKE %:input%)")
+    List<Servicio> listarServiciosBusquedaCliente(@Param("idCliente") String idCliente, @Param("input") String input);
+
 }

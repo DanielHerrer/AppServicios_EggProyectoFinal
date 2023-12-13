@@ -44,7 +44,7 @@
                    data-bs-toggle="dropdown" 
                    aria-expanded="false">
 
-                    <i class="bi bi-person-fill"></i>
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
 
                 </a>
 
@@ -73,14 +73,15 @@
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" 
-                           sec:authorize="hasRole('CLIENTE')" th:href="@{/usuario/restablecer/cliente}" >
+                           sec:authorize="hasRole('CLIENTE')" th:href="@{/usuario/restablecer}" >
                             Usuario</a></li>
                     <li><a class="dropdown-item" 
-                           sec:authorize="hasRole('PROVEEDOR')"  th:href="@{/usuario/restablecer/proveedor}" >
+                           sec:authorize="hasRole('PROVEEDOR')"  th:href="@{/usuario/restablecer}" >
                             Usuario</a></li>
 
+
                     <li><a class="dropdown-item" 
-                           sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/listar}" >
+                           sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/listar/proveedor}" >
                             Servicios</a></li>
                     <li><a class="dropdown-item" 
                            sec:authorize="hasRole('PROVEEDOR')" th:href="@{/servicio/registrar}" >
@@ -119,7 +120,7 @@
                 <a class="page-scroll" th:href="@{/}" th:if="${session.usuarioSession != null}"
                    
                    >
-    <i class="fa-solid fa-bell"></i>
+                    <i class="fa-solid fa-bell"></i>
                 </a>  
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">                                                                 
                     <li class="nav-item dropdown" >

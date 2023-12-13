@@ -115,6 +115,14 @@ public class ServicioServicio {
         return servicioRepositorio.listarServiciosPorProveedor(idProveedor);
     }
 
+    public List<Servicio> listarServiciosBuscar(String input) {
+        return servicioRepositorio.listarServiciosBusqueda(input);
+    }
+
+    public List<Servicio> listarServiciosBuscarPorCliente(String idCliente, String input) {
+        return servicioRepositorio.listarServiciosBusquedaCliente(idCliente, input);
+    }
+
     public boolean existsByDescripcion(String descripcion) throws MiException {
         try {
             List<Servicio> servicios = servicioRepositorio.findByDescripcion(descripcion);
@@ -179,5 +187,4 @@ public class ServicioServicio {
         return (Servicio) servicioRepositorio.getOne(id);
     }
 
-    
 }
