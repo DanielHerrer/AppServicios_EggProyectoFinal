@@ -78,7 +78,8 @@ public class AdminControlador {
         return "registrar-proveedor.html";
 
     }
-
+    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/registro")
     public String registro(@RequestParam String accUsuario, @RequestParam Rol rol, @RequestParam Ubicacion ubicacion, @RequestParam String nombre, @RequestParam String email, @RequestParam String password,
             String password2, ModelMap modelo, MultipartFile archivo) throws IOException {
