@@ -1,8 +1,11 @@
 package com.egg.servicios.controladores;
 
+import com.egg.servicios.entidades.Usuario;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -53,7 +56,8 @@ public class ErrorControlador implements ErrorController {
 	}
 
 	
-	public String getErrorPath() {
-		return "/test_error.html";
+	public String getErrorPath( ) {
+           
+		return "/error.html";
 	}
 }
