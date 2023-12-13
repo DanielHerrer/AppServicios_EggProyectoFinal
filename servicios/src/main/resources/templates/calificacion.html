@@ -1,10 +1,11 @@
-<!-- MODELO IARA -->
+<!-- @format -->
+
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="utf-8" />
 
-        <title>Test Categoria Lista<</title>
+        <title>Calificar · ReparApp</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -19,7 +20,7 @@
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
             />
         <link rel="stylesheet" href="/css/style.css" />
-        <link rel="stylesheet" href="/css/servicio-cards.css">
+        <link rel="stylesheet" href="/css/calificacion.css" />
     </head>
     <body>
         <section id="home" class="hero-section">
@@ -28,10 +29,11 @@
                 <div class="navbar-area sticky"><!-- sticky prueba barra fijada  -->
                     <div class="container">
                         <div class="row align-items-center">
-                            <div class="col-lg-12">                           
+                            <div class="col-lg-12">
                                 <!-- navbar -->
-                            <nav th:replace="~{/fragments/nav.html :: nav}"></nav>
-                            <!-- fin navbar -->
+                                <nav th:replace="~{/fragments/nav.html :: nav}"></nav>           
+
+                                <!-- fin navbar -->
                             </div>
                         </div>
                     </div>
@@ -40,51 +42,95 @@
             </header>
             <!-- imagen de fondo -->
             <div
-                class="hero-section hero-style img-bg vh-100"
+                class="hero-section hero-style img-bg"
                 style="background-image: url('/img/hero-bg.svg')"
                 >
+                <!-- contenido  -->
                 <div class="container">
+                   <div class="row d-flex v-100 justify-content-center">
+				<div
+					class="col-12 col-md-6 d-flex justify-content-center align-items-center"
+				>
+					<div class="card p-5 pb-4 shadow">
+						<div class="row d-flex justify-content-between">
+							<div class="col-3 d-flex justify-content-center">
+								<img
+									src="img/user1.JPG"
+									alt="imagen del profesional"
+									class="img-profesional"
+								/>
+							</div>
+							<div class="col-9">
+								<h4 class="fw-bold titulo-calificacion mb-3">
+									Califica el servicio de Rodrigo
+								</h4>
+								<p class="mb-0 text-muted fs-5">
+									Reparación de la cañería de un bajo mesada
+								</p>
+								<b class="text-primary">Plomeria</b>
+							</div>
+						</div>
+						<div class="row d-flex justify-content-center pt-4">
+							<form action="/calificado/${contrato.id}" method="POST" class=" ">
+								<div
+									class="col-12 d-flex justify-content-around calificacion-estrellas"
+								>
+									<input
+										type="radio"
+										name="calificacion"
+										id="star-1"
+										class="calificacion"
+									/>
+									<label for="star-1">
+										<i class="bi bi-star-fill star"></i>
+									</label>
 
-                    <!-- agregar -->
-                    <!-- contenido -->
-                    <!-- acá -->
-                    <!-- ! -->
-                    <table class="table">
-                        <thead class="table-dark">
-                            <tr>
-                                <th scope="col">id</th>
-                                <th scope="col">Nombre</th>
-                                <th scope="col" sec:authorize="hasRole('ADMIN')" >Acciones</th>
-                                <th scope="col" sec:authorize="hasRole('ADMIN')">Eliminar</th>
-                            </tr>
-                        </thead>
+									<input type="radio" name="calificacion" id="star-2" />
+									<label for="star-2">
+										<i class="bi bi-star-fill star"></i>
+									</label>
 
-                        <tbody th:each="categoria : ${categorias}">
-                            <tr>
-                                <th scope="row" th:text="${categoria.id}"></th>
-                                <td th:text="${categoria.nombre}"></td>
-                                <td sec:authorize="hasRole('ADMIN')">
-                                    <a th:href= "@{/categoria/modificar/__${categoria.id}__}"><i class="fas fa-feather-alt"></i> Modificar </a>
-                                </td>
-                                <td sec:authorize="hasRole('ADMIN')">
-                                    <a th:href= "@{/categoria/eliminado/__${categoria.id}__}"><i class="fas fa-feather-alt"></i> Eliminar </a>
-                                </td>
-                            </tr>
-                        </tbody>
+									<input type="radio" name="calificacion" id="star-3" />
+									<label for="star-3">
+										<i class="bi bi-star-fill star"></i>
+									</label>
 
-                    </table>
+									<input type="radio" name="calificacion" id="star-4" />
+									<label for="star-4">
+										<i class="bi bi-star-fill star"></i>
+									</label>
+
+									<input type="radio" name="calificacion" id="star-5" />
+									<label for="star-5">
+										<i class="bi bi-star-fill star"></i>
+									</label>
+								</div>
+								<div class="col-12 mt-5">
+									<label
+										for="exampleFormControlTextarea1"
+										class="form-label text-dark fw-semibold"
+										>Contanos como fue la atención del profesional</label
+									>
+									<textarea
+										class="form-control"
+										id="exampleFormControlTextarea1"
+										rows="3"
+										placeholder="El servicio me pareció ... "
+									></textarea>
+								</div>
+								<div class="col-12 mt-3 d-flex justify-content-center pt-3">
+									<button type="submit" class="btn btn-warning">
+										Calificar
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
                 </div>
-
-
-            </div>
-
         </section>
-
-
-
-        <!-- footer -->
-
-        <footer class="footer footer-style">
+          <footer class="footer footer-style">
             <div class="container">
                 <div class="widget-wrapper">
                     <div class="row">
@@ -100,19 +146,19 @@
                                     <li>
                                         <a  href="https://www.instagram.com/" target="_blank">
                                             <i class="bi bi-instagram"></i
-                                            >
+                                            ></i>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="https://www.twitter.com/" target="_blank">
                                             <i class="bi bi-twitter-x"></i
-                                            >
+                                            ></i>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="https://www.facebook.com/" target="_blank">
                                             <i class="bi bi-facebook" ></i
-                                            >
+                                            ></i>
                                         </a>
                                     </li>
                                     <li>
@@ -127,9 +173,10 @@
                             <div class="footer-widget">
                                 <h6>Enlaces</h6>
                                 <ul class="links">
-                                    <li><a href="/index.html">Home</a></li>
+                                    <li><a href="/">Home</a></li>
                                     <li><a href="/">Nosotros</a></li>
-                                    <li><a href="#servicios">servicios</a></li>
+                                    <li sec:authorize="hasRole('CLIENTE')"><a href="/servicio/listar/cliente">Servicios</a></li>
+                                    <li sec:authorize="hasRole('PROVEEDOR')"><a href="/servicio/listar">Servicios</a></li>
                                     <li><a href="/">Perfil</a></li>
                                 </ul>
                             </div>

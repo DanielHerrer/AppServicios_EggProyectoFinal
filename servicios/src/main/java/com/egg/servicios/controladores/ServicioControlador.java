@@ -5,6 +5,7 @@ import com.egg.servicios.enumeraciones.Estados;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.ContratoRepositorios;
 import com.egg.servicios.repositorios.OfertaRepositorio;
+
 import com.egg.servicios.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import com.egg.servicios.repositorios.ContratoRepositorio;
 
 /**
  *
@@ -32,9 +34,9 @@ public class ServicioControlador {
     @Autowired
     private OfertaServicio ofertaServicio;
     @Autowired
-    private ContratoServicios contratoServicio;
+    private ContratoServicio contratoServicio;
     @Autowired
-    private ContratoRepositorios contratoRepositorios;
+    private ContratoRepositorio contratoRepositorios;
     @Autowired
     private CalificacionServicio calificacionServicio;
     @Autowired
@@ -52,7 +54,7 @@ public class ServicioControlador {
         return "registrar-servicio.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR','ROLE_ADMIN')")
     @PostMapping("/registro") // localhost:8080/servicio/registro
     public String registroServicio(@RequestParam String descripcion, @RequestParam Double honorariosHora,
             MultipartFile matricula, @RequestParam String idCategoria,
@@ -72,7 +74,7 @@ public class ServicioControlador {
 
         } catch (MiException ex) {
 
-            cargarModeloConCategorias(modelo);
+            cargarModeloConCategorias(modelo);  
 
             Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
             modelo.addAttribute("proveedor", proveedor);
@@ -90,10 +92,12 @@ public class ServicioControlador {
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
+
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_ADMIN')")
     @PostMapping("/contratar") // localhost:8080/servicio/contratar
     public String registroContrato(@RequestParam String descripcion, @RequestParam String idServicio,
             ModelMap modelo, HttpSession session) {
+
 
         try {
             Usuario cliente = (Usuario) session.getAttribute("usuarioSession");
@@ -106,8 +110,10 @@ public class ServicioControlador {
             oferta.setCliente(cliente);
             ofertaRepositorio.save(oferta);
 
-            contratoServicio.crearContrato(oferta);
+
+            contratoServicio.crearContrato(oferta.getId());
             return "redirect:/servicio/listar/cliente";
+
 
         } catch (MiException ex) {
 
@@ -121,16 +127,18 @@ public class ServicioControlador {
     public String listarServicios(ModelMap modelo, HttpSession session) {
 
         try {
-            Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
+            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+            modelo.put("usuario", usuario);
+
             // Se carga la lista de servicios en su totalidad
             List<Servicio> servicios = servicioServicio.listarServicios();
             // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
             List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
 
-            modelo.addAttribute("servicios", servicios);
-            modelo.addAttribute("puntuaciones", puntuaciones);
-     
-            return "test_servicio_read.html";
+            modelo.addAttribute("servicios",servicios);
+            modelo.addAttribute("puntuaciones",puntuaciones);
+
+            return "listar-servicios.html";
 
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
@@ -139,7 +147,7 @@ public class ServicioControlador {
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_ADMIN')")
     @GetMapping("/listar/cliente")
     public String listarServiciosCliente(ModelMap modelo, HttpSession session) {
 
@@ -155,16 +163,16 @@ public class ServicioControlador {
             modelo.addAttribute("servicios",servicios);
             modelo.addAttribute("puntuaciones",puntuaciones);
 
-            return "test_servicio_read_cliente.html";
+            return "listar-servicios-cliente.html";
 
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
-            return "test_servicio_read_cliente.html";
+            return "listar-servicios-cliente.html";
         }
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR','ROLE_ADMIN')")
     @GetMapping("/listar/proveedor")
     public String listarServiciosProveedor(ModelMap modelo, HttpSession session) {
 
@@ -172,19 +180,92 @@ public class ServicioControlador {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             modelo.put("usuario", usuario);
 
-            // Se carga la lista de servicios evitando mostrar servicios ya solicitados por el cliente
-            List<Servicio> servicios = servicioServicio.listarServiciosPorCliente(usuario.getId());
+            // Se carga la lista de servicios en su totalidad
+            List<Servicio> servicios = servicioServicio.listarServicios();
             // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
             List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
 
             modelo.addAttribute("servicios",servicios);
             modelo.addAttribute("puntuaciones",puntuaciones);
 
-            return "test_servicio_read_proveedor.html";
+            return "listar-servicios-proveedor.html";
 
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
-            return "test_servicio_read_proveedor.html";
+            return "listar-servicios-proveedor.html";
+        }
+
+    }
+
+    @GetMapping("/listar/buscar")
+    public String listarServiciosBuscar(@RequestParam String input, ModelMap modelo, HttpSession session) {
+
+        try {
+            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+            modelo.put("usuario", usuario);
+
+            // Se carga la lista de servicios en su totalidad
+            List<Servicio> servicios = servicioServicio.listarServiciosBuscar(input);
+            // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
+            List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
+
+            modelo.addAttribute("servicios",servicios);
+            modelo.addAttribute("puntuaciones",puntuaciones);
+
+            return "listar-servicios.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "listar-servicios.html";
+        }
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_ADMIN')")
+    @GetMapping("/listar/cliente/buscar")
+    public String listarServiciosBuscarCliente(@RequestParam String input, ModelMap modelo, HttpSession session) {
+
+        try {
+            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+            modelo.put("usuario", usuario);
+
+            // Se carga la lista de servicios evitando mostrar servicios ya solicitados por el cliente
+            List<Servicio> servicios = servicioServicio.listarServiciosBuscarPorCliente(usuario.getId(), input);
+            // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
+            List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
+
+            modelo.addAttribute("servicios",servicios);
+            modelo.addAttribute("puntuaciones",puntuaciones);
+
+            return "listar-servicios-cliente.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "listar-servicios-cliente.html";
+        }
+
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR','ROLE_ADMIN')")
+    @GetMapping("/listar/proveedor/buscar")
+    public String listarServiciosBuscarProveedor(@RequestParam String input, ModelMap modelo, HttpSession session) {
+
+        try {
+            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+            modelo.put("usuario", usuario);
+
+            // Se carga la lista de servicios en su totalidad
+            List<Servicio> servicios = servicioServicio.listarServiciosBuscar(input);
+            // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
+            List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
+
+            modelo.addAttribute("servicios",servicios);
+            modelo.addAttribute("puntuaciones",puntuaciones);
+
+            return "listar-servicios-proveedor.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "listar-servicios-proveedor.html";
         }
 
     }
@@ -201,7 +282,7 @@ public class ServicioControlador {
         return "test_servicio_update.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR','ROLE_ADMIN')")
     @PostMapping("/modificado/{id}")
     public String modificado(@PathVariable String id, @RequestParam String descripcion,
             @RequestParam Double honorariosHora, MultipartFile matricula,
@@ -214,7 +295,7 @@ public class ServicioControlador {
 
             modelo.put("exito", "Servicio actualizado correctamente!");
 
-            return "test_servicio_read.html";
+            return "listar-servicios.html";
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
@@ -273,6 +354,19 @@ public class ServicioControlador {
         }
 
         return puntuaciones;
+    }
+    
+    @GetMapping("/categorias")
+    public String seleccionarServicio(ModelMap modelo, HttpSession session,String nameCate){       
+        try {     
+             modelo.addAttribute("categoria",  categoriaServicio.listarCategorias());      
+            return "index.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "listar-servicios-proveedor.html";
+        }
+            
     }
 
 }
