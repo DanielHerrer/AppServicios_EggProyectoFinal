@@ -159,7 +159,7 @@ public class PortalControlador {
          modelo.addAttribute("ubicaciones", Ubicacion.values());
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
         modelo.put("usuario", usuario);
-        return "usuario-modificar.html";
+        return "modificar-usuario.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
@@ -179,7 +179,7 @@ public class PortalControlador {
             modelo.put("nombre", nombre);
             modelo.put("email", email);
 
-            return "usuario-modificar.html";
+            return "modificar-usuario.html";
         }
 
     }

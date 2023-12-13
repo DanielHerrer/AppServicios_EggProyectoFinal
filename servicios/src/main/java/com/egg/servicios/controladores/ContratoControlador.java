@@ -143,7 +143,7 @@ public class ContratoControlador {
     public String calificarContrato(@PathVariable String idContrato, ModelMap modelo) {
 
         modelo.put("contrato", contratoServicio.getOne(idContrato));
-        return "test_modificar_contra.html";
+        return "calificacion.html";
     }
 
     @PostMapping("/calificado/{id}")
