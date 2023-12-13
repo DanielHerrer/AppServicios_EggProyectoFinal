@@ -86,6 +86,22 @@ public class UsuarioControlador {
 
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping("/modificar/{id}")
+    public String modificarRolAdmin(@PathVariable String id, ModelMap modelo) {
+        try {
+            usuarioServicio.modificarRolAdmin(id);
+
+            return "redirect:../listacompleta";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+
+            return "usuario_modificar.html";
+        }
+
+    }
+
     @PostMapping("/modificar/{id}")
     public String modificar(@PathVariable String id, Boolean alta, ModelMap modelo) {
         try {
@@ -100,56 +116,55 @@ public class UsuarioControlador {
         }
 
     }
-    
 
-       @GetMapping("/restablecer/proveedor")
+    @GetMapping("/restablecer/proveedor")
     public String modificarProveedor(HttpSession session, ModelMap modelo) {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             modelo.addAttribute("ubicaciones", Ubicacion.values());
-              modelo.put("rol", Rol.PROVEEDOR);
-              modelo.put("usuario", usuario);
+            modelo.put("rol", Rol.PROVEEDOR);
+            modelo.put("usuario", usuario);
             if (usuario != null) {
-             return "test_modificar_pass.html";    
+                return "test_modificar_pass.html";
             }
-          return "index.html";
-           
+            return "inicio.html";
+
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
             return "test_modificar_pass.html";
         }
     }
-    
-      @GetMapping("/restablecer/cliente")
+
+    @GetMapping("/restablecer/cliente")
     public String modificarCliente(HttpSession session, ModelMap modelo) {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             modelo.addAttribute("ubicaciones", Ubicacion.values());
-              modelo.put("rol", Rol.CLIENTE);
-              modelo.put("usuario", usuario);
+            modelo.put("rol", Rol.CLIENTE);
+            modelo.put("usuario", usuario);
             if (usuario != null) {
-             return "test_modificar_pass.html";    
+                return "test_modificar_pass.html";
             }
-          return "index.html";
-           
+            return "inicio.html";
+
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
             return "test_modificar_pass.html";
         }
     }
-    
+
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_ADMIN','ROLE_PROVEEDOR')")
     @PostMapping("/restablecer/{id}")
-    public String modificarUsuario1(@PathVariable String id, MultipartFile archivo,String nombre,String email, String password,String password2,String accUsuario,Ubicacion ubicacion,HttpSession session, Rol rol,ModelMap modelo) {
+    public String modificarUsuario1(@PathVariable String id, MultipartFile archivo, String nombre, String email, String password, String password2, String accUsuario, Ubicacion ubicacion, HttpSession session, Rol rol, ModelMap modelo) {
         try {
-        
+
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             modelo.put("usuario", usuario);
-              usuarioServicio.configurarUsuario(archivo, nombre, email,id, password, password2, accUsuario, ubicacion);              
-                  if (usuario != null) {
-             return "redirect:/logout";    
-                  }
-               return "index.html";
+            usuarioServicio.configurarUsuario(archivo, nombre, email, id, password, password2, accUsuario, ubicacion);
+            if (usuario != null) {
+                return "redirect:/inicio";
+            }
+            return "index.html";
 
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
@@ -157,18 +172,18 @@ public class UsuarioControlador {
             modelo.put("accUsuario", accUsuario);
             modelo.put("email", email);
             modelo.put("ubicacion", ubicacion);
-            
-             if (rol.equals(Rol.PROVEEDOR)) {
+
+            if (rol.equals(Rol.PROVEEDOR)) {
                 modelo.put("rol", Rol.PROVEEDOR);
                 modelo.addAttribute("ubicaciones", Ubicacion.values());
                 return "test_modificar_pass.html";
-            } 
+            }
             if (rol.equals(Rol.CLIENTE)) {
                 modelo.put("rol", Rol.CLIENTE);
                 modelo.addAttribute("ubicaciones", Ubicacion.values());
-                return "test_modificar_pass.html";    
+                return "test_modificar_pass.html";
             }
-           return "test_modificar_pass.html";    
+            return "test_modificar_pass.html";
         }
 
     }

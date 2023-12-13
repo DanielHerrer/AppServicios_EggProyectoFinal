@@ -100,6 +100,26 @@ public class ServicioServicio {
         }
     }
 
+    //AGREGADO -- PARA SERVICIO CONTROLADOR 13/12
+    public void darBaja(String idServicio) throws MiException {
+        try {
+            Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
+
+            if (respuesta.isPresent()) {
+
+                Servicio servicio = respuesta.get();
+                servicio.setAlta(Boolean.FALSE);
+
+                servicioRepositorio.save(servicio);
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
+    //AGREGADO -- PARA SERVICIO CONTROLADOR 13/12
+    
+    
     public Servicio listarPorId(String idServicio) {
         return servicioRepositorio.getReferenceById(idServicio);
     }
@@ -111,6 +131,7 @@ public class ServicioServicio {
     public List<Servicio> listarServiciosPorCliente(String idCliente) {
         return servicioRepositorio.listarServiciosActivosPorCliente(idCliente);
     }
+
     public List<Servicio> listarServiciosPorProveedor(String idProveedor) {
         return servicioRepositorio.listarServiciosPorProveedor(idProveedor);
     }
@@ -179,5 +200,4 @@ public class ServicioServicio {
         return (Servicio) servicioRepositorio.getOne(id);
     }
 
-    
 }

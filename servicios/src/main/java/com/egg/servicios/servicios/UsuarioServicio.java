@@ -150,6 +150,19 @@ public class UsuarioServicio implements UserDetailsService {
         }
 
     }
+    
+        public void modificarRolAdmin(String id) {
+        Optional<Usuario> usuarioRespuesta = usuarioRepositorio.findById(id);
+        //Persistimos con repositorio, buscamos por id, verificamos que la respuesta este presente y la asignamos a una variable usuario,
+        // en esta se setea el alta como falso("eliminado") y se vuelve a persistir para guardar en el repositorio.
+        if (usuarioRespuesta.isPresent()) {
+            Usuario usuario = usuarioRespuesta.get();
+            usuario.setRol(Rol.ADMIN);
+
+            usuarioRepositorio.save(usuario);
+        }
+
+    }
 
     public Usuario getOne(String id) {
         return (Usuario) usuarioRepositorio.getOne(id);
