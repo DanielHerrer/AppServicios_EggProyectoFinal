@@ -49,27 +49,49 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 class="hero-section hero-style img-bg"
                 style="background-image: url('/img/hero-bg.svg')"
                 >
+                <!-- mensajes informe -->
+                <div
+                        th:if="${error != null}"
+                        class="card text-white bg-danger mb-3 mensajeError"
+                >
+                    <div class="card-body">
+                        <h5 class="card-title">Error 👎</h5>
+                        <p class="card-text" th:text="${error}"></p>
+                    </div>
+                </div>
+                <div
+                        th:if="${exito != null}"
+                        class="card text-white bg-success mb-3 mt-3 mensajeExito"
+                >
+                    <div class="card-body">
+                        <h5 class="card-title">Exito!</h5>
+                        <p class="card-text" th:text="${exito}"></p>
+                    </div>
+                </div>
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="card" th:each="contrato : ${contratos}">
-                                <h5 class="card-header"></h5>
+                                <h5 sec:authorize="hasRole('PROVEEDOR')" class="card-header">Contrato</h5>
+                                <h5 sec:authorize="hasRole('CLIENTE')" class="card-header">Oferta</h5>
+
                                 <h4 class="card-title" th:text="'Profesional: '+${contrato.oferta.servicio.proveedor.nombre}"></h4>
                                 <p class="card-text" th:text="${contrato.oferta.servicio.categoria.nombre}"></p>
+
                                 <div class="card-body">
                                     <h4 class="card-text" th:text="'Estado: '+${contrato.estadoTrabajo.name}"></h4>
                                     <h5 class="card-title" th:text="'Cliente: '+${contrato.oferta.cliente.nombre}"></h5>
                                     <p class="card-text" th:text="${contrato.oferta.descripcion}"></p>
-                                    <form th:if="${contrato.estadoTrabajo.name == 'PENDIENTE'}" sec:authorize="hasRole('PROVEEDOR')" action="" method="">
+                                    <form th:if="${contrato.estadoTrabajo.name == 'PENDIENTE'}" sec:authorize="hasRole('PROVEEDOR')" th:action="@{/contrato/aceptar/__${contrato.id}__}" method="POST">
                                         <button type="submit" class="btn btn-primary"><i class="bi bi-file-check"></i> Aceptar</button>
                                     </form>
-                                    <form th:if="${contrato.estadoTrabajo.name == 'PENDIENTE'}" sec:authorize="hasRole('PROVEEDOR')" action="" method="">
+                                    <form th:if="${contrato.estadoTrabajo.name == 'PENDIENTE'}" sec:authorize="hasRole('PROVEEDOR')" th:action="@{/contrato/rechazar/__${contrato.id}__}" method="POST">
                                         <button type="submit" class="btn btn-primary"><i class="bi bi-x-octagon"></i> Rechazar</button>
                                     </form>
-                                    <form th:if="${contrato.estadoTrabajo.name == 'ACEPTADO'}" sec:authorize="hasRole('PROVEEDOR')" action="" method="">
+                                    <form th:if="${contrato.estadoTrabajo.name == 'ACEPTADO'}" sec:authorize="hasRole('PROVEEDOR')" th:action="@{/contrato/finalizar/__${contrato.id}__}" method="POST">
                                         <button type="submit" class="btn btn-primary"><i class="bi bi-bookmark-check"></i> Finalizar</button>
                                     </form>
-                                    <form th:if="${contrato.estadoTrabajo.name == 'FINALIZADO'}" sec:authorize="hasRole('CLIENTE')" action="" method="">
+                                    <form th:if="${contrato.estadoTrabajo.name} == 'FINALIZADO' and ${contrato.getAptitud()} == null" sec:authorize="hasRole('CLIENTE')" th:action="@{/contrato/calificar/__${contrato.id}__}" method="GET">
                                         <button type="submit" class="btn btn-primary"><i class="bi bi-award-fill"></i> Calificar</button>
                                     </form>
                                 </div>

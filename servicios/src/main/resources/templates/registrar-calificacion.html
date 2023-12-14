@@ -55,29 +55,38 @@
 						<div class="row d-flex justify-content-between">
 							<div class="col-3 d-flex justify-content-center">
 								<img
-									src="img/user1.JPG"
-									alt="imagen del profesional"
+                                    th:src="@{/imagen/usuario/__${contrato.oferta.servicio.proveedor.id}__}"
+									alt="Imagen del profesional"
 									class="img-profesional"
 								/>
 							</div>
 							<div class="col-9">
-								<h4 class="fw-bold titulo-calificacion mb-3">
-									Califica el servicio de Rodrigo
+								<h4 class="fw-bold titulo-calificacion mb-3"
+                                th:text="'Califica el servicio de '+${contrato.oferta.servicio.proveedor.nombre}"
+                                >
 								</h4>
-								<p class="mb-0 text-muted fs-5">
-									Reparación de la cañería de un bajo mesada
+								<p class="mb-0 text-muted fs-5"
+                                th:text="${contrato.oferta.descripcion}"
+                                >
 								</p>
-								<b class="text-primary">Plomeria</b>
+								<b th:text="${contrato.oferta.servicio.categoria.nombre}" class="text-primary"></b>
 							</div>
 						</div>
 						<div class="row d-flex justify-content-center pt-4">
-							<form action="/calificado/${contrato.id}" method="POST" class=" ">
+							<form th:action="@{/contrato/calificado/__${contrato.id}__}" method="POST" class=" ">
+                                <div th:if="${error} != null" class="card text-white bg-danger mb-3 mensajeError" >
+                                    <div class="card-body">
+                                        <h5 class="card-title">Error 👎</h5>
+                                        <p class="card-text" th:text="${error}"></p>
+                                    </div>
+                                </div>
 								<div
 									class="col-12 d-flex justify-content-around calificacion-estrellas"
 								>
 									<input
 										type="radio"
 										name="calificacion"
+                                        value="1"
 										id="star-1"
 										class="calificacion"
 									/>
@@ -85,22 +94,22 @@
 										<i class="bi bi-star-fill star"></i>
 									</label>
 
-									<input type="radio" name="calificacion" id="star-2" />
+									<input type="radio" name="calificacion" value="2" id="star-2" />
 									<label for="star-2">
 										<i class="bi bi-star-fill star"></i>
 									</label>
 
-									<input type="radio" name="calificacion" id="star-3" />
+									<input type="radio" name="calificacion" value="3" id="star-3" />
 									<label for="star-3">
 										<i class="bi bi-star-fill star"></i>
 									</label>
 
-									<input type="radio" name="calificacion" id="star-4" />
+									<input type="radio" name="calificacion" value="4" id="star-4" />
 									<label for="star-4">
 										<i class="bi bi-star-fill star"></i>
 									</label>
 
-									<input type="radio" name="calificacion" id="star-5" />
+									<input type="radio" name="calificacion" value="5" id="star-5" />
 									<label for="star-5">
 										<i class="bi bi-star-fill star"></i>
 									</label>
@@ -115,6 +124,8 @@
 										class="form-control"
 										id="exampleFormControlTextarea1"
 										rows="3"
+                                        style="resize: none;"
+                                        name="comentario"
 										placeholder="El servicio me pareció ... "
 									></textarea>
 								</div>
