@@ -399,6 +399,11 @@ button.navbar-toggler {
     border: 2px solid rgb(169, 212, 241);
     border-radius: 50%;
 }
+
+.contrato {
+        margin: 0 0 20px 0;
+}
+
 .card_body {
     height: 500px;
 }
@@ -811,9 +816,17 @@ button.navbar-toggler {
 }
 
 
+/*
+Bug encontrado: este estilo hace que no se muestren los input (imagen) para el registro de usuarios
 input[type="file"] {
+<<<<<<< HEAD
     display: none;
 }
+=======
+  display: none;
+}*/
+
+>>>>>>> 326a7f631a49524bba6f78f21294fe3c72f64e73
 
 /* Estilo para el contenedor personalizado del input */
 .custom-file-upload {
@@ -825,7 +838,19 @@ input[type="file"] {
     border-radius: 4px;
 }
 
+<<<<<<< HEAD
 /* Estilo para resaltar al pasar el cursor sobre el contenedor */
 .custom-file-upload:hover {
     background-color: #e0e0e0;
 }
+=======
+.stylo-cuerpo-notificacion{
+
+    border: 2px solid #ccc;
+     margin: 15px; 
+  display: inline-block;
+  padding: 3px 6px;
+  cursor: pointer;
+  background-color: #f2f2f2;
+}
+>>>>>>> 326a7f631a49524bba6f78f21294fe3c72f64e73

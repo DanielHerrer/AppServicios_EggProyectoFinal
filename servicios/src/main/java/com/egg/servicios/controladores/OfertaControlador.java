@@ -1,5 +1,6 @@
 package com.egg.servicios.controladores;
 
+import com.egg.servicios.entidades.Contrato;
 import com.egg.servicios.entidades.Oferta;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.servicios.OfertaServicio;
@@ -24,7 +25,7 @@ public class OfertaControlador {
 
     @PostMapping("/registro") // localhost:8080/oferta/registro
     public String registro(@RequestParam String descripcion, @RequestParam String idServicio,
-                           @RequestParam String idCliente, ModelMap modelo) {
+            @RequestParam String idCliente, ModelMap modelo) {
         try {
 
             ofertaServicio.crearOferta(descripcion, idServicio, idCliente);
@@ -61,20 +62,19 @@ public class OfertaControlador {
 
 //        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
 //        modelo.put("usuario", usuario);
-
         return "test_oferta_update.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @PostMapping("/modificado/{id}")
     public String modificado(@PathVariable String id, @RequestParam String descripcion,
-                             @RequestParam String idServicio, @RequestParam String idCliente, ModelMap modelo) {
+            @RequestParam String idServicio, @RequestParam String idCliente, ModelMap modelo) {
 
         try {
 
             ofertaServicio.actualizarOferta(id, descripcion, idServicio, idCliente);
 
-            modelo.put("exito","Oferta actualizada correctamente!");
+            modelo.put("exito", "Oferta actualizada correctamente!");
 
             return "test_oferta_update.html";
 
@@ -85,6 +85,14 @@ public class OfertaControlador {
             modelo.put("idCliente", idCliente);
             return "test_oferta_update.html";
         }
+    }
+
+    
+    @GetMapping("/msj")
+    public String notifications(ModelMap modelo, HttpSession session) {
+        List<Oferta> ofertas = ofertaServicio.listarOfertas();
+        modelo.addAttribute("ofertas", ofertas);
+        return "notificaciones_app.html";
     }
 
 }

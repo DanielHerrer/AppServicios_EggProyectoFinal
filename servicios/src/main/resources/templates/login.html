@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
 
-        <title>Inicio</title>
+        <title>Login · ReparApp</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
@@ -31,11 +31,9 @@
                                 <!-- navbar -->
                                 <nav th:replace="~{/fragments/nav.html :: nav}"></nav>           
 
-                                <!-- fin navbar -->
                             </div>
-                        </div>
+			</div>
                     </div>
-
                 </div>
             </header>
 
@@ -89,9 +87,7 @@
                                             aria-describedby="emailHelp"
                                             name="email"
                                             />
-                                        <div id="emailHelp" class="form-text">
-                                            Tu informacion esta protegida.
-                                        </div>
+                                        
                                     </div>
                                     <div class="my-3">
                                         <label for="exampleInputPassword1" class="form-label"
@@ -103,6 +99,9 @@
                                             id="exampleInputPassword1"
                                             name="password"
                                             />
+                                        <div id="emailHelp" class="form-text">
+                                            Tu informacion esta protegida.
+                                        </div>
                                     </div>
                                     <div class="text-center mt-5">
                                         <button type="submit" class="btn btn-primary">Login</button>
