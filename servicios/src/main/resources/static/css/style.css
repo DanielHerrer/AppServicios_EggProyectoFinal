@@ -9,12 +9,12 @@ html {
 }
 
 body {
-	font-family: "Heebo", sans-serif;
-	color: #585978;
-	
-    font-family: "Heebo", sans-serif;
+      font-family: "Heebo", sans-serif;
     color: #585978;
-    /*background-image: url('../img/hero-bg.svg'); Iara: 'esto no va' */
+    background-image: url('/img/fondo_general.png');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: contain;
 }
 
 
@@ -122,6 +122,8 @@ button:focus {
 }
 
 .buscador{
+   padding-top: 20px;
+   padding-bottom: 60px;
     padding-left:80px;
 }
 
@@ -178,9 +180,9 @@ button:focus {
 }
 /*-------------------------------------------------------
 --------------      header       -----------------------*/
-.header {
+/*.header {
     background: #ffffff;
-}
+}*/
 
 .header .header-action a {
     font-size: 16px;
@@ -193,6 +195,27 @@ button:focus {
     border-radius: 0px;
     position: relative;
     transition: all 0.3s ease-out 0s;
+}
+
+.navbar-notificaciones{
+    position: relative;
+    color: #fff;
+    
+}
+
+
+.navbar-notificaciones a{
+    font-size: 16px;
+    font-weight: 500;
+    color: #585978;
+    transition: all 0.3s ease-out 0s;
+    padding: 7px 15px;
+    margin: 0 3px;
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+    border: 1px solid transparent;
+  
 }
 
 button.navbar-toggler {
@@ -256,6 +279,10 @@ button.navbar-toggler {
     border: 1px solid transparent;
     border-radius: 30px;
 }
+.bi-person-fill{
+    font-size: 20px;
+    margin-bottom: 5px;
+}
 
 .header .navbar-nav .nav-item a:hover,
 .header .navbar-nav .nav-item a.active {
@@ -288,7 +315,7 @@ button.navbar-toggler {
 }
 
 .hero-section {
-    background: #ffffff;
+   /* background: #ffffff;*/
     position: relative;
     overflow: hidden;
 }
@@ -303,7 +330,7 @@ button.navbar-toggler {
     top: 0;
     left: 0;
     z-index: 2;
-    background: transparent;
+    
 }
 /*
 //prueba barra fija
@@ -320,7 +347,7 @@ button.navbar-toggler {
 .hero-section .hero-style {
     position: relative;
     z-index: 1;
-    padding: 270px 0 140px;
+    padding: 140px 0 0px;
 }
 
 .hero-section .hero-style .hero-content-wrapper h2 {
@@ -336,7 +363,7 @@ button.navbar-toggler {
 }
 
 .hero-section .hero-style .hero-image img {
-    width: 100%;
+    width: 80%;
 }
 
 .hero-section .hero-style .shapes .shape {
@@ -498,12 +525,13 @@ button.navbar-toggler {
     color: rgba(255, 255, 255, 0.8);
 }
 
+/*
 .img-bg {
     background-position: 0px 0px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-}
+}*/
 
 .socials {
     display: flex;
@@ -769,14 +797,14 @@ button.navbar-toggler {
     border-radius: 10px 0px;
 }
 
-.logo{  
+.logo{
     width: 30px;
     height: 30px;
     border-radius: 100%
 }
 
 
-.logoPerfil{  
+.logoPerfil{
     width: 85px;
     height: 85px;
     border-radius: 100%
@@ -784,20 +812,20 @@ button.navbar-toggler {
 
 
 input[type="file"] {
-  display: none;
+    display: none;
 }
 
 /* Estilo para el contenedor personalizado del input */
 .custom-file-upload {
-  border: 1px solid #ccc;
-  display: inline-block;
-  padding: 3px 6px;
-  cursor: pointer;
-  background-color: #f2f2f2;
-  border-radius: 4px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 3px 6px;
+    cursor: pointer;
+    background-color: #f2f2f2;
+    border-radius: 4px;
 }
 
 /* Estilo para resaltar al pasar el cursor sobre el contenedor */
 .custom-file-upload:hover {
-  background-color: #e0e0e0;
+    background-color: #e0e0e0;
 }

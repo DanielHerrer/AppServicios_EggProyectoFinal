@@ -14,6 +14,10 @@ label{
 
 }
 
+.contenedor-login{
+    margin-top: 100px;
+}
+
 /* 
 .card-login input {
 	border: 1px solid rgba(108, 168, 236, 0.603);

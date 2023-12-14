@@ -1,4 +1,7 @@
 /** @format */
+.titulo-error{
+    font-size: 80px;
+}
 
 .card_body {
 	height: auto;
@@ -424,4 +427,18 @@
 	background-color: #232323;
 	color: #fff;
 	text-decoration: none;
+}
+
+/*carousel nuevo*/
+.c-item {
+	height: 400px;
+}
+.c-img {
+	height: 100%;
+	object-fit: cover;
+	filter: brightness(0.6);
+}
+.overview-carousel {
+	height: 180px;
+	background-color: #d3dae1;
 }

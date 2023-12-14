@@ -1,9 +1,14 @@
 /** @format */
 
-.texto-tabla th {
-	color: #323450 !important;
+.fondo-contenedor-tabla{
+    background-color:#cfe2ff;
 }
 
-.texto-tabla td {
-	color: #4b4e6e !important;
+.tabla-fondo{
+    background-color: transparent;
+    padding:10px;
 }
+th, td{
+    background-color: transparent;
+}
+
