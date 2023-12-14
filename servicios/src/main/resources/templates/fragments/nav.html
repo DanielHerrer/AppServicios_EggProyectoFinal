@@ -36,7 +36,7 @@
             </li>
             <li th:if="${session.usuarioSession != null}" sec:authorize="hasRole('PROVEEDOR')" class="nav-item">
                 <a class="page-scroll" href="/servicio/listar/proveedor">Servicios</a>
-
+            </li> 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" 
                    th:if="${session.usuarioSession == null}" 
@@ -115,7 +115,6 @@
                 </ul>
             </li>
 
-
             <li  class="nav-item dropdown">
                 <a class="page-scroll" th:href="@{/contrato/listar}" th:if="${session.usuarioSession != null}"
                    
@@ -131,7 +130,11 @@
                 </ul>
             </li>
 
-
         </ul> 
-    </div>
+
+        <div class="notification-icon" onclick="toggleNotifications()">
+            <i class="fa-solid fa-bell"></i>
+            <span class="badge"></span> <!-- Aquí podrías mostrar el número de notificaciones pendientes -->
+        </div>
+
 </nav>

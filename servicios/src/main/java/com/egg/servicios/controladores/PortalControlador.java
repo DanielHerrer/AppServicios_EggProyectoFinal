@@ -144,9 +144,8 @@ public class PortalControlador {
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
     @GetMapping("/inicio")
     public String inicio(ModelMap modelo, HttpSession session) {
-
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
-
+                
         System.out.println("Usuario en sesión: " + logueado);
         modelo.addAttribute("logueado", logueado);
 

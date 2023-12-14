@@ -70,6 +70,14 @@ public class ContratoControlador {
         modelo.addAttribute("contratos", contratos);
         return "listar-contratos.html";
     }
+    
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+    @GetMapping("/listar/proveedor")
+    public String listarProveedor(ModelMap modelo, HttpSession session) {
+      List<Contrato> contratos = contratoServicio.listarContratos();
+        modelo.addAttribute("contratos", contratos);
+        return "listar-contratos.html";
+    }
 
     @GetMapping("/pendientes")
     public String listarPendientes(ModelMap modelo) {
@@ -180,6 +188,20 @@ public class ContratoControlador {
 
         } catch (Exception ex) {
             throw new MiException(ex.getMessage());
+        }
+    }
+
+    @PostMapping("/eliminar/{id}")
+    public String EliminarContrato(@PathVariable String idContrato, ModelMap modelo) throws MiException {
+
+        try {
+            contratoServicio.modificarContrato(idContrato, Estados.RECHAZADO);
+            modelo.put("exito", "El Contrato fue modificado correctamente!");
+            return "HTML";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "test_contrato_registrar";
         }
     }
 

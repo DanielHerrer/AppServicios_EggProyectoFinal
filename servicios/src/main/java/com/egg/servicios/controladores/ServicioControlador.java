@@ -365,7 +365,6 @@ public class ServicioControlador {
             modelo.put("error", ex.getMessage());
             return "listar-servicios-proveedor.html";
         }
-            
     }
 
 }
