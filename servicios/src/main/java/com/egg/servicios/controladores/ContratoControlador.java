@@ -83,6 +83,13 @@ public class ContratoControlador {
         modelo.addAttribute("contratos", contratos);
         return "listar-contratos.html";
     }
+    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
+    @GetMapping("/listar/proveedor")
+    public String listarProveedor(ModelMap modelo, HttpSession session) {
+      List<Contrato> contratos = contratoServicio.listarContratos();
+        modelo.addAttribute("contratos", contratos);
+        return "listar-contratos.html";
+    }
 
     @GetMapping("/pendientes")
     public String listarPendientes(ModelMap modelo) {

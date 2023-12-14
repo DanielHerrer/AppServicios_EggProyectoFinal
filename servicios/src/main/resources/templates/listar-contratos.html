@@ -4,7 +4,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
 <html	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="utf-8" />
 
@@ -49,41 +49,72 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 class="hero-section hero-style img-bg"
                 style="background-image: url('/img/hero-bg.svg')"
                 >
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12">
-                            <div class="card" th:each="contrato : ${contratos}">
-                                <h5 class="card-header"></h5>
-                                <h4 class="card-title" th:text="'Profesional: '+${contrato.oferta.servicio.proveedor.nombre}"></h4>
-                                <p class="card-text" th:text="${contrato.oferta.servicio.categoria.nombre}"></p>
-                                <div class="card-body">
-                                    <h4 class="card-text" th:text="'Estado: '+${contrato.estadoTrabajo.name}"></h4>
-                                    <h5 class="card-title" th:text="'Cliente: '+${contrato.oferta.cliente.nombre}"></h5>
-                                    <p class="card-text" th:text="${contrato.oferta.descripcion}"></p>
-                                    <form th:if="${contrato.estadoTrabajo.name == 'PENDIENTE'}" sec:authorize="hasRole('PROVEEDOR')" action="" method="">
-                                        <button type="submit" class="btn btn-primary"><i class="bi bi-file-check"></i> Aceptar</button>
-                                    </form>
-                                    <form th:if="${contrato.estadoTrabajo.name == 'PENDIENTE'}" sec:authorize="hasRole('PROVEEDOR')" action="" method="">
-                                        <button type="submit" class="btn btn-primary"><i class="bi bi-x-octagon"></i> Rechazar</button>
-                                    </form>
-                                    <form th:if="${contrato.estadoTrabajo.name == 'ACEPTADO'}" sec:authorize="hasRole('PROVEEDOR')" action="" method="">
-                                        <button type="submit" class="btn btn-primary"><i class="bi bi-bookmark-check"></i> Finalizar</button>
-                                    </form>
-                                    <form th:if="${contrato.estadoTrabajo.name == 'FINALIZADO'}" sec:authorize="hasRole('CLIENTE')" action="" method="">
-                                        <button type="submit" class="btn btn-primary"><i class="bi bi-award-fill"></i> Calificar</button>
-                                    </form>
+                <div class="container my-5">
+
+                    <div class="row row-cols-1 row-cols-md-3 g-5">
+                        <div
+                            th:each="contrato : ${contratos}"
+                            class="col-lg-4 col-md-6 col-sm-12"
+                            >
+                            <div
+                                class="card card_body shadow p-5 py-2 bg-body-tertiary rounded border-0"
+                                >
+                                <div class="card_header">
+                                    <div class="row align-self-center border-top border-primary py-3">
+                                        <div class="col-6 align-self-end">
+                                            <img
+                                                th:src="@{/imagen/usuario/__${contrato.oferta.cliente.id}__}"
+                                                class="img_perfil align-self-end"
+                                                alt="imagen de perfil"
+                                                />
+                                        </div>
+                                        <div
+                                            th:text="${contrato.oferta.cliente.nombre}"
+                                            class="col-6 align-self-center fs-5"
+                                            ></div>
+                                    </div>
+                                    <div class="row border-top border-primary">
+                                        <div
+                                            th:text="${contrato.estadoTrabajo.name}"
+                                            class="text-secundary descripcion-card py-2"
+                                          ></div>
+                                    </div>
+                                    <div class="row border-top border-primary">
+                                        <div
+                                            th:text="${contrato.oferta.descripcion}"
+                                            class="text-secundary descripcion-card py-2"
+                                            ></div>
+                                    </div>
+                                    <div class="row border-top py-2">
+                                        <div class="col-12 py-2 text-center">
+                                            <!-- Sin boton de Contratar ya que esta vista es para GUESTS -->
+                                            <form th:if="${contrato.estadoTrabajo.name == 'PENDIENTE'}" sec:authorize="hasRole('PROVEEDOR')" action="" method="">
+                                                <button type="submit" class="btn btn-primary"><i class="bi bi-file-check"></i> Aceptar</button>
+                                            </form>
+                                            <form th:if="${contrato.estadoTrabajo.name == 'PENDIENTE'}" sec:authorize="hasRole('PROVEEDOR')" action="" method="">
+                                                <button type="submit" class="btn btn-primary"><i class="bi bi-x-octagon"></i> Rechazar</button>
+                                            </form>
+                                            <form th:if="${contrato.estadoTrabajo.name == 'ACEPTADO'}" sec:authorize="hasRole('PROVEEDOR')" action="" method="">
+                                                <button type="submit" class="btn btn-primary"><i class="bi bi-bookmark-check"></i> Finalizar</button>
+                                            </form>
+                                            <form th:if="${contrato.estadoTrabajo.name == 'FINALIZADO'}" sec:authorize="hasRole('CLIENTE')" action="" method="">
+                                                <button type="submit" class="btn btn-primary"><i class="bi bi-award-fill"></i> Calificar</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-    </body>
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"
-    ></script>
-</html>
+
+
+                    </div>
+                    </section>
+
+                    </body>
+                    <script
+                        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+                        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+                        crossorigin="anonymous"
+                    ></script>
+                    </html>
