@@ -127,13 +127,16 @@ public class PortalControlador {
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error, ModelMap modelo, HttpSession session) {
 
-        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
         if (error != null) {
             modelo.put("error", "Usuario o Contraseña invalidos!");
         }
-        if (logueado != null) {
-            return "redirect:/inicio";
-        }
+
+// GENERA BUG AL INGRESAR ERRONEAMENTE LA CONTRASENIA
+//        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+//
+//        if (logueado != null) {
+//            return "redirect:/inicio";
+//        }
 
         return "login.html";
     }
@@ -152,34 +155,4 @@ public class PortalControlador {
         return "inicio.html";
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
-    @GetMapping("/perfil")
-    public String perfil(ModelMap modelo, HttpSession session) {
-         modelo.addAttribute("ubicaciones", Ubicacion.values());
-        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-        modelo.put("usuario", usuario);
-        return "usuario-modificar.html";
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
-    @PostMapping("/perfil/{id}")
-    public String actualizar(MultipartFile archivo, @RequestParam Rol rol, @RequestParam Ubicacion ubicacion, @PathVariable String id, @RequestParam String nombre, @RequestParam String email,
-            @RequestParam String accUsuario, @RequestParam String password, @RequestParam String password2, ModelMap modelo) {
-
-        try {
-            usuarioServicio.actualizar(archivo, id, rol, ubicacion, nombre, accUsuario, email, password, password2);
-
-            modelo.put("exito", "Usuario actualizado correctamente!");
-
-            return "inicio.html";
-        } catch (MiException ex) {
-
-            modelo.put("error", ex.getMessage());
-            modelo.put("nombre", nombre);
-            modelo.put("email", email);
-
-            return "usuario-modificar.html";
-        }
-
-    }
 }

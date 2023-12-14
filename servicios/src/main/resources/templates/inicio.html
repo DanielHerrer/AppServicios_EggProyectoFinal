@@ -4,7 +4,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="utf-8" />
-        <title>servicio</title>
+        <title>Inicio · ReparApp</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
@@ -37,9 +37,17 @@
                             </div>
                             <div class="row">
                                 <div class="col-4"></div>
-                                <div class="col-4 buscador">
-                                    <form class="d-flex" role="search">
-                                        <input class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
+                                <!-- buscador -->
+                                <div class="col-4 buscador" th:if="${session.usuarioSession != null}">
+                                    <!-- buscador para clientes -->
+                                    <form class="d-flex" th:if="${#authorization.expression('hasRole(''CLIENTE'')')}" action="/servicio/listar/cliente/buscar" method="GET">
+                                        <input name="input" class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
+                                        <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
+                                    </form>
+
+                                    <!-- buscador para proveedores -->
+                                    <form class="d-flex" th:if="${#authorization.expression('hasRole(''PROVEEDOR'')')}" action="/servicio/listar/proveedor/buscar" method="GET">
+                                        <input name="input" class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
                                         <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
                                     </form>
                                 </div>
