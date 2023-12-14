@@ -72,12 +72,11 @@ public class ContratoControlador {
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
     @GetMapping("/listar/proveedor")
     public String listarProveedor(ModelMap modelo, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-        List<Contrato> contratos = contratoServicio.listarContratosPorProveedor(usuario.getId());
-
-        modelo.addAttribute("lista", contratos);
-        return "test_contrato_lista.html";
+      List<Contrato> contratos = contratoServicio.listarContratos();
+        modelo.addAttribute("contratos", contratos);
+        return "contrato_historial.html";
     }
+
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
     @GetMapping("/listar/cliente")
@@ -138,7 +137,6 @@ public class ContratoControlador {
     }
 
     /*th:href="@{/contrato/listar/cliente}"*/
-
     @GetMapping("/calificar/{id}")
     public String calificarContrato(@PathVariable String idContrato, ModelMap modelo) {
 
@@ -161,7 +159,7 @@ public class ContratoControlador {
     }
 
     @PostMapping("/aceptarcontrato/{id}")
-    public String aceptarContrato(ModelMap modelo, String idContrato) {
+    public String aceptarContrato(ModelMap modelo, @PathVariable String idContrato) {
         try {
             contratoServicio.modificarContrato(idContrato, Estados.ACEPTADO);
             modelo.put("exito", "El Contrato fue modificado correctamente!");
@@ -173,13 +171,27 @@ public class ContratoControlador {
     }
 
     @PostMapping("/rechazarcontrato/{id}")
-    public String rechazarContrato(ModelMap modelo, String idContrato) {
+    public String rechazarContrato(ModelMap modelo, @PathVariable String idContrato) {
         try {
             contratoServicio.modificarContrato(idContrato, Estados.RECHAZADO);
             return "";
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
             return "";
+        }
+    }
+
+    @PostMapping("/eliminar/{id}")
+    public String EliminarContrato(@PathVariable String idContrato, ModelMap modelo) throws MiException {
+
+        try {
+            contratoServicio.modificarContrato(idContrato, Estados.RECHAZADO);
+            modelo.put("exito", "El Contrato fue modificado correctamente!");
+            return "HTML";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "test_contrato_registrar";
         }
     }
 

@@ -291,9 +291,7 @@ public class ServicioControlador {
             modelo.put("error", ex.getMessage());
             return "test_servicio_read_proveedor.html";
         }
-        
-        
-            
+          
     }
             
             

@@ -4,7 +4,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
 -->
 <html	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="utf-8" />
 
@@ -35,94 +35,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         <div class="row align-items-center">
                             <div class="col-lg-12">
                                 <!-- navbar -->
-                                <nav class="navbar navbar-expand-lg pt-3">
-                                    <a class="navbar-brand" href="index.html">
-                                        <img src="/img/logo2.png" alt="Logo" />
-                                    </a>
-                                    <button
-                                        class="navbar-toggler"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#navbarSupportedContent6"
-                                        aria-controls="navbarSupportedContent6"
-                                        aria-expanded="false"
-                                        aria-label="Toggle navigation"
-                                        >
-                                        <span class="toggler-icon"></span>
-                                        <span class="toggler-icon"></span>
-                                        <span class="toggler-icon"></span>
-                                    </button>
-
-                                    <div
-                                        class="collapse navbar-collapse sub-menu-bar"
-                                        id="navbarSupportedContent6"
-                                        >
-                                        <ul id="nav6" class="navbar-nav ms-auto">
-                                            <li class="nav-item">
-                                                <a class="page-scroll active" th:href="@{/}">Home</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="page-scroll" href="#">Nosotros</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="page-scroll" href="#servicios">Servicios</a>
-                                            </li>
-
-
-
-                                            <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" 
-                                                   th:if="${session.usuarioSession == null}" 
-                                                   href="#" id="navbarDropdown" role="button" 
-                                                   data-bs-toggle="dropdown" 
-                                                   aria-expanded="false">
-                                                    <i class="fa-solid fa-right-to-bracket"></i>
-                                                </a>
-
-                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                    <li><a class="dropdown-item" 
-                                                           th:href="@{/login}" >
-                                                            Iniciar Sesion</a></li>
-                                                    <li><a class="dropdown-item" 
-                                                           th:href="@{/registrar}" >
-                                                            Registrar</a></li>     
-                                                </ul>
-                                            </li>
-
-
-                                            <li class="nav-item dropdown">
-                                                <a class="nav-link dropdown-toggle" 
-                                                   th:if="${session.usuarioSession != null}" 
-                                                   href="#" id="navbarDropdown" 
-                                                   role="button" 
-                                                   data-bs-toggle="dropdown" 
-                                                   aria-expanded="false">
-                                                    Perfil
-                                                </a>
-
-                                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                    <li><a class="dropdown-item" 
-                                                           th:href="@{/perfil}" >
-                                                            Editar Perfil</a></li>
-                                                    <li><a class="dropdown-item" 
-                                                           th:sec th:href="@{/contrato/lista}" >
-                                                            Contratos</a></li>            
-                                                    <li><a class="dropdown-item" 
-                                                           href="/logout" >
-                                                            Cerrar Sesión
-                                                        </a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="nav-item dropdown" >
-                                                <a class="page-scroll" th:href="@{/}" th:if="${session.usuarioSession != null}">
-                                                    <i class="fa-solid fa-bell"></i>
-                                                </a>  
-                                            </li>
-
-
-                                        </ul>
-                                    </div>
-                                </nav>
+                                <nav th:replace="~{/fragments/nav.html :: nav}"></nav>           
                                 <!-- fin navbar -->
                             </div>
                         </div>
@@ -131,21 +44,37 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 </div>
             </header>
             <!-- imagen de fondo -->
-            <div
-                class="hero-section hero-style img-bg"
-                style="background-image: url('/img/hero-bg.svg')"
-                >
+            <div class="hero-section hero-style img-bg" tyle="background-image: url('/img/hero-bg.svg')" >
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
-                            <div class="card">
-                                <h5 class="card-header" th:text="${oferta.id}">Nueva Contrato</h5>
+                            <div class="card" th:each="contrato : ${contratos}">
+                                <h5 class="card-header" ></h5>
                                 <div class="card-body">
-                                    <h5 class="card-title" th:text="${oferta.cliente.nombre}"></h5>
-                                    <p class="card-text"  th:text="${oferta.descripcion}"></p>
-                                    <a href="#" class="btn btn-primary">ACEPTAR</a>
-                                    <a href="#" class="btn btn-primary">RECHAZAR</a>
-                                    <a href="#" class="btn btn-primary">ELIMINAR</a>
+                                    <h5 class="card-title" th:text="${contrato.oferta.cliente.nombre}"></h5>
+                                    <p class="card-text"  th:text="${contrato.oferta.descripcion}"></p>
+
+                                    <form sec:authorize="hasRole('PROVEEDOR')" th:action="@{/contrato/aceptarcontrato/__${contrato.id}__}" method="POST">
+                                        <input type="text" name="idContrato"">
+                                        <button type="submit" class="btn-link" >
+                                            <i class="fas fa-feather-alt"></i> Aceptar
+                                        </button>
+                                    </form>
+
+                                    <form sec:authorize="hasRole('PROVEEDOR')" th:action="@{/contrato/rechazarcontrato/__${contrato.id}__}" method="POST">
+                                        <input type="text" name="idContrato"">
+                                        <button type="submit" class="btn-link">                                        
+                                            <i class="fas fa-feather-alt"></i> Rechazar
+                                        </button>
+                                    </form>
+
+                                    <form sec:authorize="hasRole('PROVEEDOR')" th:action="@{/contrato/eliminar/__${contrato.id}__}" method="POST">
+                                        <input type="text" name="idContrato"">
+                                        <button type="submit" class="btn-link" >
+                                            <i class="fas fa-feather-alt"></i> Eliminar
+                                        </button>
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
