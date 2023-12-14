@@ -31,8 +31,13 @@ public interface ServicioRepositorio extends JpaRepository<Servicio, String> {
     public List<Servicio> listarServiciosPorProveedor(@Param("idProveedor") String idProveedor);
 
     // Selecciona los servicios activos que no tienen un contrato asociado al cliente proporcionado
-    @Query("SELECT s FROM Servicio s WHERE s.alta = true " +
-            "AND s.id NOT IN (SELECT c.oferta.servicio.id FROM Contrato c WHERE c.oferta.cliente.id = :idCliente)")
+    @Query("SELECT s FROM Servicio s " +
+            "WHERE s.alta = true " +
+            "AND s.id NOT IN (" +
+            "SELECT c.oferta.servicio.id " +
+            "FROM Contrato c " +
+            "WHERE c.oferta.cliente.id = :idCliente " +
+            "AND (c.estadoTrabajo = 'PENDIENTE' OR c.estadoTrabajo = 'ACEPTADO'))")
     public List<Servicio> listarServiciosActivosPorCliente(@Param("idCliente") String idCliente);
 
     // Selecciona servicios relacionados según la lupa de búsqueda

@@ -10,7 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
- * @author jose
+ * @author Jose
  */
 @Entity
 @Table(name = "calificaciones")
