@@ -35,7 +35,6 @@ public class CalificacionServicio {
         }
     }
 
-    
     public List<Calificacion> listarCalificaciones() {
         List<Calificacion> calificaciones = calificacionRepositorio.listarCalificacionesActivos();
         return calificaciones;
@@ -63,19 +62,36 @@ public class CalificacionServicio {
 
     }
 
-    public void eliminarCalificacion(String id) throws MiException {
-
-        Optional<Calificacion> respuesta = calificacionRepositorio.findById(id);
+    public void alta(String id) throws MiException {
 
         try {
+            Optional<Calificacion> respuesta = calificacionRepositorio.findById(id);
+
             if (respuesta.isPresent()) {
 
                 Calificacion calificacion = respuesta.get();
-                calificacion.setAlta(Boolean.FALSE);
+                calificacion.setAlta(Boolean.TRUE);
                 calificacionRepositorio.save(calificacion);
 
             } else {
                 throw new MiException("El ID Calificacion no corresponde a ninguna existente.");
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+
+    }
+
+    public void baja(String id) throws MiException {
+
+        try {
+            Optional<Calificacion> respuesta = calificacionRepositorio.findById(id);
+
+            if (respuesta.isPresent()) {
+                Calificacion calificacion = respuesta.get();
+                calificacion.setAlta(Boolean.FALSE);
+
+                calificacionRepositorio.save(calificacion);
             }
         } catch (Exception e) {
             throw new MiException(e.getMessage());

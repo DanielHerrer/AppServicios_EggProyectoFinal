@@ -160,6 +160,28 @@ public class AdminControlador {
 
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping("/modificacc/{id}")
+    public String modificaracc(@PathVariable String id, ModelMap modelo) throws MiException {
+        return "redirect:../usuario/restablecer/"+id;
+    }
+
+    //BOTON DAR DE BAJA
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping("/usuariodarbaja/{id}")
+    public String baja(@PathVariable String id, ModelMap modelo) throws MiException {
+        usuarioServicio.baja(id);
+        return "redirect:../listadmusuarios";
+    }
+
+    //BOTON DAR DE ALTA
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping("/usuariodaralta/{id}")
+    public String alta(@PathVariable String id, ModelMap modelo) throws MiException {
+        usuarioServicio.alta(id);
+        return "redirect:../listadmusuarios";
+    }
+
     //SERVICIOS ------------------------------------->
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listarservicios")

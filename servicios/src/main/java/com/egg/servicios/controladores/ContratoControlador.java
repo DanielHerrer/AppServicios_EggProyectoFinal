@@ -59,6 +59,7 @@ public class ContratoControlador {
 
         try {
             contratoServicio.crearContrato(idOferta);
+            
             modelo.put("exito", "El contrato se creo correctamente!");
 
         } catch (MiException ex) {
@@ -169,7 +170,7 @@ public class ContratoControlador {
     public String EliminarContrato(@PathVariable String idContrato, ModelMap modelo) throws MiException {
 
         try {
-            contratoServicio.modificarContrato(idContrato, Estados.ACEPTADO);
+            contratoServicio.modificarContrato(idContrato, Estados.FINALIZADO);
             modelo.put("exito", "El Contrato fue modificado correctamente!");
             return "HTML";
 

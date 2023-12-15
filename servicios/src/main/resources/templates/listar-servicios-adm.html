@@ -23,6 +23,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 <thead>
                     <tr>
                         <!--<th scope="col">ID</th>-->
+                        <th scope="col">Acciones</th>
                         <th scope="col">Descripcion</th>
                         <th scope="col">Honorarios/Hora</th>
                         <th scope="col">Categoria</th>
@@ -35,13 +36,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 <tbody th:each="servicio : ${servicios}"> 
                     <tr>
                         <!--<th scope="row" th:text="${servicio.id}"></th>-->
+                        <td>
+                            <a  sec:authorize="hasRole('ADMIN')" class="btn btn-outline-primary" th:href= "@{/servicio/modificar/__${servicio.id}__}"><i class="bi bi-pencil-square"></i> Modificar </a>
+                        </td>
                         <td th:text="${servicio.descripcion}"></td>
                         <td th:text="${servicio.honorariosHora}"></td>
                         <td th:text="${servicio.categoria.nombre}"></td>
+                        <!--th:text="${servicio.categoria.nombre}"-->
                         <td th:text="${servicio.proveedor.nombre}"></td>
                         <td th:text="${servicio.alta ? 'Alta' : 'Baja'}"></td>
                         <td>
-                            
+
                             <form sec:authorize="hasRole('ADMIN')" th:action="@{/admin/alta/__${servicio.id}__}" method="POST">
                                 <button type="submit" class="btn-link">
                                     <i class="fas fa-feather-alt"></i> Alta

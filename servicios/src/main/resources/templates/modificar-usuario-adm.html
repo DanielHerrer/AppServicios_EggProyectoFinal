@@ -67,12 +67,10 @@
                                     <img src="/img/logo2.png" alt="Logo" />
                                 </a>
                                 <h4 class="text-center fw-bold text-center">
-                                    Registrar Usuario
-                                </h4>
-                                <form class="formulario px-5" th:action="@{/registro}" method="POST" enctype="multipart/form-data">
 
-                                    <!-- ROL -->
-                                    <input type="hidden" name="rol" th:value="${rol}">
+                                    Modificar Usuario
+                                </h4>
+                                <form class="formulario px-5" th:action="@{/usuario/restablecer/__${usuario.id}__}" method="POST" enctype="multipart/form-data">
 
                                     <div class="form-group my-0">
                                         <label for="exampleInputUser" class="form-label">Nombre</label>
@@ -85,10 +83,6 @@
                                         <input type="email" class="form-control" name="email"  th:value="${email}" id="exampleInputEmail">
                                     </div>
                                     <div class="form-group my-0">
-                                        <label for="exampleInputUserName" class="form-label">Nombre Usuario</label>
-                                        <input type="text" class="form-control" name="accUsuario"  th:value="${accUsuario}" id="exampleInputUserName">
-                                    </div>
-                                    <div class="form-group my-0">
                                         <label for="exampleInputUserName" class="form-label">Ubicación</label>
                                         <select class="form-select" aria-label="Default select" name="ubicacion" th:value="${ubicacion}" required>
                                             <option selected disabled value="">Ubicacion</option>
@@ -96,22 +90,20 @@
                                         </select>
                                     </div>
 
+                                    <div class="form-group my-0">
+                                        <label for="exampleInputUserName" class="form-label">Rol</label>
+                                        <select class="form-select" aria-label="Default select" name="rol" th:value="${roles}" required>
+                                            <option selected disabled value="">Ubicacion</option>
+                                            <option th:each="rol : ${roles}" th:value="${roles}" th:text="${rol.name()}"></option>
+                                        </select>
+                                    </div>
+
                                     <div class="form-group my-1">
                                         <label for="imageUser" class="form-label"
                                                >Elige tu imagen de perfil</label
                                         >
-                                        <input type="file" class="form-control" name="archivo" id="imageUser" onchange="validateFile()">
+                                        <input type="file" class="form-control" name="archivo" id="imageUser" >
                                     </div>
-
-
-
-                                    <!-- <div class="form-group my-1">
-                                         <label for="imageUser" class="form-label">Elige tu imagen de perfil</label>
-                                         <input type="file" class="form-control" name="archivo" id="imageUser" onchange="previewImage(this)">
-                                         <img id="preview" class="img-preview" th:src="${usuario.imagen ? usuario.imagen : '/statics.img/default.jpg'}" alt="Vista previa de la imagen" />
-                                     </div>-->
-
-
 
 
                                     <div class="form-group my-1">
@@ -128,7 +120,7 @@
                                     </div>
 
                                     <div class="text-center mt-5">
-                                        <button type="submit" class="btn btn-primary mt-3 botones">Registrarme</button>
+                                        <button type="submit" class="btn btn-primary mt-3 botones">Actualizar</button>
                                     </div>
                                 </form>
                             </div>
@@ -157,25 +149,5 @@
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"
         ></script>
-
-        <script>
-                                            function validateFile() {
-                                                var fileInput = document.getElementById('imageUser');
-                                                var fileSize = fileInput.files[0].size; // tamaño en bytes
-
-                                                // Tamaño máximo permitido (1 MB en bytes)
-                                                var maxSize = 1048576;
-
-                                                if (fileSize > maxSize) {
-                                                    // Limpiar el valor del campo de archivo (opcional)
-                                                    fileInput.value = "";
-
-                                                    // Mostrar alerta
-                                                    alert('La imagen seleccionada supera el tamaño máximo de 1 MB. Por favor, elige una imagen más pequeña.');
-                                                }
-                                            }
-        </script>
-
-
     </body>
 </html>

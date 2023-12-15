@@ -106,6 +106,7 @@ public class PortalControlador {
             modelo.put("accUsuario", accUsuario);
             modelo.put("email", email);
             modelo.put("ubicacion", ubicacion);
+            modelo.put("error", ex.getMessage());
 
             if (rol.equals(Rol.PROVEEDOR)) {
                 modelo.put("rol", Rol.PROVEEDOR);

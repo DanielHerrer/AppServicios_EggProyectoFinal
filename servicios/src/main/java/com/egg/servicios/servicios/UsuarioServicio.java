@@ -54,7 +54,7 @@ public class UsuarioServicio implements UserDetailsService {
         usuario.setRol(rol);
 
         Imagen imagen = imagenServicio.guardar(archivo);
-        
+
         usuario.setImagen(imagen);
 
         usuarioRepositorio.save(usuario);
@@ -137,6 +137,33 @@ public class UsuarioServicio implements UserDetailsService {
         return usuarios;
 
     }
+    
+    public void alta(String id) {
+        Optional<Usuario> usuarioRespuesta = usuarioRepositorio.findById(id);
+        //Persistimos con repositorio, buscamos por id, verificamos que la respuesta este presente y la asignamos a una variable usuario,
+        // en esta se setea el alta como falso("eliminado") y se vuelve a persistir para guardar en el repositorio.
+        if (usuarioRespuesta.isPresent()) {
+            Usuario usuario = usuarioRespuesta.get();
+            usuario.setAlta(true);
+
+            usuarioRepositorio.save(usuario);
+        }
+
+    }
+    
+        
+    public void baja(String id) {
+        Optional<Usuario> usuarioRespuesta = usuarioRepositorio.findById(id);
+        //Persistimos con repositorio, buscamos por id, verificamos que la respuesta este presente y la asignamos a una variable usuario,
+        // en esta se setea el alta como falso("eliminado") y se vuelve a persistir para guardar en el repositorio.
+        if (usuarioRespuesta.isPresent()) {
+            Usuario usuario = usuarioRespuesta.get();
+            usuario.setAlta(false);
+
+            usuarioRepositorio.save(usuario);
+        }
+
+    }
 
     public void modificar(String id, Boolean alta) {
         Optional<Usuario> usuarioRespuesta = usuarioRepositorio.findById(id);
@@ -150,8 +177,8 @@ public class UsuarioServicio implements UserDetailsService {
         }
 
     }
-    
-        public void modificarRolAdmin(String id) {
+
+    public void modificarRolAdmin(String id) {
         Optional<Usuario> usuarioRespuesta = usuarioRepositorio.findById(id);
         //Persistimos con repositorio, buscamos por id, verificamos que la respuesta este presente y la asignamos a una variable usuario,
         // en esta se setea el alta como falso("eliminado") y se vuelve a persistir para guardar en el repositorio.
@@ -225,12 +252,12 @@ public class UsuarioServicio implements UserDetailsService {
 
     public boolean configurarUsuario(MultipartFile archivo, String nombre, String email, String id, String password, String password2, String accUsuario, Ubicacion ubicacion) throws MiException {
         try {
-             
-            validarUsuario(email,id,password, password2);
-           Optional<Usuario> userResponse = usuarioRepositorio.findById(id);
+
+            validarUsuario(email, id, password, password2);
+            Optional<Usuario> userResponse = usuarioRepositorio.findById(id);
             if (userResponse.isPresent()) {
                 Usuario user = userResponse.get();
-                
+
                 if (!email.isEmpty()) {
                     user.setEmail(email);
                 }
@@ -238,24 +265,24 @@ public class UsuarioServicio implements UserDetailsService {
                     user.setNombre(nombre);
                 }
                 if (!password.isEmpty()) {
-            user.setPassword(new BCryptPasswordEncoder().encode(password));           
+                    user.setPassword(new BCryptPasswordEncoder().encode(password));
                 }
                 if (ubicacion != null) {
                     user.setUbicacion(ubicacion);
                 }
                 if (!accUsuario.isEmpty()) {
                     user.setAccUsuario(accUsuario);
-                }       
-                String idImagen ="";
-                
-                if (!archivo.isEmpty()) {                       
-                  if (user.getImagen() != null) {
+                }
+                String idImagen = "";
+
+                if (!archivo.isEmpty()) {
+                    if (user.getImagen() != null) {
                         idImagen = user.getImagen().getId();
                     }
                     Imagen imagen = (Imagen) imagenServicio.actualizar(archivo, idImagen);
                     user.setImagen(imagen);
                 }
-                
+
                 usuarioRepositorio.save(user);
                 return true;
             } else {
@@ -266,13 +293,13 @@ public class UsuarioServicio implements UserDetailsService {
         }
     }
 
-    private void validarUsuario(String email,String id, String password, String password2) throws MiException {
-   Optional<Usuario> user1 = usuarioRepositorio.findByEmail(email);
+    private void validarUsuario(String email, String id, String password, String password2) throws MiException {
+        Optional<Usuario> user1 = usuarioRepositorio.findByEmail(email);
         Usuario u1 = user1.get();
         Optional<Usuario> user2 = usuarioRepositorio.findById(id);
         Usuario u2 = user2.get();
         if (u1.getEmail() != u2.getEmail()) {
-           throw new MiException("Estas ingresando con un email que no pertenece a esta cuenta");
+            throw new MiException("Estas ingresando con un email que no pertenece a esta cuenta");
         }
         if (password.isEmpty() || password == null) {
             throw new MiException("La contraseña no puede ser nulo o estar vacio.");
@@ -282,12 +309,11 @@ public class UsuarioServicio implements UserDetailsService {
         }
 
     }
-    
-    
-    
-    
-    private void validar(String nombre, String email, String accUsuario, Ubicacion ubicacion, String password, String password2) throws MiException {
 
+    private void validar(String nombre, String email, String accUsuario, Ubicacion ubicacion, String password, String password2) throws MiException {
+        
+        byte bites = (byte) 1048576;
+        
         if (nombre.trim().isEmpty() || nombre == null) {
             throw new MiException("El Nombre no puede ser nulo o estar vacío");
         }
@@ -312,7 +338,5 @@ public class UsuarioServicio implements UserDetailsService {
         }
 
     }
-
-   
 
 }

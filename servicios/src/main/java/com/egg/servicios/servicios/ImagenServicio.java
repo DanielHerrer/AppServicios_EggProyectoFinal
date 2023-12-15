@@ -4,6 +4,8 @@ import com.egg.servicios.repositorios.ImagenRepositorio;
 import com.egg.servicios.entidades.Imagen;
 import com.egg.servicios.excepciones.MiException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,9 +27,9 @@ public class ImagenServicio {
     private ImagenRepositorio imagenRepositorio;
 
     public Imagen guardar(MultipartFile archivo) throws MiException {
-
+        
         try {
-            
+
             if (archivo == null || archivo.isEmpty()) { //(if archivo == null || archivo.isEmpty())
 
                 Imagen imagen = new Imagen();
@@ -41,6 +43,7 @@ public class ImagenServicio {
                 imagen.setContenido(defaultImageBytes);
 
                 return imagenRepositorio.save(imagen);
+
             } else if (archivo != null) {
 //                
                 Imagen imagen = new Imagen();
@@ -51,14 +54,14 @@ public class ImagenServicio {
 
                 imagen.setContenido(archivo.getBytes());
 
-                return (Imagen) imagenRepositorio.save(imagen);                
+                return (Imagen) imagenRepositorio.save(imagen);
             }
-            
-            return null;
-            
+
         } catch (Exception e) {
+
             throw new MiException(e.getMessage());
         }
+        return null;
     }
 
     public Imagen actualizar(MultipartFile archivo, String idImagen) throws MiException {
