@@ -28,7 +28,7 @@ public class CategoriaControlador {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/registrar") // localhost:8080/categoria/registrar
     public String registrarCategoria() {
-        return "test_categoria_form.html";
+        return "registrar-categoria.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -45,7 +45,7 @@ public class CategoriaControlador {
         }
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    
     @GetMapping("/listar") // localhost:8080/categoria/listar
     public String listarCategorias(ModelMap modelo) {
         try {

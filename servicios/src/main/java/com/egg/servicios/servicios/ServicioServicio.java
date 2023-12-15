@@ -100,10 +100,52 @@ public class ServicioServicio {
         }
     }
 
+    //AGREGADO -- PARA SERVICIO CONTROLADOR 13/12
+    @Transactional
+    public void darBaja(String idServicio) throws MiException {
+        try {
+            Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
+
+            if (respuesta.isPresent()) {
+
+                Servicio servicio = respuesta.get();
+                servicio.setAlta(Boolean.FALSE);
+
+                servicioRepositorio.save(servicio);
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+        
+        @Transactional
+        public void darAlta(String idServicio) throws MiException {
+        try {
+            Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
+
+            if (respuesta.isPresent()) {
+
+                Servicio servicio = respuesta.get();
+                servicio.setAlta(Boolean.TRUE);
+
+                servicioRepositorio.save(servicio);
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+    }
+
+    //AGREGADO -- PARA SERVICIO CONTROLADOR 13/12
+    
+    
     public Servicio listarPorId(String idServicio) {
         return servicioRepositorio.getReferenceById(idServicio);
     }
 
+    public List<Servicio> listarServiciosTodos() {
+        return servicioRepositorio.findAll();
+    }
+    
     public List<Servicio> listarServicios() {
         return servicioRepositorio.listarServiciosActivos();
     }
@@ -111,8 +153,17 @@ public class ServicioServicio {
     public List<Servicio> listarServiciosPorCliente(String idCliente) {
         return servicioRepositorio.listarServiciosActivosPorCliente(idCliente);
     }
+
     public List<Servicio> listarServiciosPorProveedor(String idProveedor) {
         return servicioRepositorio.listarServiciosPorProveedor(idProveedor);
+    }
+
+    public List<Servicio> listarServiciosBuscar(String input) {
+        return servicioRepositorio.listarServiciosBusqueda(input);
+    }
+
+    public List<Servicio> listarServiciosBuscarPorCliente(String idCliente, String input) {
+        return servicioRepositorio.listarServiciosBusquedaCliente(idCliente, input);
     }
 
     public boolean existsByDescripcion(String descripcion) throws MiException {
@@ -178,6 +229,7 @@ public class ServicioServicio {
     public Servicio getOne(String id) {
         return (Servicio) servicioRepositorio.getOne(id);
     }
-
-    
 }
+
+
+
