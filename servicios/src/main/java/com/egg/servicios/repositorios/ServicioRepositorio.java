@@ -2,11 +2,15 @@ package com.egg.servicios.repositorios;
 
 import com.egg.servicios.entidades.Servicio;
 
+import com.egg.servicios.enumeraciones.Ubicacion;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -53,7 +57,12 @@ public interface ServicioRepositorio extends JpaRepository<Servicio, String> {
             "AND s.id NOT IN (SELECT c.oferta.servicio.id FROM Contrato c WHERE c.oferta.cliente.id = :idCliente) " +
             "AND (s.categoria.nombre LIKE %:input% " +
             "OR s.proveedor.nombre LIKE %:input% " +
+            "OR s.proveedor.ubicacion LIKE %:input% " +
             "OR s.descripcion LIKE %:input%)")
-    List<Servicio> listarServiciosBusquedaCliente(@Param("idCliente") String idCliente, @Param("input") String input);
+    public List<Servicio> listarServiciosBusquedaCliente(@Param("idCliente") String idCliente, @Param("input") String input);
+
+    @Query("SELECT s FROM Servicio s WHERE s.alta = true " +
+            "AND s.proveedor.ubicacion = :input")
+    public List<Servicio> listarServiciosActivosBusquedaZona(@Param("input") Ubicacion ubicacion);
 
 }

@@ -69,6 +69,7 @@ public class UsuarioControlador {
         return "usuarios_list.html";
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listacompleta")
     public String listarTodos(ModelMap modelo) {
         List<Usuario> usuarios = usuarioServicio.listarUsuarios();

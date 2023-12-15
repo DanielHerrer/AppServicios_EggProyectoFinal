@@ -2,6 +2,7 @@ package com.egg.servicios.controladores;
 
 import com.egg.servicios.entidades.*;
 import com.egg.servicios.enumeraciones.Estados;
+import com.egg.servicios.enumeraciones.Ubicacion;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.repositorios.ContratoRepositorios;
 import com.egg.servicios.repositorios.OfertaRepositorio;
@@ -308,6 +309,30 @@ public class ServicioControlador {
 
     }
 
+    @GetMapping("/listar/zona/buscar")
+    public String listarServiciosBuscarZona(@RequestParam("input") Ubicacion ubicacion, ModelMap modelo) {
+
+        try {
+
+            // Se carga la lista de servicios en su totalidad
+            List<Servicio> servicios = servicioServicio.listarServiciosBuscarPorZona(ubicacion);
+            // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
+            List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
+
+            modelo.addAttribute("servicios",servicios);
+            modelo.addAttribute("puntuaciones",puntuaciones);
+
+            return "listar-servicios.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "listar-servicios.html";
+        }
+
+    }
+
+
+
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")
     public String modificarServicio(@PathVariable String id, ModelMap modelo, HttpSession session) {
@@ -333,7 +358,7 @@ public class ServicioControlador {
 
             modelo.put("exito", "Servicio actualizado correctamente!");
 
-            return "listar-servicios.html";
+            return "redirect:/";
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());

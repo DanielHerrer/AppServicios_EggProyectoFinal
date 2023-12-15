@@ -37,6 +37,8 @@ public class PortalControlador {
     @GetMapping("/")//mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
     public String index(ModelMap modelo, HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
+        modelo.put("ubicaciones",Ubicacion.values());
+
         if (logueado != null) {
             return "redirect:/inicio";
         }
@@ -146,7 +148,8 @@ public class PortalControlador {
     @GetMapping("/inicio")
     public String inicio(ModelMap modelo, HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
-                
+        modelo.put("ubicaciones",Ubicacion.values());
+
         System.out.println("Usuario en sesión: " + logueado);
         modelo.addAttribute("logueado", logueado);
 

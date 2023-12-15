@@ -9,7 +9,8 @@ package com.egg.servicios.enumeraciones;
  * @author Nico
  */
 public enum Ubicacion {
-    ZONA1,
-    ZONA2,
-    ZONA3,
+    LAS_HERAS,
+    GUAYMALLEN,
+    SAN_RAFAEL,
+
 }

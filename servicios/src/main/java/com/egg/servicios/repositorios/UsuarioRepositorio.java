@@ -23,16 +23,16 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u WHERE u.accUsuario = :accUsuario")
     public Optional<Usuario> findByAccUsuario(@Param("accUsuario") String accUsuario);
 
-    @Query("SELECT u FROM Usuario u WHERE u.alta = true")
+    @Query("SELECT u FROM Usuario u WHERE u.alta = true ORDER BY u.nombre ASC")
     public List<Usuario> listarUsuariosActivos();
 
-    @Query("SELECT u FROM Usuario u WHERE u.alta = false")
+    @Query("SELECT u FROM Usuario u WHERE u.alta = false ORDER BY u.nombre ASC")
     public List<Usuario> listarUsuariosInactivos();
 
-    @Query("SELECT u FROM Usuario u WHERE u.rol = 'CLIENTE'")
+    @Query("SELECT u FROM Usuario u WHERE u.rol = 'CLIENTE' ORDER BY u.nombre ASC")
     public List<Usuario> listarClientes();
 
-    @Query("SELECT u FROM Usuario u WHERE u.rol = 'PROVEEDOR'")
+    @Query("SELECT u FROM Usuario u WHERE u.rol = 'PROVEEDOR' ORDER BY u.nombre ASC")
     public List<Usuario> listarProveedores();
 
     @Query("SELECT u FROM Usuario u WHERE u.rol = 'ADMIN'")

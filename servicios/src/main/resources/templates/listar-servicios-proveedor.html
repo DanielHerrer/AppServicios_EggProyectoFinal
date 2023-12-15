@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/servicio-cards.css">
 </head>
-<body>
+<body style="background-size: cover;">
 
 <!--header -->
 <header class="header">
@@ -29,17 +29,6 @@
                     <!-- navbar -->
                     <nav th:replace="~{/fragments/nav.html :: nav}"></nav>
                     <!-- fin navbar -->
-                </div>
-                <div class="row">
-                    <div class="col-4"></div>
-                    <!-- buscador -->
-                    <div class="col-4 buscador" th:if="${session.usuarioSession != null}">
-                        <!-- buscador para proveedores -->
-                        <form class="d-flex" th:if="${#authorization.expression('hasRole(''PROVEEDOR'')')}" action="/servicio/listar/proveedor/buscar" method="GET">
-                            <input name="input" class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
-                            <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>
@@ -53,7 +42,17 @@
        
 >
     <div class="container my-5">
-
+        <div class="row  d-flex justify-content-center">
+            <!-- buscador -->
+            <div class="col-4 buscador" th:if="${session.usuarioSession != null}">
+                <!-- buscador para proveedores -->
+                <form class="d-flex" th:if="${#authorization.expression('hasRole(''PROVEEDOR'')')}" action="/servicio/listar/proveedor/buscar" method="GET">
+                    <input name="input" class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
+                    <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
+                </form>
+            </div>
+        </div>
+        <!-- listado de servicios para proveedores -->
         <div class="row row-cols-1 row-cols-md-3 g-5">
             <div
                     th:each="servicio, iterStat : ${servicios}"

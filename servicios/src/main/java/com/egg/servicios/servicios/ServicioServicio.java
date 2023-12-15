@@ -4,6 +4,7 @@ import com.egg.servicios.entidades.Categoria;
 import com.egg.servicios.entidades.Imagen;
 import com.egg.servicios.entidades.Servicio;
 import com.egg.servicios.entidades.Usuario;
+import com.egg.servicios.enumeraciones.Ubicacion;
 import com.egg.servicios.repositorios.CategoriaRepositorio;
 import com.egg.servicios.repositorios.ServicioRepositorio;
 import com.egg.servicios.excepciones.MiException;
@@ -118,8 +119,8 @@ public class ServicioServicio {
         }
     }
         
-        @Transactional
-        public void darAlta(String idServicio) throws MiException {
+    @Transactional
+    public void darAlta(String idServicio) throws MiException {
         try {
             Optional<Servicio> respuesta = servicioRepositorio.findById(idServicio);
 
@@ -164,6 +165,10 @@ public class ServicioServicio {
 
     public List<Servicio> listarServiciosBuscarPorCliente(String idCliente, String input) {
         return servicioRepositorio.listarServiciosBusquedaCliente(idCliente, input);
+    }
+
+    public List<Servicio> listarServiciosBuscarPorZona(Ubicacion ubicacion) {
+        return servicioRepositorio.listarServiciosActivosBusquedaZona(ubicacion);
     }
 
     public boolean existsByDescripcion(String descripcion) throws MiException {

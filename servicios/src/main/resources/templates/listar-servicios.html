@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="/css/style.css" />
         <link rel="stylesheet" href="/css/servicio-cards.css" />
     </head>
-    <body>
+    <body style="background-size: cover;">
         <section id="home" class="hero-section">
             <div class="hero-section pt-5" >
 				
@@ -37,16 +37,6 @@
                                 <!-- navbar -->
                                 <nav th:replace="~{/fragments/nav.html :: nav}"></nav>
                                 <!-- fin navbar -->
-                            </div>
-                            <div class="row">
-                                <div class="col-4"></div>
-                                <!-- buscador para invitados -->
-                                <div class="col-4 buscador" th:if="${session.usuarioSession == null}" >
-                                    <form class="d-flex" action="/servicio/listar/buscar" METHOD="GET">
-                                        <input name="input" class="form-control me-2 inputBuscador" placeholder="Buscar" aria-label="Search">
-                                        <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -75,11 +65,16 @@
                     </div>
                 </div>
                 <div class="container mt-5">
-                    <div class="row-cols-1 d-flex justify-content-center">
-                        <div class="col-md-12">          
-                            <h3 class="text-center mb-5 mt-3">Listado de Profesionales</h3>
+                    <!-- buscador para invitados -->
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-6 buscador" th:if="${session.usuarioSession == null}" >
+                            <form class="d-flex" role="search" action="/servicio/listar/buscar" METHOD="GET">
+                                <input name="input" class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
+                                <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
+                            </form>
                         </div>
                     </div>
+                    <!-- listado de servicios para invitado -->
                     <div class="row row-cols-1 row-cols-md-3 g-5">
                         <div
                             th:each="servicio, iterStat : ${servicios}"

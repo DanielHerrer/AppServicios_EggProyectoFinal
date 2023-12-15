@@ -47,22 +47,27 @@ public class OfertaControlador {
 
     }
 
-    @GetMapping("/lista")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/listar")
     public String listar(ModelMap modelo) {
 
         List<Oferta> ofertas = ofertaServicio.listarOfertas();
         modelo.addAttribute("ofertas", ofertas);
 
-        return "test_oferta_read.html";
+        return "listar-ofertas-adm.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")
-    public String modificar(ModelMap modelo, HttpSession session) {
+    public String modificar(@PathVariable String id, ModelMap modelo, HttpSession session) {
 
 //        Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
 //        modelo.put("usuario", usuario);
-        return "test_oferta_update.html";
+
+        Oferta oferta = ofertaServicio.listarPorId(id);
+        modelo.put("oferta",oferta);
+
+        return "modificar-oferta-adm.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_PROVEEDOR', 'ROLE_ADMIN')")
@@ -76,14 +81,14 @@ public class OfertaControlador {
 
             modelo.put("exito", "Oferta actualizada correctamente!");
 
-            return "test_oferta_update.html";
+            return "redirect:../listar";
 
         } catch (MiException ex) {
             modelo.put("error", ex.getMessage());
             modelo.put("descripcion", descripcion);
             modelo.put("idServicio", idServicio);
             modelo.put("idCliente", idCliente);
-            return "test_oferta_update.html";
+            return "modificar-oferta-adm.html";
         }
     }
 

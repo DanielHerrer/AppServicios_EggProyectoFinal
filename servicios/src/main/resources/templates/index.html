@@ -44,15 +44,15 @@
                 class="hero-section hero-style"            
                 >  <!-- container -->
                  <div class="container">
-                    <div class="row  d-flex justify-content-center">
-                                
-                                <div class="col-6 buscador ">
-                                    <form class="d-flex" role="search">
-                                        <input class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
-                                        <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
-                                    </form>
-                                </div>
-                            </div>
+                    <div class="row d-flex justify-content-center">
+                        <!-- buscador para invitados -->
+                        <div class="col-6 buscador" th:if="${session.usuarioSession == null}" >
+                            <form class="d-flex" role="search" action="/servicio/listar/buscar" METHOD="GET">
+                                <input name="input" class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
+                                <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 
                 
@@ -91,37 +91,39 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Enviar mensaje al profesional</h5>
+              <h5 class="modal-title">Contactar Profesionales</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-             
-                <form action="#">
+            <form action="/servicio/listar/zona/buscar">
+                <div class="modal-body">
                     <div class="row g-2">
-                     <div class="col-sm-6">
-                        <div class="form-floating">
-                            <input id="email1" type="email" class="form-control" placeholder="jperez@email.com">
-                            <label for="email1">Direccion de email</label> 
+                        <div class="col-sm-12">
+                            <div class="form-floating">
+                                <select
+                                        id="select1"
+                                        class="form-select"
+                                        aria-label="Default select"
+                                        th:value="${ubicacion?.name()}"
+                                        name="input"
+                                        required
+                                >
+                                    <option selected disabled value="">Ubicacion</option>
+                                    <option
+                                            th:each="ubicacion : ${ubicaciones}"
+                                            th:value="${ubicacion}"
+                                            th:text="${ubicacion.name()}"
+                                    ></option>
+                                </select>
+                                <label for="select1">Elija una zona</label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                    <div class="form-floating">
-                        <select id="select1" class="form-select">
-                            <option>Barrio A</option>
-                            <option>Barrio B</option>
-                            <option>Barrio C</option>
-                        </select>
-                        <label for="select1">Elija un barrio</label> 
-                    </div>
-                    </div>
-                    </div>
-                </form>
-
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Enviar</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Buscar</button>
+                </div>
+            </form>
           </div>
         </div>
     </section>
