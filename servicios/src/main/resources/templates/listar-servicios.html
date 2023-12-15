@@ -38,17 +38,7 @@
                                 <nav th:replace="~{/fragments/nav.html :: nav}"></nav>
                                 <!-- fin navbar -->
                             </div>
-                            <div class="row">
-                                <div class="col-4"></div>
-                                <!-- buscador para invitados -->
-                                <div class="col-4 buscador" th:if="${session.usuarioSession == null}" >
-                                    <form class="d-flex" action="/servicio/listar/buscar" METHOD="GET">
-                                        <input name="input" class="form-control me-2 inputBuscador" placeholder="Buscar" aria-label="Search">
-                                        <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                          
                     </div>
                   
                 </div>
@@ -75,12 +65,23 @@
                     </div>
                 </div>
                 <div class="container mt-5">
+                       <div class="container">
+                    <div class="row  d-flex justify-content-center">
+                                
+                                <div class="col-6 buscador ">
+                                    <form class="d-flex" role="search">
+                                        <input class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
+                                        <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
+                                    </form>
+                                </div>
+                            </div>
+                </div>
                     <div class="row-cols-1 d-flex justify-content-center">
                         <div class="col-md-12">          
                             <h3 class="text-center mb-5 mt-3">Listado de Profesionales</h3>
                         </div>
                     </div>
-                    <div class="row row-cols-1 row-cols-md-3 g-5">
+                    <div class="row row-cols-1 row-cols-md-3 g-5 mb-5">
                         <div
                             th:each="servicio, iterStat : ${servicios}"
                             class="col-lg-4 col-md-6 col-sm-12"
@@ -135,11 +136,18 @@
                             </div>
                         </div>
                     </div>
+                     <div class="row d-flex " style="height:50px;">
+
+                        <div class="col-md-12 d-flex justify-content-end align-items-end mb-2">
+                            <a class="btn btn-dark" href="/">volver</a>
+
+                        </div>
+                    </div>
 
                 </div>
 
             </div>
-               </div>
+            
     </section>
 
             <!-- footer -->

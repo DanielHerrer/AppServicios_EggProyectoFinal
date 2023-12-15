@@ -30,10 +30,10 @@
                     <nav th:replace="~{/fragments/nav.html :: nav}"></nav>
                     <!-- fin navbar -->
                 </div>
-                <div class="row">
-                    <div class="col-4"></div>
+                <div class="row d-flex justify-content-center">
+                   
                     <!-- buscador -->
-                    <div class="col-4 buscador" th:if="${session.usuarioSession != null}">
+                    <div class="col-6 buscador" th:if="${session.usuarioSession != null}">
                         <!-- buscador para proveedores -->
                         <form class="d-flex" th:if="${#authorization.expression('hasRole(''PROVEEDOR'')')}" action="/servicio/listar/proveedor/buscar" method="GET">
                             <input name="input" class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
