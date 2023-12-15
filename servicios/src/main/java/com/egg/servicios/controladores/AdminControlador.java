@@ -43,6 +43,7 @@ public class AdminControlador {
     @Autowired
     ServicioServicio servicioServicio;
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/dashboard")
     public String panelAdministrativo() {
         return "panel.html";

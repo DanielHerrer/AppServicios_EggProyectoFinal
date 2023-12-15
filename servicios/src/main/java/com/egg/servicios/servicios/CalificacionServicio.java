@@ -44,6 +44,21 @@ public class CalificacionServicio {
         return calificacionRepositorio.getById(id);
     }
 
+    public void modificarCalificacion(String comentario, String id) throws MiException {
+
+        try {
+            Optional<Calificacion> respuesta = calificacionRepositorio.findById(id);
+            if (respuesta.isPresent()) {
+                Calificacion calificacion = respuesta.get();
+                calificacion.setComentario(comentario);
+                calificacionRepositorio.save(calificacion);
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+
+    }
+
     public void modificarCalificacion(String comentario, Integer puntuacion, String id) throws MiException {
         validar(puntuacion);
 
@@ -67,13 +82,10 @@ public class CalificacionServicio {
             Optional<Calificacion> respuesta = calificacionRepositorio.findById(id);
 
             if (respuesta.isPresent()) {
-
                 Calificacion calificacion = respuesta.get();
-                calificacion.setAlta(Boolean.TRUE);
-                calificacionRepositorio.save(calificacion);
+                calificacion.setAlta(true);
 
-            } else {
-                throw new MiException("El ID Calificacion no corresponde a ninguna existente.");
+                calificacionRepositorio.save(calificacion);
             }
         } catch (Exception e) {
             throw new MiException(e.getMessage());
@@ -88,7 +100,7 @@ public class CalificacionServicio {
 
             if (respuesta.isPresent()) {
                 Calificacion calificacion = respuesta.get();
-                calificacion.setAlta(Boolean.FALSE);
+                calificacion.setAlta(false);
 
                 calificacionRepositorio.save(calificacion);
             }

@@ -33,6 +33,7 @@ public class CalificacionControlador {
     @Autowired
     private ContratoServicio contratoServicio;
 
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_ADMIN')")
     @GetMapping("/registrar/{idContrato}")
     public String calificar(@PathVariable String idContrato, @RequestParam String comentario, @RequestParam Integer puntuacion, ModelMap modelo){
         try {
@@ -47,12 +48,13 @@ public class CalificacionControlador {
             return "registrar-calificacion.html";
         }
     }
- 
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listar")
     public String listarCalificaciones(ModelMap modelo){
-        List<Calificacion> listaCali = calificacionServicio.listarCalificaciones();
-        modelo.addAttribute("listaContra", listaCali);
-        return "test_calificacion_lista.html";
+        List<Calificacion> calificaciones = calificacionServicio.listarCalificaciones();
+        modelo.put("calificaciones", calificaciones);
+        return "listar-calificaciones-adm.html";
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
@@ -64,11 +66,11 @@ public class CalificacionControlador {
             calificacionServicio.baja(id);
             modelo.addAttribute("calificacion", calificacion);
             modelo.put("exito", "Calificacion de baja!");
-            return "redirect:../calificacion/listar";
+            return "redirect:/calificacion/listar";
 
         } catch (MiException ex) {
 
-            return "redirect:../calificacion/listar";
+            return "redirect:/calificacion/listar";
         }
     }
 
@@ -78,33 +80,37 @@ public class CalificacionControlador {
 
         try {
             Calificacion calificacion = new Calificacion();
-            calificacionServicio.baja(id);
+            calificacionServicio.alta(id);
             modelo.addAttribute("calificacion", calificacion);
             modelo.put("exito", "Calificacion de alta!");
-            return "redirect:../calificacion/listar";
+            return "redirect:/calificacion/listar";
 
         } catch (MiException ex) {
 
-            return "redirect:../calificacion/listar";
+            return "redirect:/calificacion/listar";
         }
     }
     
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/modificarcalificacion/{id}")
+    @GetMapping("/modificar/{id}")
     public String modificarCalificacion(@PathVariable String id, ModelMap modelo) {
         modelo.put("calificacion", calificacionServicio.listarPorId(id));
-        return "calificacion_modificar.html";
+        return "modificar-calificacion-adm.html";
     }
     
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @PostMapping("/calificacionmodificada/{id}")
-    public String modificadoCalificacion(ModelMap modelo,@PathVariable String id, String comentario, Integer puntuacion) {
+    @PostMapping("/modificado/{id}")
+    public String modificadoCalificacion(ModelMap modelo,@PathVariable String id, String comentario) {
         try {
-        calificacionServicio.modificarCalificacion(comentario, puntuacion, id);
-        return "redirect:../calificacion/listar";
+            Calificacion calificacion = calificacionServicio.listarPorId(id);
+            calificacion.setComentario(comentario);
+
+            calificacionServicio.modificarCalificacion(comentario, id);
+            return "redirect:/calificacion/listar";
         } catch (MiException e) {
+            modelo.put("calificacion", calificacionServicio.listarPorId(id));
             modelo.put("error", e.getMessage());
-            return "redirect:../calificacion/listar";
+            return "modificar-calificacion-adm.html";
         }
 
     }
