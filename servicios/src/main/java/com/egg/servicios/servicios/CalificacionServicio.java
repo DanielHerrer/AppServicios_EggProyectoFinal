@@ -21,7 +21,7 @@ public class CalificacionServicio {
     CalificacionRepositorio calificacionRepositorio;
 
     @Transactional
-    public void crearCalificacion(String comentario, Integer puntuacion) throws MiException {
+    public Calificacion crearCalificacion(String comentario, Integer puntuacion) throws MiException {
         validar(puntuacion);
         try {
             Calificacion calificacion = new Calificacion();
@@ -29,7 +29,7 @@ public class CalificacionServicio {
             calificacion.setPuntuacion(puntuacion);
             calificacion.setComentario(comentario);
 
-            calificacionRepositorio.save(calificacion);
+            return calificacionRepositorio.save(calificacion);
         } catch (Exception e) {
             throw new MiException(e.getMessage());
         }
@@ -51,7 +51,6 @@ public class CalificacionServicio {
             Optional<Calificacion> respuesta = calificacionRepositorio.findById(id);
             if (respuesta.isPresent()) {
                 Calificacion calificacion = respuesta.get();
-
                 calificacion.setPuntuacion(puntuacion);
                 calificacion.setComentario(comentario);
                 calificacionRepositorio.save(calificacion);

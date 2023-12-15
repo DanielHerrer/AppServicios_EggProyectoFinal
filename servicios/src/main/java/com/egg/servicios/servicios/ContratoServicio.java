@@ -75,13 +75,12 @@ public class ContratoServicio {
         contratoRepositorio.save(contrato);
     }
 
-    //ACEPTADO O RECHAZADO
+    // ACEPTADO, RECHAZADO O FINALIZADO
     public void modificarContrato(String idContrato, Estados estado) {
         Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
-        Contrato contrato = new Contrato();
 
         if (respuestaContrato.isPresent()) {
-            contrato = respuestaContrato.get();
+            Contrato contrato = respuestaContrato.get();
             contrato.setEstadoTrabajo(estado);
 
             contratoRepositorio.save(contrato);
@@ -98,44 +97,22 @@ public class ContratoServicio {
             List<Contrato> contratos = contratoRepositorio.listarClientes(idCliente);
             return contratos;
     }
-    
 
-//    public String listarContratoCliente(String idContrato) {
-//        Contrato contrato = new Contrato();
-//        Oferta oferta = new Oferta();
-//
-//        contrato = getOne(idContrato);//traemos contrato lo guardamos en variable contrato
-//        oferta = ofertaServicio.listarPorId(contrato.getOferta().getId());//listamos ofertas por id con el contrato traido
-//        return oferta.getCliente().getId();//devolvemos el id correspondiente al cliente de la oferta
-//    }
-//
-//    public String listarContratoProveedor(String idContrato) {
-//        Contrato contrato = new Contrato();
-//        Oferta oferta = new Oferta();
-//
-//        contrato = getOne(idContrato);//traemos contrato lo guardamos en variable contrato
-//        oferta = ofertaServicio.listarPorId(contrato.getOferta().getId());//listamos ofertas por id con el contrato traido
-//
-//        return oferta.getServicio().getId();//devolvemos el id correspondiente al proveedor de la oferta
-//    }
-//    
-//    public String listarContratosCliente(String idCliente) {
-//        List<Contrato> contratos = contratoRepositorio.findAllById(idCliente);
-//        return contratos;
-//    }
     //FINALIZADO
-    public void calificarContrato(String idContrato, Calificacion calificacion) {
-        Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
-        Contrato contrato = new Contrato();
+    public void calificarContrato(String idContrato, Calificacion calificacion) throws MiException {
 
-        if (respuestaContrato.isPresent()) {
-            contrato = respuestaContrato.get();
-            contrato.setEstadoTrabajo(Estados.FINALIZADO);
-            contrato.setAlta(false);
+        try {
+            Optional<Contrato> respuestaContrato = contratoRepositorio.findById(idContrato);
+            if (respuestaContrato.isPresent()) {
+                Contrato contrato = respuestaContrato.get();
+                contrato.setAptitud(calificacion);
 
-            contratoRepositorio.save(contrato);
+                contratoRepositorio.save(contrato);
+            }
+
+        } catch (Exception ex) {
+            throw new MiException(ex.getMessage());
         }
-
     }
 
     public List<Contrato> listarContratos() {

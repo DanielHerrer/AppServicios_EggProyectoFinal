@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg pt-3">
-    <a class="navbar-brand" href="index.html">
+<nav class="navbar navbar-expand-lg pt-3 pb-5">
+    <a class="navbar-brand" href="/">
         <img src="/img/logo2.png" alt="Logo" />
     </a>
     <button
@@ -25,7 +25,7 @@
                 <a class="page-scroll active" th:href="@{/}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="page-scroll" href="#">Nosotros</a>
+                <a class="page-scroll" href="/#nosotros">Nosotros</a>
             </li>
 
             <li th:if="${session.usuarioSession == null}" class="nav-item">
@@ -36,7 +36,7 @@
             </li>
             <li th:if="${session.usuarioSession != null}" sec:authorize="hasRole('PROVEEDOR')" class="nav-item">
                 <a class="page-scroll" href="/servicio/listar/proveedor">Servicios</a>
-
+            </li> 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" 
                    th:if="${session.usuarioSession == null}" 
@@ -44,8 +44,7 @@
                    data-bs-toggle="dropdown" 
                    aria-expanded="false">
 
-                    <i class="bi bi-person-fill"></i>
-
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
                 </a>
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -58,7 +57,7 @@
                 </ul>
             </li> 
 
-            <li class="nav-item dropdown">
+            <li class="dropdown nav-item ">
                 <a class="nav-link dropdown-toggle" 
                    th:if="${session.usuarioSession != null}" 
                    href="#" id="navbarDropdown" 
@@ -73,10 +72,10 @@
 
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <li><a class="dropdown-item" 
-                           sec:authorize="hasRole('CLIENTE')" th:href="@{/usuario/restablecer/cliente}" >
+                           sec:authorize="hasRole('CLIENTE')" th:href="@{/usuario/restablecer}" >
                             Usuario</a></li>
                     <li><a class="dropdown-item" 
-                           sec:authorize="hasRole('PROVEEDOR')"  th:href="@{/usuario/restablecer/proveedor}" >
+                           sec:authorize="hasRole('PROVEEDOR')"  th:href="@{/usuario/restablecer}" >
                             Usuario</a></li>
 
 
@@ -88,7 +87,7 @@
                             Agregar Servicio</a></li>
 
                     <li><a class="dropdown-item"
-                           sec:authorize="hasRole('PROVEEDOR')" th:href="@{/contrato/listar/proveedor}" >
+                           sec:authorize="hasRole('PROVEEDOR')" th:href="@{/contrato/listar}" >
                             Contratos</a></li>
 
 
@@ -96,7 +95,7 @@
                            sec:authorize="hasRole('CLIENTE')" th:href="@{/servicio/listar/cliente}" >
                             Servicios</a></li>
                     <li><a class="dropdown-item" 
-                           sec:authorize="hasRole('CLIENTE')" th:href="@{/contrato/listar/cliente}" >
+                           sec:authorize="hasRole('CLIENTE')" th:href="@{/contrato/listar}" >
                             Ofertas</a></li>
 
                     <li><a class="dropdown-item"
@@ -115,23 +114,12 @@
                 </ul>
             </li>
 
-
             <li  class="nav-item dropdown">
-                <a class="page-scroll" th:href="@{/}" th:if="${session.usuarioSession != null}"
-                   
-                   >
-    <i class="fa-solid fa-bell"></i>
+                <a class="page-scroll" th:href="@{/contrato/listar}" th:if="${session.usuarioSession != null}">
+                    <i class="fa-solid fa-bell"></i>
                 </a>  
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">                                                                 
-                    <li class="nav-item dropdown" >
-
-
-
-                    </li>
-                </ul>
             </li>
 
-
         </ul> 
-    </div>
+
 </nav>

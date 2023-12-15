@@ -3,6 +3,7 @@ package com.egg.servicios.controladores;
 import com.egg.servicios.entidades.Calificacion;
 import com.egg.servicios.excepciones.MiException;
 import com.egg.servicios.servicios.CalificacionServicio;
+import com.egg.servicios.servicios.ContratoServicio;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import org.springframework.web.bind.annotation.*;
+
 /**
  *
- * @author jrcon
+ * @author daniel
  */
 @Controller
 @RequestMapping("/calificacion")
@@ -27,23 +30,26 @@ public class CalificacionControlador {
 
     @Autowired
     private CalificacionServicio calificacionServicio;
+    @Autowired
+    private ContratoServicio contratoServicio;
 
-    @GetMapping("/registrar")
-    public String calificar(String comentario, Integer puntuacion, ModelMap modelo) {
+    @GetMapping("/registrar/{idContrato}")
+    public String calificar(@PathVariable String idContrato, @RequestParam String comentario, @RequestParam Integer puntuacion, ModelMap modelo){
         try {
-            calificacionServicio.crearCalificacion(comentario, puntuacion);
-            modelo.put("exito", "Muchas gracias por calificar!!");
-            return "inicio.html";
-        } catch (MiException e) {
 
+            calificacionServicio.crearCalificacion(comentario, puntuacion);
+            modelo.put("exito", "Muchas gracias por calificar!");
+
+            return "redirect:/inicio";
+
+        } catch (MiException e) {
             modelo.put("error", "Ingrese una calificacion");
-            return "test_calificacion_read.html";
+            return "registrar-calificacion.html";
         }
     }
-
+ 
     @GetMapping("/listar")
-    public String calificacion(ModelMap modelo) {
-
+    public String listarCalificaciones(ModelMap modelo){
         List<Calificacion> listaCali = calificacionServicio.listarCalificaciones();
         modelo.addAttribute("listaContra", listaCali);
         return "test_calificacion_lista.html";
@@ -103,3 +109,4 @@ public class CalificacionControlador {
 
     }
 }
+

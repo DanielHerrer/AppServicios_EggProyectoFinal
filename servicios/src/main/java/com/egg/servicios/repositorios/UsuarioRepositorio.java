@@ -29,21 +29,12 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u WHERE u.alta = false")
     public List<Usuario> listarUsuariosInactivos();
 
-    @Query("""
-            SELECT u FROM Usuario u
-            WHERE u.rol = 'CLIENTE'
-            """)
+    @Query("SELECT u FROM Usuario u WHERE u.rol = 'CLIENTE'")
     public List<Usuario> listarClientes();
 
-    @Query("""
-            SELECT u FROM Usuario u
-            WHERE u.rol = 'PROVEEDOR'
-            """)
+    @Query("SELECT u FROM Usuario u WHERE u.rol = 'PROVEEDOR'")
     public List<Usuario> listarProveedores();
 
-    @Query("""
-            SELECT u FROM Usuario u
-            WHERE u.rol = 'ADMIN'
-            """)
+    @Query("SELECT u FROM Usuario u WHERE u.rol = 'ADMIN'")
     public List<Usuario> listarAdmin();
 }
