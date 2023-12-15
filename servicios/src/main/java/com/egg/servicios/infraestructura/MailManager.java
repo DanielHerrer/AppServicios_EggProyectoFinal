@@ -1,7 +1,5 @@
 package com.egg.servicios.infraestructura;
 
-import com.egg.servicios.entidades.RecuperarPassword;
-import java.util.Random;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;

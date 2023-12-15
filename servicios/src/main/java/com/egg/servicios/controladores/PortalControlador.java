@@ -194,9 +194,4 @@ public class PortalControlador {
     
      */
     
-    @GetMapping("/email")
-    public String recuperarPassword() {
-        return "test_recuperar_password.html";
-    }
-    
 }
