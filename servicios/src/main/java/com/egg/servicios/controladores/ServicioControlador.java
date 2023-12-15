@@ -74,7 +74,7 @@ public class ServicioControlador {
 
         } catch (MiException ex) {
 
-            cargarModeloConCategorias(modelo);  
+            cargarModeloConCategorias(modelo);
 
             Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
             modelo.addAttribute("proveedor", proveedor);
@@ -93,11 +93,10 @@ public class ServicioControlador {
     }
 
 
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
     @PostMapping("/contratar") // localhost:8080/servicio/contratar
     public String registroContrato(@RequestParam String descripcion, @RequestParam String idServicio,
             ModelMap modelo, HttpSession session) {
-
 
         try {
             Usuario cliente = (Usuario) session.getAttribute("usuarioSession");
@@ -113,7 +112,6 @@ public class ServicioControlador {
             contratoServicio.crearContrato(oferta.getId());
             return "redirect:/servicio/listar/cliente";
 
-
         } catch (MiException ex) {
 
             modelo.put("error", ex.getMessage());
@@ -122,6 +120,47 @@ public class ServicioControlador {
 
     }
 
+    //AGREGADO 13/12 PARA ADMIN CONTROLADOR
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/listarservicios")
+    public String listarServiciosADM(ModelMap modelo) {
+        List<Servicio> servicios = servicioServicio.listarServiciosTodos();
+        modelo.addAttribute("servicios", servicios);
+        return "listar-servicios-adm.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/estados/{id}")
+    public String modificarServicio(@PathVariable String id, ModelMap modelo) {
+
+        Servicio servicio = servicioServicio.listarPorId(id);
+        modelo.put("servicio", servicio);
+
+        cargarModeloConCategorias(modelo);
+
+        return "test_servicio_update.html";
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping("/estados/{id}")
+    public String darBaja(@PathVariable String id, ModelMap modelo) {
+
+        try {
+            servicioServicio.darBaja(id);
+            
+            cargarModeloConCategorias(modelo);
+
+            modelo.put("exito", "Servicio dado de baja!");
+
+            return "test_servicio_read.html";
+
+        } catch (MiException ex) {
+
+            return "test_servicio_update.html";
+        }
+    }
+
+    //AGREGADO <---
     @GetMapping("/listar")
     public String listarServicios(ModelMap modelo, HttpSession session) {
 
@@ -134,8 +173,8 @@ public class ServicioControlador {
             // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
             List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
 
-            modelo.addAttribute("servicios",servicios);
-            modelo.addAttribute("puntuaciones",puntuaciones);
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("puntuaciones", puntuaciones);
 
             return "listar-servicios.html";
 
@@ -159,8 +198,8 @@ public class ServicioControlador {
             // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
             List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
 
-            modelo.addAttribute("servicios",servicios);
-            modelo.addAttribute("puntuaciones",puntuaciones);
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("puntuaciones", puntuaciones);
 
             return "listar-servicios-cliente.html";
 
@@ -184,8 +223,8 @@ public class ServicioControlador {
             // Se guardara la puntuacion de cada proveedor en orden por cada servicio mostrado
             List<Integer> puntuaciones = cargarListaPuntuacionesServicios(servicios);
 
-            modelo.addAttribute("servicios",servicios);
-            modelo.addAttribute("puntuaciones",puntuaciones);
+            modelo.addAttribute("servicios", servicios);
+            modelo.addAttribute("puntuaciones", puntuaciones);
 
             return "listar-servicios-proveedor.html";
 
@@ -354,17 +393,18 @@ public class ServicioControlador {
 
         return puntuaciones;
     }
-    
+
     @GetMapping("/categorias")
-    public String seleccionarServicio(ModelMap modelo, HttpSession session,String nameCate){       
-        try {     
-             modelo.addAttribute("categoria",  categoriaServicio.listarCategorias());      
+    public String seleccionarServicio(ModelMap modelo, HttpSession session, String nameCate) {
+        try {
+            modelo.addAttribute("categoria", categoriaServicio.listarCategorias());
             return "index.html";
 
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
             return "listar-servicios-proveedor.html";
         }
+
     }
 
 }

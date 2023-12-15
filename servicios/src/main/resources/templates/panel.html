@@ -1,5 +1,4 @@
 <!-- @format -->
-
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
@@ -45,7 +44,6 @@
             <!-- imagen de fondo -->
             <div
                 class="hero-section hero-style "
-               
                 >
                 <div class="container">
                     <div class="row d-flex justify-content-center mb-5">
@@ -55,38 +53,32 @@
                                 <div class="row">
                                     <div class="col-md-4 d-flex flex-column">
                                         <h6 class="text-primary pb-3 text-center">Usuarios</h6>
-                                        <a href="registrar-usuario.html" class="btn  boton my-1">Registrar usuario</a>
-                                        <a href="/usuario/listacompleta" class="btn  boton my-1">Listar usuarios</a>
-
-                                    </div>
-                                    <div class="col-md-4 d-flex flex-column">
-                                        <h6 class="text-primary pb-3 text-center">Profesionales</h6>
-                                        <a href="registrar-servicio.html" class="btn b boton my-1">Registrar Profesional</a>
-                                        <a href="listar-servicios.html" class="btn b boton my-1">Listar Profesionales</a>
-                                        <a href="modificar-servicio.html" class="btn  boton my-1">Modificar Profesional</a>
-                                    </div>
-                                    <div class="col-md-4 d-flex flex-column">
-                                        <h6 class="text-primary pb-3 text-center">Servicios</h6>
-                                        <a href="#" class="btn  boton my-1">Registrar Servicio</a>
-                                        <a href="#" class="btn  boton my-1">Listar Servicios</a>
-                                        <a href="#" class="btn  boton my-1">Modificar Servicios</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                     <div class="row d-flex " style="height:50px;">
-
-                        <div class="col-md-12 d-flex justify-content-end align-items-end mb-2">
-                            <a class="btn btn-dark" href="/">volver</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- footer -->
+                                        <a sec:authorize="hasRole('ADMIN')"><a href="/admin/registrar/cliente" class="btn  boton my-1">Registrar Cliente</a>
+                                            <a sec:authorize="hasRole('ADMIN')"><a href="/admin/listadmclientes" class="btn  boton my-1">Listar Clientes</a>
+                                                </div>
+                                                <div class="col-md-4 d-flex flex-column">
+                                                    <h6 class="text-primary pb-3 text-center">Profesionales</h6>
+                                                    <a sec:authorize="hasRole('ADMIN')" href="/admin/registrar/proveedor" class="btn b boton my-1">Registrar Profesional</a>
+                                                    <a sec:authorize="hasRole('ADMIN')" href="/admin/listadmproveedores" class="btn b boton my-1">Listar Profesionales</a>
+                                                    <!-- <a sec:authorize="hasRole('ADMIN')" href="/servicio/listar/cliente" class="btn  boton my-1">Modificar Profesional</a> -->
+                                                </div>
+                                                <div class="col-md-4 d-flex flex-column">
+                                                    <h6 class="text-primary pb-3 text-center">Servicios</h6>
+                                                    <a sec:authorize="hasRole('ADMIN')" href="/admin/listarservicios" class="btn  boton my-1">Listar Servicios</a>
+                                                    <!--<a sec:authorize="hasRole('ADMIN')" href="/servicio/listar/cliente" class="btn  boton my-1">Modificar Servicios x</a>-->
+                                                </div>
+                                                <div class="col-md-4 d-flex flex-column">
+                                                    <h6 class="text-primary pb-3 text-center">Calificaciones</h6>
+                                                    <a sec:authorize="hasRole('ADMIN')" href="/calificacion/listar" class="btn  boton my-1">Listar Calificaciones</a>
+                                                    <!--<a sec:authorize="hasRole('ADMIN')" href="/servicio/listar/cliente" class="btn  boton my-1">Modificar Servicios x</a>-->
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </div>
+                                                </section>
 
          <footer th:replace="~{/fragments/footer.html :: footer}"></footer>
 
@@ -97,3 +89,4 @@
         ></script>
     </body>
 </html>
+

@@ -76,11 +76,27 @@ public class UsuarioControlador {
         return "usuarios_list.html";
     }
 
-    @GetMapping("/modificar/{id}")//viaja el id a travez de path variable para modificar, un fragmento de url donde se encuentra determinado recurso
+    @GetMapping("/modificar/{id}")//viaja el id a traves de path variable para modificar, un fragmento de url donde se encuentra determinado recurso
     public String modificar(@PathVariable String id, ModelMap modelo) {//variable string id es variable de path y viaja en url del GetMapping
         modelo.put("usuario", usuarioServicio.getOne(id));//llave autor = lleva el valor del  autorServicio lo que nos trae el metodo getOne
 
         return "modificar-usuario.html";
+
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping("/rol/{id}")
+    public String modificarRolAdmin(@PathVariable String id, ModelMap modelo) {
+        try {
+            usuarioServicio.modificarRolAdmin(id);
+
+            return "redirect:../listacompleta";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+
+            return "usuario_modificar.html";
+        }
 
     }
 
@@ -110,8 +126,8 @@ public class UsuarioControlador {
             if (usuario != null) {
              return "modificar-usuario.html";
             }
-          return "index.html";
-           
+            return "inicio.html";
+
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
             return "modificar-usuario.html";
@@ -135,12 +151,21 @@ public class UsuarioControlador {
             return "modificar-password.html";
         }
     }
-    
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/restablecer/{id}")
+    public String modificarUsuario2(@PathVariable String id, ModelMap modelo) {
+        modelo.addAttribute("ubicaciones", Ubicacion.values());
+        modelo.addAttribute("roles", Rol.values());
+        modelo.put("usuario", usuarioServicio.getOne(id));//llave autor = lleva el valor del  autorServicio lo que nos trae el metodo getOne
+        return "modificar-usuario-adm.html";
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_ADMIN','ROLE_PROVEEDOR')")
     @PostMapping("/restablecer/{id}")
     public String modificadoUsuario(@PathVariable String id, MultipartFile archivo,String nombre,String email, String accUsuario,Ubicacion ubicacion,HttpSession session, Rol rol,ModelMap modelo) {
         try {
-        
+
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             modelo.put("usuario", usuario);
               usuarioServicio.actualizar(archivo, id, rol, ubicacion, nombre, accUsuario, email);
@@ -150,13 +175,13 @@ public class UsuarioControlador {
                return "index.html";
 
         } catch (Exception ex) {
-            modelo.put("error", ex.getMessage());
+            
             modelo.put("nombre", nombre);
             modelo.put("accUsuario", accUsuario);
             modelo.put("email", email);
             modelo.put("ubicacion", ubicacion);
-            
-             if (rol.equals(Rol.PROVEEDOR)) {
+
+            if (rol.equals(Rol.PROVEEDOR)) {
                 modelo.put("rol", Rol.PROVEEDOR);
                 modelo.addAttribute("ubicaciones", Ubicacion.values());
                 return "modificar-usuario.html";

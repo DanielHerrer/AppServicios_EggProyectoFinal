@@ -35,7 +35,6 @@ public class CalificacionServicio {
         }
     }
 
-    
     public List<Calificacion> listarCalificaciones() {
         List<Calificacion> calificaciones = calificacionRepositorio.listarCalificacionesActivos();
         return calificaciones;
@@ -43,6 +42,21 @@ public class CalificacionServicio {
 
     public Calificacion listarPorId(String id) {
         return calificacionRepositorio.getById(id);
+    }
+
+    public void modificarCalificacion(String comentario, String id) throws MiException {
+
+        try {
+            Optional<Calificacion> respuesta = calificacionRepositorio.findById(id);
+            if (respuesta.isPresent()) {
+                Calificacion calificacion = respuesta.get();
+                calificacion.setComentario(comentario);
+                calificacionRepositorio.save(calificacion);
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+
     }
 
     public void modificarCalificacion(String comentario, Integer puntuacion, String id) throws MiException {
@@ -62,19 +76,33 @@ public class CalificacionServicio {
 
     }
 
-    public void eliminarCalificacion(String id) throws MiException {
-
-        Optional<Calificacion> respuesta = calificacionRepositorio.findById(id);
+    public void alta(String id) throws MiException {
 
         try {
+            Optional<Calificacion> respuesta = calificacionRepositorio.findById(id);
+
             if (respuesta.isPresent()) {
-
                 Calificacion calificacion = respuesta.get();
-                calificacion.setAlta(Boolean.FALSE);
-                calificacionRepositorio.save(calificacion);
+                calificacion.setAlta(true);
 
-            } else {
-                throw new MiException("El ID Calificacion no corresponde a ninguna existente.");
+                calificacionRepositorio.save(calificacion);
+            }
+        } catch (Exception e) {
+            throw new MiException(e.getMessage());
+        }
+
+    }
+
+    public void baja(String id) throws MiException {
+
+        try {
+            Optional<Calificacion> respuesta = calificacionRepositorio.findById(id);
+
+            if (respuesta.isPresent()) {
+                Calificacion calificacion = respuesta.get();
+                calificacion.setAlta(false);
+
+                calificacionRepositorio.save(calificacion);
             }
         } catch (Exception e) {
             throw new MiException(e.getMessage());

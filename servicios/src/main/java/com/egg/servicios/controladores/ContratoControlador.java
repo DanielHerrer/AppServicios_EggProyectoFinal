@@ -44,6 +44,7 @@ public class ContratoControlador {
 
         try {
             contratoServicio.crearContrato(idOferta);
+            
             modelo.put("exito", "El contrato se creo correctamente!");
 
         } catch (MiException ex) {
@@ -128,7 +129,7 @@ public class ContratoControlador {
     }
 
     @PostMapping("/aceptar/{id}")
-    public String aceptarContrato(ModelMap modelo, @PathVariable String id) {
+    public String aceptarContrato(ModelMap modelo, @PathVariable String id) throws MiException {
         try {
             contratoServicio.modificarContrato(id, Estados.ACEPTADO);
             modelo.put("exito", "El Contrato fue aceptado correctamente!");
@@ -141,7 +142,7 @@ public class ContratoControlador {
     }
 
     @PostMapping("/rechazar/{id}")
-    public String rechazarContrato(ModelMap modelo, @PathVariable String id) {
+    public String rechazarContrato(ModelMap modelo, @PathVariable String id) throws MiException {
         try {
             contratoServicio.modificarContrato(id, Estados.RECHAZADO);
             modelo.put("exito", "El Contrato fue rechazado correctamente!");
@@ -153,7 +154,7 @@ public class ContratoControlador {
     }
 
     @PostMapping("/finalizar/{id}")
-    public String finalizarContrato(ModelMap modelo, @PathVariable String id) {
+    public String finalizarContrato(ModelMap modelo, @PathVariable String id) throws MiException {
         try {
             contratoServicio.modificarContrato(id, Estados.FINALIZADO);
             modelo.put("exito", "El Contrato fue finalizado correctamente!");
@@ -164,6 +165,7 @@ public class ContratoControlador {
         }
     }
 
+    /*th:href="@{/contrato/listar/cliente}"*/
     @GetMapping("/calificar/{id}")
     public String calificarContrato(@PathVariable String id, ModelMap modelo) {
 
