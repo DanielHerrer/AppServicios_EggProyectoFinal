@@ -25,7 +25,7 @@
                 <a class="page-scroll active" th:href="@{/}">Home</a>
             </li>
             <li class="nav-item">
-                <a class="page-scroll" href="#">Nosotros</a>
+                <a class="page-scroll" href="/#nosotros">Nosotros</a>
             </li>
 
             <li th:if="${session.usuarioSession == null}" class="nav-item">
@@ -115,18 +115,11 @@
             </li>
 
             <li  class="nav-item dropdown">
-                <a class="page-scroll" th:href="@{/contrato/listar}" th:if="${session.usuarioSession != null}"
-                   
-                   >
+                <a class="page-scroll" th:href="@{/contrato/listar}" th:if="${session.usuarioSession != null}">
                     <i class="fa-solid fa-bell"></i>
                 </a>  
             </li>
 
         </ul> 
-
-        <div class="notification-icon" onclick="toggleNotifications()">
-            <i class="fa-solid fa-bell"></i>
-            <span class="badge"></span> <!-- Aquí podrías mostrar el número de notificaciones pendientes -->
-        </div>
 
 </nav>
