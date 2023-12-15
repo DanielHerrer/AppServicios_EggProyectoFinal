@@ -41,11 +41,11 @@
                                     <div class="footer-widget">
                                         <h6>Enlaces</h6>
                                         <ul class="links">
-                                            <li><a href="/">Home</a></li>
-                                            <li><a href="/">Nosotros</a></li>
+                                            <li><a href="#home">Home</a></li>
+                                            <li><a href="#nosotros">Nosotros</a></li>
                                             <li sec:authorize="hasRole('CLIENTE')"><a href="/servicio/listar/cliente">Servicios</a></li>
                                             <li sec:authorize="hasRole('PROVEEDOR')"><a href="/servicio/listar">Servicios</a></li>
-                                            <li><a href="/">Perfil</a></li>
+                                            <li><a href="/usuario/restablecer">Perfil</a></li>
                                         </ul>
                                     </div>
                                 </div>

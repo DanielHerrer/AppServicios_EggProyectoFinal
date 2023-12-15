@@ -39,15 +39,16 @@
                                 <!-- fin navbar -->
                             </div>
                         </div>
+
                     </div>
                   
                 </div>
             </header>
                 <!-- mensaje de exito y error -->
-                <div class="row">
+                <div class="row d-flex justify-content-center">
                     <div
                         th:if="${error != null}"
-                        class="card text-white bg-danger mb-3 mensajeError"
+                        class=" col-6 card text-white bg-danger mb-3 mensajeError"
                         >
                         <div class="card-body">
                             <h5 class="card-title">Error!</h5>
@@ -130,31 +131,24 @@
                             </div>
                         </div>
                     </div>
+                     <div class="row d-flex " style="height:50px;">
+
+                        <div class="col-md-12 d-flex justify-content-end align-items-end mb-2">
+                            <a class="btn btn-dark" href="/">volver</a>
+
+                        </div>
+                    </div>
 
                 </div>
 
             </div>
-               </div>
+            
     </section>
 
-            <!-- footer -->
+    <!-- footer -->
 
-            <footer th:replace="~{/fragments/footer.html :: footer}"></footer>
+    <footer th:replace="~{/fragments/footer.html :: footer}"></footer>
 
-     
-
-    <!--		<style>-->
-    <!--			.img_perfil {-->
-    <!--				width: 60px;-->
-    <!--				height: 60px;-->
-    <!--				border: 2px solid rgb(169, 212, 241);-->
-    <!--				border-radius: 50%;-->
-    <!--				overflow: hidden;-->
-    <!--			}-->
-    <!--			.img-matricula {-->
-    <!--				width: 300px;-->
-    <!--			}-->
-    <!--		</style>-->
     <!-- =========================== CSS =========================== -->
     <style>
         /* estilos de los modales*/

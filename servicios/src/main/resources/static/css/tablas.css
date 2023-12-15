@@ -1,14 +1,6 @@
 /** @format */
 
 .fondo-contenedor-tabla{
-    background-color:#cfe2ff;
-}
-
-.tabla-fondo{
-    background-color: transparent;
-    padding:10px;
-}
-th, td{
-    background-color: transparent;
+    background-color:rgb(207,226,255);
 }
 

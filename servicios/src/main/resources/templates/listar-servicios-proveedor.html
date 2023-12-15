@@ -30,6 +30,17 @@
                     <nav th:replace="~{/fragments/nav.html :: nav}"></nav>
                     <!-- fin navbar -->
                 </div>
+                <div class="row d-flex justify-content-center">
+                   
+                    <!-- buscador -->
+                    <div class="col-6 buscador" th:if="${session.usuarioSession != null}">
+                        <!-- buscador para proveedores -->
+                        <form class="d-flex" th:if="${#authorization.expression('hasRole(''PROVEEDOR'')')}" action="/servicio/listar/proveedor/buscar" method="GET">
+                            <input name="input" class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
+                            <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- container -->
