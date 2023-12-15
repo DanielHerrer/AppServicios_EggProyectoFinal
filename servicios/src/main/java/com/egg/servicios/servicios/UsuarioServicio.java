@@ -395,5 +395,23 @@ public class UsuarioServicio implements UserDetailsService {
 
     }
 
+    public void actualizarPassword(String email, String password) {
+
+       // validarEditarUsuario(email, password);
+
+        Optional<Usuario> respuesta = usuarioRepositorio.findByEmail(email);
+
+        if (respuesta.isPresent()) {
+
+            Usuario usuario = respuesta.get();
+            usuario.setEmail(email);
+
+            usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+
+            usuarioRepositorio.save(usuario);
+        }
+
+    }
+
 }
 
