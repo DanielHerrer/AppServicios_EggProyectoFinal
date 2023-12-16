@@ -1,7 +1,7 @@
 
 package com.egg.servicios;
 
-import com.egg.servicios.servicios.UsuarioServicio;
+import com.egg.servicios.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,11 +21,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class SeguridadWeb extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    public UsuarioServicio usuarioServicio;
+    public UsuarioService usuarioService;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
-        auth.userDetailsService(usuarioServicio)
+        auth.userDetailsService(usuarioService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 

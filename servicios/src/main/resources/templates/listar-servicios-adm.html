@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
 
-        <title>Inicio</title>
+        <title>Admin Servicios</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
@@ -102,13 +102,13 @@
                         <td class="text-primary fw-bold" th:text="${servicio.alta ? 'Alta' : 'Baja'}"></td>
                         <td class="text-primary fw-bold">
 
-                                                <form sec:authorize="hasRole('ADMIN')" th:action="@{/admin/alta/__${servicio.id}__}" method="POST">
+                                                <form sec:authorize="hasRole('ADMIN')" th:action="@{/admin/servicio/alta/__${servicio.id}__}" method="POST">
                                                     <button type="submit" class="btn-link">
                                                         <i class="fas fa-feather-alt"></i> Alta
                                                     </button>
                                                 </form>
 
-                                                <form sec:authorize="hasRole('ADMIN')" th:action="@{/admin/baja/__${servicio.id}__}" method="POST">
+                                                <form sec:authorize="hasRole('ADMIN')" th:action="@{/admin/servicio/baja/__${servicio.id}__}" method="POST">
                                                     <button type="submit" class="btn-link">
                                                         <i class="fas fa-feather-alt"></i> Baja
                                                     </button>

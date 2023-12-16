@@ -114,11 +114,12 @@
             </li>
 
             <li  class="nav-item dropdown">
-                <a class="page-scroll" th:href="@{/contrato/listar}" th:if="${session.usuarioSession != null and session.usuarioSession.rol.name != 'ADMIN'}">>
+                <a class="page-scroll" th:href="@{/contrato/listar}" th:if="${session.usuarioSession != null and session.usuarioSession.rol.name != 'ADMIN'}">
                     <i class="fa-solid fa-bell"></i>
                 </a>  
             </li>
 
-        </ul> 
+        </ul>
+    </div>
 
 </nav>

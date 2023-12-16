@@ -65,13 +65,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     </div>
                     
                     <div class="row">
-                            <div class="col-lg-6 col-md-12">
+                            <div th:each="contrato : ${contratos}" class="col-md-4">
 
-                            <div class="card" th:each="contrato : ${contratos}">
-                                <h5 sec:authorize="hasRole('PROVEEDOR')" class="card-header">Contrato</h5>
-                                <h5 sec:authorize="hasRole('CLIENTE')" class="card-header">Oferta</h5>
+                            <div class="card mb-4">
+                                <h5 sec:authorize="hasRole('PROVEEDOR')" class="card-header border-bottom border-primary">Contrato</h5>
+                                <h5 sec:authorize="hasRole('CLIENTE')" class="card-header border-bottom border-primary">Oferta</h5>
 
-                                <div class="row align-self-center border-top border-primary py-3">
+                                <div class="row align-self-center py-3">
                                     <div class="col-6 align-self-end">
                                         <img th:src="@{/imagen/usuario/__${contrato.oferta.cliente.id}__}"
                                              class="img_perfil align-self-end" alt="imagen de perfil" />
@@ -80,19 +80,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                     <div th:text="'Cliente: '+${contrato.oferta.cliente.nombre}"
                                          class="col-6 align-self-center fs-5"></div> <!-- nombre cliente -->
                                 </div>
-                                <div class="row border-top border-primary">
+                                <div class="row border-top border-primary px-5 mx-2">
                                     <div th:text="'Estado: '+${contrato.estadoTrabajo.name}"
                                          class="text-secundary descripcion-card py-2"></div> <!-- estado trabajo -->
                                 </div>
-                                <div class="row border-top border-primary">
+                                <div class="row border-top border-primary px-4  mx-2">
                                     <div th:text="${contrato.oferta.descripcion}"
                                          class="text-secundary descripcion-card py-2"></div> <!-- oferta descripcion -->
                                 </div>
 
                                 <div class="card-body">
 
-                                    <h4 class="card-title"
-                                        th:text="'Profesional: '+${contrato.oferta.servicio.proveedor.nombre}"></h4>
+                                    <h5 class="card-title"
+                                        th:text="'Profesional: '+${contrato.oferta.servicio.proveedor.nombre}"></h5>
                                     <!-- nombre proveedor -->
                                     <p class="card-text" th:text="${contrato.oferta.servicio.categoria.nombre}"></p>
                                     <!-- categoria trabajo -->
