@@ -116,6 +116,7 @@
             <li  class="nav-item dropdown">
                 <a class="page-scroll" th:href="@{/contrato/listar}" th:if="${session.usuarioSession != null and session.usuarioSession.rol.name != 'ADMIN'}">
                     <i class="fa-solid fa-bell"></i>
+                    <span th:if="${notificaciones != null and notificaciones > 0}" style="background-color: red; color: white; border-radius: 50%; padding: 5px 13px;" th:text="${notificaciones}"></span>
                 </a>  
             </li>
 

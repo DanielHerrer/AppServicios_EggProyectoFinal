@@ -1,11 +1,13 @@
 package com.egg.servicios.controllers;
 
 import com.egg.servicios.entities.Calificacion;
+import com.egg.servicios.entities.Usuario;
 import com.egg.servicios.exceptions.MiException;
 import com.egg.servicios.services.CalificacionService;
 import com.egg.servicios.services.ContratoService;
 import java.util.List;
 
+import com.egg.servicios.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,11 +33,18 @@ public class CalificacionControlador {
     private CalificacionService calificacionService;
     @Autowired
     private ContratoService contratoService;
+    @Autowired
+    private UsuarioService usuarioService;
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_ADMIN')")
     @GetMapping("/registrar/{idContrato}")
-    public String calificar(@PathVariable String idContrato, @RequestParam String comentario, @RequestParam Integer puntuacion, ModelMap modelo){
+    public String calificar(@PathVariable String idContrato, @RequestParam String comentario, @RequestParam Integer puntuacion, HttpSession session, ModelMap modelo){
         try {
+
+            if (session.getAttribute("usuarioSession") != null) {
+                Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+                modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
+            }
 
             calificacionService.createCalificacion(comentario, puntuacion);
             modelo.put("exito", "Muchas gracias por calificar!");
@@ -41,7 +52,7 @@ public class CalificacionControlador {
             return "redirect:/inicio";
 
         } catch (MiException e) {
-            modelo.put("error", "Ingrese una calificacion");
+            modelo.put("error", e.getMessage());
             return "registrar-calificacion.html";
         }
     }

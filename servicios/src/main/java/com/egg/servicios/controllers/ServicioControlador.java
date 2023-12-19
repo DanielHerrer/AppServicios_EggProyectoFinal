@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import com.egg.servicios.repositories.ContratoRepository;
 
 /**
@@ -36,6 +38,8 @@ public class ServicioControlador {
     @Autowired
     private ContratoService contratoService;
     @Autowired
+    private UsuarioService usuarioService;
+    @Autowired
     private ContratoRepository contratoRepositorios;
     @Autowired
     private CalificacionService calificacionService;
@@ -50,6 +54,7 @@ public class ServicioControlador {
 
         Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
         modelo.addAttribute("proveedor", proveedor);
+        modelo.put("notificaciones", usuarioService.countNotificaciones(proveedor.getId()));
 
         return "registrar-servicio.html";
     }
@@ -167,6 +172,7 @@ public class ServicioControlador {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             modelo.put("usuario", usuario);
+            modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
 
             // Se carga la lista de servicios en su totalidad
             List<Servicio> servicios = servicioService.findServiciosByAltaTrue();
@@ -192,6 +198,7 @@ public class ServicioControlador {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             modelo.put("usuario", usuario);
+            modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
 
             // Se carga la lista de servicios evitando mostrar servicios ya solicitados por el cliente
             List<Servicio> servicios = servicioService.findServiciosDisponibleByIdCliente(usuario.getId());
@@ -217,6 +224,7 @@ public class ServicioControlador {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             modelo.put("usuario", usuario);
+            modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
 
             // Se carga la lista de servicios en su totalidad
             List<Servicio> servicios = servicioService.findServiciosByAltaTrue();
@@ -241,6 +249,7 @@ public class ServicioControlador {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             modelo.put("usuario", usuario);
+            modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
 
             // Se carga la lista de servicios en su totalidad
             List<Servicio> servicios = servicioService.findServiciosByBusqueda(input);
@@ -265,6 +274,7 @@ public class ServicioControlador {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             modelo.put("usuario", usuario);
+            modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
 
             // Se carga la lista de servicios evitando mostrar servicios ya solicitados por el cliente
             List<Servicio> servicios = servicioService.findServiciosByBusquedaDisponibleCliente(usuario.getId(), input);
@@ -290,6 +300,7 @@ public class ServicioControlador {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             modelo.put("usuario", usuario);
+            modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
 
             // Se carga la lista de servicios en su totalidad
             List<Servicio> servicios = servicioService.findServiciosByBusqueda(input);
@@ -309,9 +320,13 @@ public class ServicioControlador {
     }
 
     @GetMapping("/listar/zona/buscar")
-    public String listarServiciosBuscarZona(@RequestParam("input") Ubicacion ubicacion, ModelMap modelo) {
+    public String listarServiciosBuscarZona(@RequestParam("input") Ubicacion ubicacion, ModelMap modelo, HttpSession session) {
 
         try {
+            if (session.getAttribute("usuarioSession") != null) {
+                Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+                modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
+            }
 
             // Se carga la lista de servicios en su totalidad
             List<Servicio> servicios = servicioService.findServiciosByBusquedaZona(ubicacion);
@@ -329,8 +344,6 @@ public class ServicioControlador {
         }
 
     }
-
-
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")

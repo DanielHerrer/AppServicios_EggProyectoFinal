@@ -1,7 +1,11 @@
 package com.egg.servicios.controllers;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import com.egg.servicios.entities.Usuario;
+import com.egg.servicios.services.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ErrorControlador implements ErrorController {
 
+	@Autowired
+	private UsuarioService usuarioService;
+
 	@RequestMapping(value = "/error", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView renderErrorPage(HttpServletRequest httpRequest) {
+	public ModelAndView renderErrorPage(HttpServletRequest httpRequest, HttpSession session) {
 
 		ModelAndView errorPage = new ModelAndView("error");
 
@@ -42,6 +49,11 @@ public class ErrorControlador implements ErrorController {
 			errorMsg = "Ocurrió un error interno.";
 			break;
 		}
+		}
+
+		if (session.getAttribute("usuarioSession") != null) {
+			Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+			errorPage.addObject("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
 		}
 
 		errorPage.addObject("codigo", httpErrorCode);

@@ -77,6 +77,9 @@
                     </div>
                     <!-- listado de servicios para invitado -->
                     <div class="row row-cols-1 row-cols-md-3 g-5">
+                        <div class="col-lg-12 col-md-12 col-sm-12" >
+                            <h2 th:if="${#lists.isEmpty(servicios)}" class="text-center my-5">No hay Servicios para mostrar...</h2>
+                        </div>
                         <div
                             th:each="servicio, iterStat : ${servicios}"
                             class="col-lg-4 col-md-6 col-sm-12"
@@ -92,7 +95,7 @@
                                             ></div>
                                     </div>
                                     <div class="row align-self-center border-top border-primary py-3">
-                                        <div class="col-6 align-self-end">
+                                        <div class="col-4 align-self-end">
                                             <img
                                                 th:if="${servicio.proveedor.imagen != null}"
                                                 th:src="@{/imagen/usuario/__${servicio.proveedor.id}__}"
@@ -102,7 +105,7 @@
                                         </div>
                                         <div
                                             th:text="${servicio.proveedor.nombre}"
-                                            class="col-6 align-self-center fs-5"
+                                            class="col-8 align-self-center fs-5"
                                             ></div>
                                     </div>
                                     <div class="row border-top border-primary">
