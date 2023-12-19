@@ -243,23 +243,23 @@ public class UsuarioService implements UserDetailsService {
         
         // byte bites = (byte) 1048576;
         
-        if (nombre.trim().isEmpty() || nombre == null) {
+        if (nombre == null || nombre.trim().isEmpty()) {
             throw new MiException("El Nombre no puede ser nulo o estar vacío");
         }
-        if (accUsuario.trim().isEmpty() || accUsuario == null) {
+        if (accUsuario == null || accUsuario.trim().isEmpty()) {
             throw new MiException("El Nombre de usuario no puede ser nulo o estar vacio");
         } else if (existsByAccUsuario(accUsuario)) {
             throw new MiException("Ya existe una cuenta con ese Nombre de usuario registrado..");
         }
-        if (ubicacion.equals("") || ubicacion == null) {
+        if (ubicacion == null || ubicacion.equals("")) {
             throw new MiException("La Ubicacion no puede ser nula o estar vacia");
         }
-        if (email.isEmpty() || email == null) {
+        if (email == null || email.isEmpty()) {
             throw new MiException("El Email no puede ser nulo o estar vacio");
         } else if (existsByEmail(email)) {
             throw new MiException("Ya existe una cuenta con ese Email registrado..");
         }
-        if (password.isEmpty() || password == null || password.length() <= 5) {
+        if (password == null || password.isEmpty() || password.length() <= 5) {
             throw new MiException("La Contraseña no puede estar vacía, y debe tener más de 5 dígitos");
         }
         if (!password.equals(password2)) {
@@ -270,18 +270,18 @@ public class UsuarioService implements UserDetailsService {
 
     private void validationUpdate (Usuario usuario, String nombre, String email, String accUsuario, Ubicacion ubicacion) throws MiException {
 
-        if (nombre.trim().isEmpty() || nombre == null) {
+        if (nombre == null || nombre.trim().isEmpty()) {
             throw new MiException("El Nombre no puede ser nulo o estar vacío");
         }
-        if (accUsuario.trim().isEmpty() || accUsuario == null) {
+        if (accUsuario == null || accUsuario.trim().isEmpty()) {
             throw new MiException("El Nombre de usuario no puede ser nulo o estar vacio");
         } else if (!accUsuario.equals(usuario.getAccUsuario()) && existsByAccUsuario(accUsuario)) {
             throw new MiException("Ya existe una cuenta con ese Nombre de usuario registrado..");
         }
-        if (ubicacion.equals("") || ubicacion == null) {
+        if (ubicacion == null || ubicacion.equals("")) {
             throw new MiException("La Ubicacion no puede ser nula o estar vacia");
         }
-        if (email.isEmpty() || email == null) {
+        if (email == null || email.isEmpty()) {
             throw new MiException("El Email no puede ser nulo o estar vacio");
         } else if (!email.equals(usuario.getEmail()) && existsByEmail(email)) {
             throw new MiException("Ya existe una cuenta con ese Email registrado..");
@@ -291,7 +291,7 @@ public class UsuarioService implements UserDetailsService {
 
     private void validationPassword (String password, String password2) throws MiException {
 
-        if (password.isEmpty() || password == null || password.length() <= 5) {
+        if (password == null || password.isEmpty() || password.length() <= 5) {
             throw new MiException("La Contraseña no puede estar vacía, y debe tener más de 5 dígitos");
         }
         if (!password.equals(password2)) {

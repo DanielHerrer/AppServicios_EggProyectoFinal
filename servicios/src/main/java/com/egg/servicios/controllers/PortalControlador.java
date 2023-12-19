@@ -26,14 +26,11 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/") // localhost:8080/
 public class PortalControlador {
 
-    private static final String CARPETA_IMAGENES = "src/main/resources/static/img/";
-    private static final String IMAGEN_POR_DEFECTO = "default.jpg";
-
     @Autowired
     UsuarioService usuarioService;
 
-    //primer metodo que se va a ejecutar en el localhost
-    @GetMapping("/")//mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
+    // Primer metodo que se va a ejecutar en el localhost
+    @GetMapping("/")// Mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
     public String index(ModelMap modelo, HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
         modelo.put("ubicaciones",Ubicacion.values());
@@ -106,7 +103,6 @@ public class PortalControlador {
             modelo.put("nombre", nombre);
             modelo.put("accUsuario", accUsuario);
             modelo.put("email", email);
-            modelo.put("ubicacion", ubicacion);
 
             if (rol.equals(Rol.PROVEEDOR)) {
                 modelo.put("rol", Rol.PROVEEDOR);
