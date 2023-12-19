@@ -8,6 +8,7 @@ import com.egg.servicios.enums.Rol;
 import com.egg.servicios.exceptions.MiException;
 import com.egg.servicios.services.CalificacionService;
 import com.egg.servicios.services.OfertaService;
+import com.egg.servicios.services.UsuarioService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,8 @@ public class ContratoControlador {
     private OfertaService ofertaService;
     @Autowired
     private CalificacionService calificacionService;
+    @Autowired
+    private UsuarioService usuarioService;
 
     @PostMapping("/registro")
     public String crearContrato(ModelMap modelo, @PathVariable String idOferta) throws MiException {
@@ -58,6 +61,7 @@ public class ContratoControlador {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
         List<Contrato> contratos = new ArrayList<>();
+        modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
 
         if (usuario.getRol().equals(Rol.CLIENTE)) {
             contratos = contratoService.findContratosByIdCliente(usuario.getId());
@@ -65,14 +69,6 @@ public class ContratoControlador {
             contratos = contratoService.findContratosByIdProveedor(usuario.getId());
         }
 
-        modelo.addAttribute("contratos", contratos);
-        return "listar-contratos.html";
-    }
-    
-    @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR')")
-    @GetMapping("/listar/proveedor")
-    public String listarProveedor(ModelMap modelo, HttpSession session) {
-      List<Contrato> contratos = contratoService.getContratosAll();
         modelo.addAttribute("contratos", contratos);
         return "listar-contratos.html";
     }

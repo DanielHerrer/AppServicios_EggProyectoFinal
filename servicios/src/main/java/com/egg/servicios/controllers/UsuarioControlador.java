@@ -78,7 +78,9 @@ public class UsuarioControlador {
 
     @GetMapping("/modificar/{id}")//viaja el id a traves de path variable para modificar, un fragmento de url donde se encuentra determinado recurso
     public String modificar(@PathVariable String id, ModelMap modelo) {//variable string id es variable de path y viaja en url del GetMapping
-        modelo.put("usuario", usuarioService.getUsuarioById(id));//llave autor = lleva el valor del  autorServicio lo que nos trae el metodo getOne
+        Usuario usuario = usuarioService.getUsuarioById(id);
+        modelo.put("usuario", usuario);//llave autor = lleva el valor del  autorServicio lo que nos trae el metodo getOne
+        modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
 
         return "modificar-usuario.html";
 
@@ -121,8 +123,10 @@ public class UsuarioControlador {
         try {
             Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
             modelo.addAttribute("ubicaciones", Ubicacion.values());
-              modelo.put("rol", usuario.getRol());
-              modelo.put("usuario", usuario);
+            modelo.put("rol", usuario.getRol());
+            modelo.put("usuario", usuario);
+            modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
+
             if (usuario != null) {
              return "modificar-usuario.html";
             }
@@ -131,24 +135,6 @@ public class UsuarioControlador {
         } catch (Exception ex) {
             modelo.put("error", ex.getMessage());
             return "modificar-usuario.html";
-        }
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
-    @GetMapping("/restablecer/password")
-    public String modificarPassword(HttpSession session, ModelMap modelo) {
-        try {
-            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-            modelo.put("usuario", usuario);
-
-            if (usuario != null) {
-                return "modificar-password.html";
-            }
-            return "index.html";
-
-        } catch (Exception ex) {
-            modelo.put("error", ex.getMessage());
-            return "modificar-password.html";
         }
     }
 
@@ -194,6 +180,25 @@ public class UsuarioControlador {
            return "modificar-usuario.html";
         }
 
+    }
+
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
+    @GetMapping("/restablecer/password")
+    public String modificarPassword(HttpSession session, ModelMap modelo) {
+        try {
+            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+            modelo.put("usuario", usuario);
+            modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
+
+            if (usuario != null) {
+                return "modificar-password.html";
+            }
+            return "index.html";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+            return "modificar-password.html";
+        }
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE', 'ROLE_ADMIN','ROLE_PROVEEDOR')")

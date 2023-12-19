@@ -9,6 +9,5 @@ public enum Estados {
   RECHAZADO,
   ACEPTADO,
   FINALIZADO;
-  
    
 }

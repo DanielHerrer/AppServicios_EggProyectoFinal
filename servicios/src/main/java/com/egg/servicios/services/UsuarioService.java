@@ -1,10 +1,13 @@
 package com.egg.servicios.services;
 
+import com.egg.servicios.entities.Contrato;
 import com.egg.servicios.entities.Imagen;
 import com.egg.servicios.entities.Usuario;
+import com.egg.servicios.enums.Estados;
 import com.egg.servicios.enums.Rol;
 import com.egg.servicios.enums.Ubicacion;
 import com.egg.servicios.exceptions.MiException;
+import com.egg.servicios.repositories.ContratoRepository;
 import com.egg.servicios.repositories.UsuarioRepository;
 
 import java.util.ArrayList;
@@ -36,6 +39,8 @@ public class UsuarioService implements UserDetailsService {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private ImagenService imagenService;
+    @Autowired
+    private ContratoRepository contratoRepository;
 
     @Transactional
     public void createUsuario(MultipartFile archivo, String accUsuario, Rol rol, String nombre, String email, Ubicacion ubicacion, String password, String password2) throws MiException {
@@ -323,6 +328,23 @@ public class UsuarioService implements UserDetailsService {
             }
         } catch (Exception e) {
             throw new MiException(e.getMessage());
+        }
+    }
+
+    public Integer countNotificaciones (String id) {
+
+        Optional<Usuario> usuarioRespuesta = usuarioRepository.findById(id);
+
+        if (usuarioRespuesta.isPresent()) {
+            Usuario usuario = usuarioRespuesta.get();
+
+            Estados[] estadosAnalizar = {Estados.PENDIENTE, Estados.ACEPTADO, Estados.FINALIZADO};
+            List<Contrato> contratosNotif = contratoRepository.countNotificacionesByIdUsuario(usuario.getId(), estadosAnalizar);
+
+            return  contratosNotif.size();
+
+        } else {
+            return null;
         }
     }
 
