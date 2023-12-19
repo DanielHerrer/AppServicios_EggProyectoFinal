@@ -70,8 +70,18 @@
             <version>1.18.30</version>
             <type>jar</type>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+            <version>3.0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>6.1.4</version>
+        </dependency>
 
+    </dependencies>
     <build>
         <plugins>
             <plugin>
