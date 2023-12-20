@@ -67,14 +67,14 @@
                     </div>
                 </div>
 
-                <div class="container mt-5">
+                <div class="mx-5 mt-5">
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-8">
 
                             <div class="rounded-3 border-0 p-4 mb-2 fondo-contenedor-tabla">
                                 <h3 class="text-center fw-bold text-center ">Listado de  Calificaciones</h3>
 
-                                <table class="table table-primary text-primary mt-5 tabla-fondo">
+                                <table class="table table-primary text-primary mt-3 tabla-fondo">
                                     <thead>
                                         <tr class="texto-tabla">
                                             <th class="fs-5 fw-bold" scope="col" sec:authorize="hasRole('ADMIN')" > Acciones</th>
@@ -97,9 +97,9 @@
                                             <td class="text-primary fw-bold" th:text="${calificacion.comentario}"></td>
                                             <td class="text-primary fw-bold" th:text="${calificacion.puntuacion}"></td>
                                             <td class="text-primary fw-bold" th:text="${calificacion.alta ? 'Alta' : 'Baja'}"></td>
-                                            <td class="text-primary fw-bold">
+                                            <td class="text-center">
 
-                                                <form sec:authorize="hasRole('ADMIN')" th:action="@{/calificacion/alta/__${calificacion.id}__}" method="POST">
+                                                <form sec:authorize="hasRole('ADMIN')" th:action="@{/calificacion/alta/__${calificacion.id}__}" method="POST" class="mb-1">
                                                     <button type="submit" class="btn-link">
                                                         <i class="fas fa-feather-alt"></i> Alta
                                                     </button>
@@ -120,10 +120,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row d-flex " style="height:180px;">
+                    <div class="row d-flex my-4" style="height:50px;">
 
                         <div class="col-md-12 d-flex justify-content-end align-items-end mb-2">
-                            <a class="btn btn-dark" href="/">volver</a>
+                            <a class="btn btn-dark" href="/">Volver</a>
 
                         </div>
                     </div>
