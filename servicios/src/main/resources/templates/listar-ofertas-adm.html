@@ -67,50 +67,50 @@
             </div>
         </div>
 
-        <div class="container mt-5">
+        <div class="mx-5 mt-5">
             <div class="row d-flex justify-content-center">
                 <div class="col-md-12">
 
                     <div class="rounded-3 border-0 p-4 mb-2 fondo-contenedor-tabla">
                         <h3 class="text-center fw-bold text-center ">Listado de Ofertas</h3>
 
-                        <table class="table table-primary text-primary mt-5 tabla-fondo">
+                        <table class="table table-primary text-primary mt-3 tabla-fondo">
                             <thead>
-                            <tr>
-                                <!--<th scope="col">ID</th>-->
-                                <th class="fs-5 fw-bold" scope="col">Acciones</th>
-                                <th class="fs-5 fw-bold" scope="col">Cliente</th>
-                                <th class="fs-5 fw-bold" scope="col">Descripcion</th>
-                                <th class="fs-5 fw-bold" scope="col">Proveedor</th>
-                                <th class="fs-5 fw-bold" scope="col">Estado</th>
-                                <th class="fs-5 fw-bold" scope="col" sec:authorize="hasRole('ADMIN')" >Alta/Baja</th>
+                                <tr class="texto-tabla">
+                                    <!--<th scope="col">ID</th>-->
+                                    <th class="fs-5 fw-bold" scope="col">Acciones</th>
+                                    <th class="fs-5 fw-bold" scope="col">Cliente</th>
+                                    <th class="fs-5 fw-bold" scope="col">Descripcion</th>
+                                    <th class="fs-5 fw-bold" scope="col">Proveedor</th>
+                                    <th class="fs-5 fw-bold" scope="col">Estado</th>
+                                    <th class="fs-5 fw-bold" scope="col" sec:authorize="hasRole('ADMIN')" >Alta/Baja</th>
 
-                            </tr>
+                                </tr>
                             </thead>
                             <tbody th:each="oferta : ${ofertas}">
-                            <tr class="text-primary fw-bold">
-                                <td class="text-primary fw-bold">
-                                    <a  sec:authorize="hasRole('ADMIN')" class="btn btn-outline-primary" th:href= "@{/oferta/modificar/__${oferta.id}__}"><i class="bi bi-pencil-square"></i> Modificar </a>
-                                </td>
-                                <td class="text-primary fw-bold" th:text="${oferta.cliente.nombre}"></td>
-                                <td class="text-primary fw-bold" th:text="${oferta.descripcion}"></td>
-                                <td class="text-primary fw-bold" th:text="${oferta.servicio.proveedor.nombre}"></td>
-                                <td class="text-primary fw-bold" th:text="${oferta.alta ? 'Alta' : 'Baja'}"></td>
-                                <td class="text-primary fw-bold">
+                                <tr class="texto-tabla">
+                                    <td class="text-primary fw-bold">
+                                        <a  sec:authorize="hasRole('ADMIN')" class="btn btn-outline-primary" th:href= "@{/oferta/modificar/__${oferta.id}__}"><i class="bi bi-pencil-square"></i> Modificar </a>
+                                    </td>
+                                    <td class="text-primary fw-bold" th:text="${oferta.cliente.nombre}"></td>
+                                    <td class="text-primary fw-bold" th:text="${oferta.descripcion}"></td>
+                                    <td class="text-primary fw-bold" th:text="${oferta.servicio.proveedor.nombre}"></td>
+                                    <td class="text-primary fw-bold" th:text="${oferta.alta ? 'Alta' : 'Baja'}"></td>
 
-                                    <form sec:authorize="hasRole('ADMIN')" th:action="@{/admin/oferta/alta/__${oferta.id}__}" method="POST">
-                                        <button type="submit" class="btn-link">
-                                            <i class="fas fa-feather-alt"></i> Alta
-                                        </button>
-                                    </form>
+                                    <td class="text-center">
+                                        <form sec:authorize="hasRole('ADMIN')" th:action="@{/admin/oferta/alta/__${oferta.id}__}" method="POST" class="mb-1">
+                                            <button type="submit" class="btn-link">
+                                                <i class="fas fa-feather-alt"></i> Alta
+                                            </button>
+                                        </form>
 
-                                    <form sec:authorize="hasRole('ADMIN')" th:action="@{/admin/oferta/baja/__${oferta.id}__}" method="POST">
-                                        <button type="submit" class="btn-link">
-                                            <i class="fas fa-feather-alt"></i> Baja
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                                        <form sec:authorize="hasRole('ADMIN')" th:action="@{/admin/oferta/baja/__${oferta.id}__}" method="POST">
+                                            <button type="submit" class="btn-link">
+                                                <i class="fas fa-feather-alt"></i> Baja
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
 
                             </tbody>
                         </table>
@@ -119,10 +119,10 @@
                     </div>
                 </div>
             </div>
-            <div class="row d-flex " style="height:180px;">
+            <div class="row d-flex my-4" style="height:50px;">
 
                 <div class="col-md-12 d-flex justify-content-end align-items-end mb-2">
-                    <a class="btn btn-dark" href="/">volver</a>
+                    <a class="btn btn-dark" href="/">Volver</a>
 
                 </div>
             </div>

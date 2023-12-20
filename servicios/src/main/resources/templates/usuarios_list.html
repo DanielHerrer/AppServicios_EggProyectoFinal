@@ -68,28 +68,25 @@
                     </div>
                 </div>
 
-                <div class="container mt-5">
+                <div class="mx-5 mt-5">
                     <div class="row d-flex justify-content-center">
                         <div class="col-md-12">
 
                             <div class="rounded-3 border-0 p-4 mb-2 fondo-contenedor-tabla">
                                 <h3 class="text-center fw-bold text-center ">Listado de Usuarios</h3>
 
-                                <table class="table table-primary text-primary">
+                                <table class="table table-primary mt-3 text-primary">
                                     <thead>
                                         <tr class="texto-tabla">
-                                            <th scope="col" sec:authorize="hasRole('ADMIN')" > Acciones</th>
-                                            <!--<th scope="col">Acc Usuario</th>-->
-                                            <th class="fs-5 fw-bold" scope="col">Acc Usuario</th>
+                                            <th scope="col" sec:authorize="hasRole('ADMIN')" >Acciones</th>
+                                            <th class="fs-5 fw-bold" scope="col">Alias</th>
                                             <th class="fs-5 fw-bold" scope="col">Nombre</th>
-                                            <th class="fs-5 fw-bold" scope="col">e-mail</th>
+                                            <th class="fs-5 fw-bold" scope="col">E-mail</th>
                                             <th class="fs-5 fw-bold" scope="col">Ubicacion</th>
                                             <th class="fs-5 fw-bold" scope="col">Rol</th>
                                             <th class="fs-5 fw-bold" scope="col">Estado</th>
                                             <th class="fs-5 fw-bold" scope="col">Alta/Baja</th>
                                             <th class="fs-5 fw-bold" scope="col">Rol/Modificar</th>
-
-
                                         </tr>
                                     </thead>
                                     <tbody th:each="usuario : ${usuarios}"> 
@@ -107,9 +104,9 @@
                                             <td class="text-primary fw-bold" th:text="${usuario.alta? 'Alta' : 'Baja'}"></td>
 
 
-                                            <td>
+                                            <td class="text-center">
 
-                                                <form sec:authorize="hasRole('ADMIN')" th:action="@{/admin/usuariodaralta/__${usuario.id}__}" method="POST">
+                                                <form sec:authorize="hasRole('ADMIN')" th:action="@{/admin/usuariodaralta/__${usuario.id}__}" method="POST" class="mb-1">
                                                     <button type="submit" class="btn-link">
                                                         <i class="fas fa-feather-alt"></i> Alta
                                                     </button>
@@ -133,19 +130,14 @@
 
                                             </td>
                                         </tr>
-
                                     </tbody>
-                                            </table>
-
-
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <div class="row d-flex " style="height:50px;">
-
+                    <div class="row d-flex my-4" style="height:50px;">
                         <div class="col-md-12 d-flex justify-content-end align-items-end mb-2">
-                            <a class="btn btn-dark" href="/">volver</a>
-
+                            <a class="btn btn-dark" href="/">Volver</a>
                         </div>
                     </div>
                 </div>
