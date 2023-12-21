@@ -75,7 +75,7 @@ public class ServicioControlador {
 
             modelo.put("exito", "El Servicio fue registrado correctamente!"); // carga el modelo con un mensaje exitoso
 
-            return "registrar-servicio.html";
+            return "redirect:/servicio/registrar";
 
         } catch (MiException ex) {
 
@@ -92,11 +92,10 @@ public class ServicioControlador {
             modelo.put("idCategoria", idCategoria);
             modelo.put("idProveedor", idProveedor);
 
-            return "registrar-servicio.html"; // volvemos a cargar el formulario
+            return "redirect:/servicio/registrar"; // volvemos a cargar el formulario
         }
 
     }
-
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
     @PostMapping("/contratar") // localhost:8080/servicio/contratar
@@ -165,14 +164,14 @@ public class ServicioControlador {
         }
     }
 
-    //AGREGADO <---
     @GetMapping("/listar")
     public String listarServicios(ModelMap modelo, HttpSession session) {
 
         try {
-            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-            modelo.put("usuario", usuario);
-            modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
+            if (session.getAttribute("usuarioSession") != null) {
+                Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+                modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
+            }
 
             // Se carga la lista de servicios en su totalidad
             List<Servicio> servicios = servicioService.findServiciosByAltaTrue();
@@ -247,9 +246,10 @@ public class ServicioControlador {
     public String listarServiciosBuscar(@RequestParam String input, ModelMap modelo, HttpSession session) {
 
         try {
-            Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
-            modelo.put("usuario", usuario);
-            modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
+            if (session.getAttribute("usuarioSession") != null) {
+                Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
+                modelo.put("notificaciones", usuarioService.countNotificaciones(usuario.getId()));
+            }
 
             // Se carga la lista de servicios en su totalidad
             List<Servicio> servicios = servicioService.findServiciosByBusqueda(input);
