@@ -30,6 +30,10 @@ El proyecto consta de una web donde se proveen servicios por profesionales matri
 
 ✔️Diagrama UML de entidades
 
+### Demo Final Egg
+
+[![Demo ReparApp](https://img.youtube.com/vi/x90WdHejoPs/0.jpg)](https://www.youtube.com/watch?v=x90WdHejoPs)
+<br>https://www.youtube.com/watch?v=x90WdHejoPs
 
 ## 👁‍🗨 Funcionalidades 
 
@@ -118,8 +122,5 @@ El proyecto consta de una web donde se proveen servicios por profesionales matri
 |   Jose Contreras |   Martin Selis     |   Lucio Mario Turchetto    |
 |  Developer - Backend |   Developer - Backend    | Developer - Frontend |
 | <a href="https://github.com/jrcontreras23"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="https://www.linkedin.com/in/"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a>| <a href="https://github.com/martinselis1978"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="https://www.linkedin.com/in/"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a> | <a href="https://github.com/lucioturchetto"><img src="https://img.shields.io/badge/github-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a> <a href="https://www.linkedin.com/in/"><img src="https://img.shields.io/badge/linkedin%20-%230077B5.svg?&style=for-the-badge&logo=linkedin&logoColor=white"/></a>|
-
-
-### Demo Final Egg
 
 https://github.com/DanielHerrer/AppServicios_EggProyectoFinal/assets/100254429/a6d9d5bf-7ce7-4533-8b1d-354cc75e1599
