@@ -70,6 +70,12 @@
             <version>1.18.30</version>
             <type>jar</type>
         </dependency>
+        <!--    Render    -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>
