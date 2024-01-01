@@ -10,7 +10,7 @@ RUN mvn -f /app/pom.xml clean package -DskipTests
 
 # Stage 2: Use the built artifact
 FROM openjdk:17.0.1-jdk-slim
-COPY --from=build /app/target/servicios-1.0.0-SNAPSHOT.jar /app/servicios.jar
+COPY --from=build /app/target/servicios-0.0.1-SNAPSHOT.jar /app/servicios.jar
 WORKDIR /app
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "servicios.jar"]
