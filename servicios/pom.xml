@@ -17,6 +17,9 @@
         <java.version>17</java.version>
         <!-- <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target> -->
+        <thymeleaf.version>3.0.15.RELEASE</thymeleaf.version>
+<!--        <thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version>-->
+<!--        <thymeleaf-extras-java8time.version>3.0.0.RELEASE</thymeleaf-extras-java8time.version>-->
     </properties>
     <dependencies>
 
@@ -28,10 +31,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -58,10 +57,29 @@
             <version>3.0.4</version>
         </dependency>
 
-        <!-- Thymeleaf Extras -->
+        <!-- Dependencias de Thymeleaf -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <version>3.1.2.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf-spring5</artifactId>
+            <version>3.1.2.RELEASE</version>
+        </dependency>
         <dependency>
             <groupId>org.thymeleaf.extras</groupId>
             <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+            <version>3.0.4.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
         <!-- MySQL Connector -->
