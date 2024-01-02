@@ -65,7 +65,7 @@ public class ImagenService {
         try {
 
             if (archivo == null || archivo.isEmpty()) {
-                Imagen imagen = imagenRepository.getReferenceById(idImagen);
+                Imagen imagen = imagenRepository.getById(idImagen);
                 return imagenRepository.save(imagen);
 
             } else if (archivo != null) {
