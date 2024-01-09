@@ -34,7 +34,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 <tbody th:each="calificacion : ${calificaciones}"> 
                     <tr class="texto-tabla">
                         <td>
-                            <a  sec:authorize="hasRole('ADMIN')" class="btn btn-outline-primary" th:href= "@{/calificacion/listar/__${calificacion.id}__}"><i class="bi bi-pencil-square"></i> Modificar </a>
+                            <a  th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"
+                                sec:authorize="hasRole('ADMIN')" class="btn btn-outline-primary" th:href= "@{/calificacion/listar/__${calificacion.id}__}"><i class="bi bi-pencil-square"></i> Modificar </a>
 
                         </td>
                         <!--<th scope="row" th:text="${usuario.id}"></th>-->
@@ -43,13 +44,15 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         <td th:text="${calificacion.alta? 'Alta' : 'Baja'}"></td>
                         <td>
 
-                            <form sec:authorize="hasRole('ADMIN')" th:action="@{/calificacion/alta/__${calificacion.id}__}" method="POST">
+                            <form th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"
+                                sec:authorize="hasRole('ADMIN')" th:action="@{/calificacion/alta/__${calificacion.id}__}" method="POST">
                                 <button type="submit" class="btn-link">
                                     <i class="fas fa-feather-alt"></i> Alta
                                 </button>
                             </form>
 
-                            <form sec:authorize="hasRole('ADMIN')" th:action="@{/calificacion/baja/__${calificacion.id}__}" method="POST">
+                            <form th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"
+                                sec:authorize="hasRole('ADMIN')" th:action="@{/calificacion/baja/__${calificacion.id}__}" method="POST">
                                 <button type="submit" class="btn-link">
                                     <i class="fas fa-feather-alt"></i> Baja
                                 </button>

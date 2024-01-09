@@ -69,7 +69,7 @@ public class ContratoControlador {
             contratos = contratoService.findContratosByIdProveedor(usuario.getId());
         }
 
-        modelo.addAttribute("contratos", contratos);
+        modelo.put("contratos", contratos);
         return "listar-contratos.html";
     }
 

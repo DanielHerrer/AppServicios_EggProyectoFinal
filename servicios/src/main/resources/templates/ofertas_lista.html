@@ -87,22 +87,25 @@
 
                                     <tbody th:each="oferta : ${ofertas}" class="p-4">
                                         <tr class="texto-tabla ">
-                                            <td class="text-primary fw-bold" sec:authorize="hasRole('ADMIN')">
+                                            <td class="text-primary fw-bold" sec:authorize="hasRole('ADMIN')"
+                                                th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}">
                                                 <a th:href= "@{/oferta/modificar/__${oferta.id}__}"><i class="bi bi-pencil-square"></i> Modificar </a>
                                             </td>
                                             <td class="text-primary fw-bold" scope="row" th:text="${oferta.descripcion}"></th>
                                             <td class="text-primary fw-bold" th:text="${oferta.servicio}"></td>    
                                             <td class="text-primary fw-bold" th:text="${oferta.cliente}"></td>
                                             <td class="text-primary fw-bold" th:text="${oferta.alta}"></td>
-                                            <td>
+                                            <td sec:authorize="hasRole('ADMIN')" th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}">
 
-                                                <form sec:authorize="hasRole('ADMIN')" th:action="@{/oferta/alta/__${oferta.id}__}" method="POST">
+                                                <form th:action="@{/oferta/alta/__${oferta.id}__}" method="POST">
+
                                                     <button type="submit" class="btn-link">
                                                         <i class="fas fa-feather-alt"></i> Alta
                                                     </button>
                                                 </form>
 
-                                                <form sec:authorize="hasRole('ADMIN')" th:action="@{/oferta/baja/__${oferta.id}__}" method="POST">
+                                                <form th:action="@{/oferta/baja/__${oferta.id}__}" method="POST">
+
                                                     <button type="submit" class="btn-link">
                                                         <i class="fas fa-feather-alt"></i> Baja
                                                     </button>
@@ -120,7 +123,7 @@
                     <div class="row d-flex " style="height:180px;">
 
                         <div class="col-md-12 d-flex justify-content-end align-items-end mb-2">
-                            <a class="btn btn-dark" href="/">volver</a>
+                            <a class="btn btn-dark" href="/">Volver</a>
 
                         </div>
                     </div>

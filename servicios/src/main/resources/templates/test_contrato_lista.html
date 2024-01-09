@@ -56,8 +56,10 @@
                                 <th scope="col">Estado</th>
                                 <th scope="col">Oferta</th>
                                 <th scope="col">Calificacion</th>
-                                <th scope="col" sec:authorize="hasRole('ADMIN')" >Acciones</th>
-                                <th scope="col" sec:authorize="hasRole('ADMIN')">Eliminar</th>
+                                <th scope="col" sec:authorize="hasRole('ADMIN')"
+                                    th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}">Acciones</th>
+                                <th scope="col" sec:authorize="hasRole('ADMIN')"
+                                    th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}">Eliminar</th>
                             </tr>
                         </thead>
 

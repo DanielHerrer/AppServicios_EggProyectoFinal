@@ -45,12 +45,14 @@
                     <div class="row  d-flex justify-content-center">
                         <div class="col-6 buscador" th:if="${session.usuarioSession != null}">
                             <!-- buscador para clientes -->
-                            <form class="d-flex" th:if="${#authorization.expression('hasRole(''CLIENTE'')')}" action="/servicio/listar/cliente/buscar" method="GET">
+                            <form class="d-flex" sec:authorize="hasRole('CLIENTE')" action="/servicio/listar/cliente/buscar" method="GET"
+                                  th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'CLIENTE'}">
                                 <input name="input" class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
                                 <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
                             </form>
                             <!-- buscador para proveedores -->
-                            <form class="d-flex" th:if="${#authorization.expression('hasRole(''PROVEEDOR'')')}" action="/servicio/listar/proveedor/buscar" method="GET">
+                            <form class="d-flex" sec:authorize="hasRole('PROVEEDOR')" action="/servicio/listar/proveedor/buscar" method="GET"
+                                  th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'PROVEEDOR'}">
                                 <input name="input" class="form-control me-2 inputBuscador" type="search" placeholder="Buscar" aria-label="Search">
                                 <button class="button bg-transparent page-scroll" type="submit"><img src="/img/search.svg"></button>
                             </form>

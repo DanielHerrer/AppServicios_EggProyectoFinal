@@ -43,8 +43,8 @@
                                         <ul class="links">
                                             <li><a href="#home">Home</a></li>
                                             <li><a href="#nosotros">Nosotros</a></li>
-                                            <li sec:authorize="hasRole('CLIENTE')"><a href="/servicio/listar/cliente">Servicios</a></li>
-                                            <li sec:authorize="hasRole('PROVEEDOR')"><a href="/servicio/listar">Servicios</a></li>
+                                            <li th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'CLIENTE'}" sec:authorize="hasRole('CLIENTE')"><a href="/servicio/listar/cliente">Servicios</a></li>
+                                            <li th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'PROVEEDOR'}" sec:authorize="hasRole('PROVEEDOR')"><a href="/servicio/listar">Servicios</a></li>
                                             <li><a href="/usuario/restablecer">Perfil</a></li>
                                         </ul>
                                     </div>

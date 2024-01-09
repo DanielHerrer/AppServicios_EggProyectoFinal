@@ -120,10 +120,10 @@
                                      </div>-->
 
                                     <div class="form-group my-1">
-                                        <label for="exampleInputPassword1" class="form-label"
+                                        <label for="password" class="form-label"
                                                >Password</label
                                         >
-                                        <input type="password" class="form-control" name="password" th:value="${password}">
+                                        <input id="password" type="password" class="form-control" name="password" th:value="${password}">
                                     </div>
                                     
                                     <div class="form-group my-3">
@@ -149,9 +149,11 @@
                             >
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 d-flex justify-content-end mb-2">
-                            <a class="btn btn-dark" href="/registrar">Volver</a>
+                    <div class="row d-flex " style="height:150px;">
+
+                        <div class="col-md-12 d-flex justify-content-end align-items-end mb-2">
+                            <a class="btn btn-dark" href="/">Volver</a>
+
                         </div>
                     </div>
                 </div>

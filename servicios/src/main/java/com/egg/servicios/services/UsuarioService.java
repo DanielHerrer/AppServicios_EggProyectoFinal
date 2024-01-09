@@ -354,6 +354,12 @@ public class UsuarioService implements UserDetailsService {
         Optional<Usuario> user = usuarioRepository.findByEmail(email);
 
         if (user.isPresent()) {
+            System.out.println("el user esta presente: "+user.get().getNombre());
+        } else {
+            System.out.println("no se encontro el user");
+        }
+
+        if (user.isPresent()) {
 
             Usuario usuario = user.get();
 
@@ -368,6 +374,8 @@ public class UsuarioService implements UserDetailsService {
 
             permisos.add(p);
 
+            System.out.println("Permisos añadidos!, "+p.toString());
+
             // Utilizamos los atributos que nos otorga el pedido al servlet, para poder guardar la
             // información de nuestra HttpSession.
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
@@ -378,7 +386,7 @@ public class UsuarioService implements UserDetailsService {
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);
 
         } else {
-            throw new UsernameNotFoundException("Usuario no encontrado con email: " + email);
+            return null;
         }
 
     }
