@@ -348,6 +348,7 @@ public class UsuarioService implements UserDetailsService {
         }
     }
 
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
