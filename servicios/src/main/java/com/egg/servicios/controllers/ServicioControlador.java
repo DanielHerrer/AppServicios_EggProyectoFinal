@@ -74,9 +74,11 @@ public class ServicioControlador {
             Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
             modelo.addAttribute("proveedor", proveedor);
 
+            modelo.put("notificaciones", usuarioService.countNotificaciones(proveedor.getId()));
+
             modelo.put("exito", "El Servicio fue registrado correctamente!"); // carga el modelo con un mensaje exitoso
 
-            return "redirect:/servicio/registrar";
+            return "registrar-servicio.html";
 
         } catch (MiException ex) {
 
@@ -84,6 +86,8 @@ public class ServicioControlador {
 
             Usuario proveedor = (Usuario) session.getAttribute("usuarioSession");
             modelo.addAttribute("proveedor", proveedor);
+
+            modelo.put("notificaciones", usuarioService.countNotificaciones(proveedor.getId()));
 
             modelo.put("error", ex.getMessage()); // carga el modelo con un mensaje de error
 
@@ -93,7 +97,7 @@ public class ServicioControlador {
             modelo.put("idCategoria", idCategoria);
             modelo.put("idProveedor", idProveedor);
 
-            return "redirect:/servicio/registrar"; // volvemos a cargar el formulario
+            return "registrar-servicio.html"; // volvemos a cargar el formulario
         }
 
     }
