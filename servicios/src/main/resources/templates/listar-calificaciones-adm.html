@@ -99,14 +99,14 @@
                                             <td class="text-center">
 
                                                 <form class="mb-1" sec:authorize="hasRole('ADMIN')"
-                                                    th:action="@{/calificacion/alta/__${calificacion.id}__}" method="POST"
+                                                    th:action="@{/admin/calificacion/alta/__${calificacion.id}__}" method="POST"
                                                       th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}">
                                                     <button type="submit" class="btn-link">
                                                         <i class="fas fa-feather-alt"></i> Alta
                                                     </button>
                                                 </form>
 
-                                                <form th:action="@{/calificacion/baja/__${calificacion.id}__}" method="POST"
+                                                <form th:action="@{/admin/calificacion/baja/__${calificacion.id}__}" method="POST"
                                                       th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}">
                                                     <button type="submit" class="btn-link">
                                                         <i class="fas fa-feather-alt"></i> Baja

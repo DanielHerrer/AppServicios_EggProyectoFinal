@@ -64,40 +64,6 @@ public class CalificacionControlador {
         modelo.put("calificaciones", calificaciones);
         return "listar-calificaciones-adm.html";
     }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @PostMapping("/baja/{id}")
-    public String baja(@PathVariable String id, ModelMap modelo) {
-
-        try {
-            Calificacion calificacion = new Calificacion();
-            calificacionService.deleteCalificacion(id);
-            modelo.addAttribute("calificacion", calificacion);
-            modelo.put("exito", "Calificacion de baja!");
-            return "redirect:/calificacion/listar";
-
-        } catch (MiException ex) {
-
-            return "redirect:/calificacion/listar";
-        }
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @PostMapping("/alta/{id}")
-    public String alta(@PathVariable String id, ModelMap modelo) {
-
-        try {
-            Calificacion calificacion = new Calificacion();
-            calificacionService.updateCalificacionAltaTrue(id);
-            modelo.addAttribute("calificacion", calificacion);
-            modelo.put("exito", "Calificacion de alta!");
-            return "redirect:/calificacion/listar";
-
-        } catch (MiException ex) {
-
-            return "redirect:/calificacion/listar";
-        }
-    }
     
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")

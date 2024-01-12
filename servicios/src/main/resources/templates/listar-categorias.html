@@ -77,20 +77,41 @@
                                 <table class="table table-primary text-primary mt-5 tabla-fondo">
                                     <thead >
                                         <tr class="texto-tabla titulos-tabla">
-                                            <th class="fs-5 fw-bold" scope="col">id</th>
-                                            <th class="fs-5 fw-bold" scope="col">Nombre</th>
                                             <th class="fs-5 fw-bold" scope="col" sec:authorize="hasRole('ADMIN')"
                                                 th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}">Acciones</th>
+                                            <th class="fs-5 fw-bold" scope="col">Nombre</th>
+                                            <th class="fs-5 fw-bold" scope="col">Estado</th>
+                                            <th class="fs-5 fw-bold" scope="col" sec:authorize="hasRole('ADMIN')"
+                                                th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}">Alta/Baja</th>
                                         </tr>
                                     </thead>
 
                                     <tbody th:each="categoria : ${categorias}" class="p-4">
                                         <tr class="texto-tabla ">
-                                            <th class="text-primary fw-bold" scope="row" th:text="${categoria.id}"></th>
-                                            <td class="text-primary fw-bold" th:text="${categoria.nombre}"></td>                                         
                                             <td class="text-primary fw-bold" sec:authorize="hasRole('ADMIN')"
                                                 th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}" >
                                                 <a th:href= "@{/categoria/modificar/__${categoria.id}__}"><i class="bi bi-pencil-square"></i> Modificar </a>
+                                            </td>
+
+                                            <td class="text-primary fw-bold" th:text="${categoria.nombre}"></td>
+                                            <td class="text-primary fw-bold" th:text="${categoria.alta ? 'Alta' : 'Baja'}"></td>
+
+                                            <td class="text-center">
+                                                <form sec:authorize="hasRole('ADMIN')"
+                                                      th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"
+                                                      th:action="@{/admin/categoria/alta/__${categoria.id}__}" method="POST" class="mb-1">
+                                                    <button type="submit" class="btn-link">
+                                                        <i class="fas fa-feather-alt"></i> Alta
+                                                    </button>
+                                                </form>
+
+                                                <form sec:authorize="hasRole('ADMIN')"
+                                                      th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"
+                                                      th:action="@{/admin/categoria/baja/__${categoria.id}__}" method="POST">
+                                                    <button type="submit" class="btn-link">
+                                                        <i class="fas fa-feather-alt"></i> Baja
+                                                    </button>
+                                                </form>
                                             </td>
                                         </tr>
                                     </tbody>

@@ -1,14 +1,13 @@
 package com.egg.servicios.controllers;
 
+import com.egg.servicios.entities.Calificacion;
 import com.egg.servicios.entities.Oferta;
 import com.egg.servicios.entities.Servicio;
 import com.egg.servicios.enums.Rol;
 import com.egg.servicios.enums.Ubicacion;
 import com.egg.servicios.exceptions.MiException;
-import com.egg.servicios.services.CategoriaService;
-import com.egg.servicios.services.OfertaService;
-import com.egg.servicios.services.ServicioService;
-import com.egg.servicios.services.UsuarioService;
+import com.egg.servicios.services.*;
+
 import java.io.IOException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +34,8 @@ public class AdminControlador {
     @Autowired
     private OfertaService ofertaService;
     @Autowired
+    private CalificacionService calificacionService;
+    @Autowired
     private UsuarioService usuarioService;
     @Autowired
     private ServicioService servicioService;
@@ -43,14 +44,6 @@ public class AdminControlador {
     @GetMapping("/dashboard")
     public String panelAdministrativo() {
         return "panel.html";
-    }
-
-    //CATEGORIAS------------------------------------->
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/listadmcategorias") // localhost:8080/categoria/listar
-    public String listarCategorias(ModelMap modelo) {
-        return "redirect:../categoria/listar";
-
     }
 
     //USUARIOS -------------------------------------->
@@ -163,6 +156,14 @@ public class AdminControlador {
         return "redirect:../usuario/restablecer/"+id;
     }
 
+    //BOTON DAR DE ALTA
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping("/usuariodaralta/{id}")
+    public String alta(@PathVariable String id, ModelMap modelo) throws MiException {
+        usuarioService.updateUsuarioAltaTrue(id);
+        return "redirect:../listadmusuarios";
+    }
+
     //BOTON DAR DE BAJA
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/usuariodarbaja/{id}")
@@ -171,12 +172,28 @@ public class AdminControlador {
         return "redirect:../listadmusuarios";
     }
 
-    //BOTON DAR DE ALTA
+    //CATEGORIAS------------------------------------->
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @PostMapping("/usuariodaralta/{id}")
-    public String alta(@PathVariable String id, ModelMap modelo) throws MiException {
-        usuarioService.updateUsuarioAltaTrue(id);
-        return "redirect:../listadmusuarios";
+    @GetMapping("/listarcategorias")
+    public String listarCategorias(ModelMap modelo) {
+        return "redirect:../categoria/listar";
+
+    }
+
+    //BOTON DAR DE ALTA OFERTA
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping("/categoria/alta/{id}")
+    public String darAltaCategoria(@PathVariable String id, ModelMap modelo) throws MiException {
+        categoriaService.updateCategoriaAltaTrue(id);
+        return "redirect:../categoria/listar";
+    }
+
+    //BOTON DAR DE BAJA OFERTA
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping("/categoria/baja/{id}")
+    public String darBajaCategoria(@PathVariable String id, ModelMap modelo) throws MiException {
+        categoriaService.deleteCategoriaById(id);
+        return "redirect:../categoria/listar";
     }
 
     //SERVICIOS ------------------------------------->
@@ -188,18 +205,18 @@ public class AdminControlador {
         return "listar-servicios-adm.html";
     }
 
-    //BOTON DAR DE BAJA
+    //BOTON DAR DE BAJA SERVICIO
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/servicio/baja/{id}")
-    public String darBaja(@PathVariable String id, ModelMap modelo) throws MiException {
+    public String darBajaServicio(@PathVariable String id, ModelMap modelo) throws MiException {
         servicioService.deleteServicioById(id);
         return "redirect:../listarservicios";
     }
 
-    //BOTON DAR DE ALTA
+    //BOTON DAR DE ALTA SERVICIO
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/servicio/alta/{id}")
-    public String darAlta(@PathVariable String id, ModelMap modelo) throws MiException {
+    public String darAltaServicio(@PathVariable String id, ModelMap modelo) throws MiException {
         servicioService.updateServicioAltaTrue(id);
         return "redirect:../listarservicios";
     }
@@ -213,7 +230,7 @@ public class AdminControlador {
         return "listar-ofertas-adm.html";
     }
 
-    //BOTON DAR DE BAJA
+    //BOTON DAR DE BAJA OFERTA
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/oferta/baja/{id}")
     public String darBajaOferta(@PathVariable String id, ModelMap modelo) throws MiException {
@@ -221,12 +238,39 @@ public class AdminControlador {
         return "redirect:../listarofertas";
     }
 
-    //BOTON DAR DE ALTA
+    //BOTON DAR DE ALTA OFERTA
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/oferta/alta/{id}")
     public String darAltaOferta(@PathVariable String id, ModelMap modelo) throws MiException {
         ofertaService.updateOfertaAltaTrue(id);
         return "redirect:../listarofertas";
     }
+
+    // CALIFICACIONES ------------------------------------->
+
+    //BOTON DAR DE ALTA CALIFICACION
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping("/calificacion/alta/{id}")
+    public String darAltaCalificacion(@PathVariable String id, ModelMap modelo) {
+        try {
+            calificacionService.updateCalificacionAltaTrue(id);
+            return "redirect:/calificacion/listar";
+        } catch (MiException ex) {
+            return "redirect:/calificacion/listar";
+        }
+    }
+
+    //BOTON DAR DE BAJA CALIFICACION
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PostMapping("/calificacion/baja/{id}")
+    public String darBajaCalificacion(@PathVariable String id, ModelMap modelo) {
+        try {
+            calificacionService.deleteCalificacion(id);
+            return "redirect:/calificacion/listar";
+        } catch (MiException ex) {
+            return "redirect:/calificacion/listar";
+        }
+    }
+
 
 }
