@@ -45,16 +45,17 @@ public class CategoriaControlador {
         }
     }
 
-    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listar") // localhost:8080/categoria/listar
     public String listarCategorias(ModelMap modelo) {
         try {
             List<Categoria> categorias = categoriaService.findCategoriasByAltaTrue();
             modelo.addAttribute("categorias", categorias);
-            return "test_categoria_lista.html";
+            return "listar-categorias.html";
         } catch (MiException e) {
             modelo.put("error", e.getMessage());
-            return "test_categoria_lista.html";
+            return "listar-categorias.html";
+//            return "test_categoria_lista.html";
         }
     }
 
