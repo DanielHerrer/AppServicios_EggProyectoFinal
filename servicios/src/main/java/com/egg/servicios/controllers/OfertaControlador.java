@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -48,6 +49,7 @@ public class OfertaControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listar")
+    @Transactional
     public String listar(ModelMap modelo) {
 
         List<Oferta> ofertas = ofertaService.findOfertasByAltaTrue();

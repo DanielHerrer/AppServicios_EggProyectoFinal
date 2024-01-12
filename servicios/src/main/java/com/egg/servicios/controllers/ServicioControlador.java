@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -165,6 +166,7 @@ public class ServicioControlador {
     }
 
     @GetMapping("/listar")
+    @Transactional
     public String listarServicios(ModelMap modelo, HttpSession session) {
 
         try {
@@ -192,6 +194,7 @@ public class ServicioControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_ADMIN')")
     @GetMapping("/listar/cliente")
+    @Transactional
     public String listarServiciosCliente(ModelMap modelo, HttpSession session) {
 
         try {
@@ -218,6 +221,7 @@ public class ServicioControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR','ROLE_ADMIN')")
     @GetMapping("/listar/proveedor")
+    @Transactional
     public String listarServiciosProveedor(ModelMap modelo, HttpSession session) {
 
         try {
@@ -243,6 +247,7 @@ public class ServicioControlador {
     }
 
     @GetMapping("/listar/buscar")
+    @Transactional
     public String listarServiciosBuscar(@RequestParam String input, ModelMap modelo, HttpSession session) {
 
         try {
@@ -269,6 +274,7 @@ public class ServicioControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_ADMIN')")
     @GetMapping("/listar/cliente/buscar")
+    @Transactional
     public String listarServiciosBuscarCliente(@RequestParam String input, ModelMap modelo, HttpSession session) {
 
         try {
@@ -295,6 +301,7 @@ public class ServicioControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR','ROLE_ADMIN')")
     @GetMapping("/listar/proveedor/buscar")
+    @Transactional
     public String listarServiciosBuscarProveedor(@RequestParam String input, ModelMap modelo, HttpSession session) {
 
         try {
@@ -320,6 +327,7 @@ public class ServicioControlador {
     }
 
     @GetMapping("/listar/zona/buscar")
+    @Transactional
     public String listarServiciosBuscarZona(@RequestParam("input") Ubicacion ubicacion, ModelMap modelo, HttpSession session) {
 
         try {
