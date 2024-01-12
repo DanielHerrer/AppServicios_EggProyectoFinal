@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.transaction.Transactional;
+
 @Controller
 @RequestMapping("/imagen")
 public class ImagenControlador {
@@ -23,9 +25,9 @@ public class ImagenControlador {
     private UsuarioService usuarioService;
     @Autowired
     private ServicioService servicioService;
-    
-    
+
     @GetMapping("/usuario/{id}")//se pasa el id del usuario a travez del path
+    @Transactional
     public ResponseEntity<byte[]> imagenUsuario(@PathVariable String id) {//recibe el id del usuario al que esta vinculada la imagen.
        Usuario usuario = usuarioService.getUsuarioById(id);//trae al usuario por id y lo asignamos a una variable usuario
        
@@ -38,6 +40,7 @@ public class ImagenControlador {
     }
 
     @GetMapping("/matricula/{id}")
+    @Transactional
     public ResponseEntity<byte[]> imagenMatricula(@PathVariable String id) {
 
         Servicio servicio = servicioService.getServicioById(id);
@@ -49,7 +52,5 @@ public class ImagenControlador {
 
         return new ResponseEntity < >(imagen,headers,HttpStatus.OK);
     }
-    
-    
 
 }
