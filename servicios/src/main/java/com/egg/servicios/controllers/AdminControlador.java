@@ -176,7 +176,7 @@ public class AdminControlador {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listarcategorias")
     public String listarCategorias(ModelMap modelo) {
-        return "redirect:../categoria/listar";
+        return "redirect:/categoria/listar";
 
     }
 
@@ -185,7 +185,7 @@ public class AdminControlador {
     @PostMapping("/categoria/alta/{id}")
     public String darAltaCategoria(@PathVariable String id, ModelMap modelo) throws MiException {
         categoriaService.updateCategoriaAltaTrue(id);
-        return "redirect:../categoria/listar";
+        return "redirect:/categoria/listar";
     }
 
     //BOTON DAR DE BAJA OFERTA
@@ -193,7 +193,7 @@ public class AdminControlador {
     @PostMapping("/categoria/baja/{id}")
     public String darBajaCategoria(@PathVariable String id, ModelMap modelo) throws MiException {
         categoriaService.deleteCategoriaById(id);
-        return "redirect:../categoria/listar";
+        return "redirect:/categoria/listar";
     }
 
     //SERVICIOS ------------------------------------->
@@ -210,7 +210,7 @@ public class AdminControlador {
     @PostMapping("/servicio/baja/{id}")
     public String darBajaServicio(@PathVariable String id, ModelMap modelo) throws MiException {
         servicioService.deleteServicioById(id);
-        return "redirect:../listarservicios";
+        return "redirect:/admin/listarservicios";
     }
 
     //BOTON DAR DE ALTA SERVICIO
@@ -218,7 +218,7 @@ public class AdminControlador {
     @PostMapping("/servicio/alta/{id}")
     public String darAltaServicio(@PathVariable String id, ModelMap modelo) throws MiException {
         servicioService.updateServicioAltaTrue(id);
-        return "redirect:../listarservicios";
+        return "redirect:/admin/listarservicios";
     }
 
     //OFERTAS ------------------------------------->
@@ -235,7 +235,7 @@ public class AdminControlador {
     @PostMapping("/oferta/baja/{id}")
     public String darBajaOferta(@PathVariable String id, ModelMap modelo) throws MiException {
         ofertaService.deleteOfertaById(id);
-        return "redirect:../listarofertas";
+        return "redirect:/admin/listarofertas";
     }
 
     //BOTON DAR DE ALTA OFERTA
@@ -243,7 +243,7 @@ public class AdminControlador {
     @PostMapping("/oferta/alta/{id}")
     public String darAltaOferta(@PathVariable String id, ModelMap modelo) throws MiException {
         ofertaService.updateOfertaAltaTrue(id);
-        return "redirect:../listarofertas";
+        return "redirect:/admin/listarofertas";
     }
 
     // CALIFICACIONES ------------------------------------->
