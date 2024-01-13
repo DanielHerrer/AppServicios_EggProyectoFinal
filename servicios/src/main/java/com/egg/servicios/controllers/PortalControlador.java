@@ -36,8 +36,13 @@ public class PortalControlador {
         modelo.put("ubicaciones",Ubicacion.values());
 
         if (logueado != null) {
-            return "redirect:/inicio";
+            if (logueado.getRol().equals(Rol.ADMIN)) {
+                return "redirect:/admin/dashboard";
+            } else {
+                return "redirect:/inicio";
+            }
         }
+
         return "index.html";
     }
 
@@ -52,9 +57,6 @@ public class PortalControlador {
         System.out.println("Usuario en sesión: " + logueado);
         modelo.addAttribute("logueado", logueado);
 
-        if (logueado.getRol().toString().equals("ADMIN")) {
-            return "redirect:/admin/dashboard";
-        }
         return "inicio.html";
     }
 
