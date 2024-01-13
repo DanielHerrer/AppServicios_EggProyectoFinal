@@ -35,6 +35,10 @@ public class CategoriaService {
         return categoriaRepository.getCategoriaById(id);
     }
 
+    public List<Categoria> getCategorias() {
+        return categoriaRepository.getCategoriasAll();
+    }
+
     public List<Categoria> findCategoriasByAltaTrue() throws MiException {
         try {
             return categoriaRepository.findCategoriasByAltaTrue();
