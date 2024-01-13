@@ -17,7 +17,7 @@ public interface CategoriaRepository extends JpaRepository<Categoria, String> {
     @Query("SELECT c FROM Categoria c WHERE c.id = :id")
     public Categoria getCategoriaById(@Param("id") String id);
 
-    @Query("SELECT c FROM Categoria")
+    @Query("SELECT c FROM Categoria c")
     public List<Categoria> getCategoriasAll();
 
     @Query("SELECT c FROM Categoria c WHERE c.alta = true")
