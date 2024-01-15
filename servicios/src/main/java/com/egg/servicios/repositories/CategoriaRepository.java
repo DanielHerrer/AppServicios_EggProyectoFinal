@@ -28,7 +28,7 @@ public interface CategoriaRepository extends JpaRepository<Categoria, String> {
 
     @Query("SELECT c FROM Categoria c " +
             "WHERE c.alta = true " +
-            "AND c.nombre LIKE :nombre")
+            "AND LOWER(c.nombre) LIKE LOWER(CONCAT('%', :input, '%'))")
     public List<Categoria> findCategoriasByNombre(@Param("nombre") String nombre);
 
 }

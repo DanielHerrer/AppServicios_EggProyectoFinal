@@ -34,7 +34,7 @@ public interface OfertaRepository extends JpaRepository<Oferta, String> {
     @Query("SELECT o FROM Oferta o WHERE o.cliente.id = :idCliente")
     public List<Oferta> findOfertasByIdCliente(@Param("idCliente") String idCliente);
 
-    @Query("SELECT o FROM Oferta o WHERE o.descripcion LIKE :descripcion")
+    @Query("SELECT o FROM Oferta o WHERE LOWER(o.descripcion) LIKE LOWER(CONCAT('%', :descripcion, '%'))")
     public Optional<Oferta> findByDescripcion(@Param("descripcion") String descripcion);
 
 }
