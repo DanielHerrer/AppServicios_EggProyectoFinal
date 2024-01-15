@@ -18,6 +18,7 @@ import com.egg.servicios.services.ContratoService;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -57,6 +58,7 @@ public class ContratoControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
     @GetMapping("/listar")
+    @Transactional
     public String listarContratos(ModelMap modelo, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioSession");
@@ -121,6 +123,7 @@ public class ContratoControlador {
         }
     }
 
+    @Transactional
     @PostMapping("/aceptar/{id}")
     public String aceptarContrato(ModelMap modelo, @PathVariable String id) throws MiException {
         try {
@@ -134,6 +137,7 @@ public class ContratoControlador {
         }
     }
 
+    @Transactional
     @PostMapping("/rechazar/{id}")
     public String rechazarContrato(ModelMap modelo, @PathVariable String id) throws MiException {
         try {
@@ -146,6 +150,7 @@ public class ContratoControlador {
         }
     }
 
+    @Transactional
     @PostMapping("/finalizar/{id}")
     public String finalizarContrato(ModelMap modelo, @PathVariable String id) throws MiException {
         try {
@@ -159,6 +164,7 @@ public class ContratoControlador {
     }
 
     /*th:href="@{/contrato/listar/cliente}"*/
+    @Transactional
     @GetMapping("/calificar/{id}")
     public String calificarContrato(@PathVariable String id, ModelMap modelo) {
 
@@ -166,6 +172,7 @@ public class ContratoControlador {
         return "registrar-calificacion.html";
     }
 
+    @Transactional
     @PostMapping("/calificado/{id}")
     public String calificadoContrato(@PathVariable String id, @RequestParam Integer calificacion,
                                      @RequestParam String comentario, ModelMap modelo) throws MiException {
@@ -186,6 +193,7 @@ public class ContratoControlador {
         }
     }
 
+    @Transactional
     @PostMapping("/eliminar/{id}")
     public String EliminarContrato(@PathVariable String idContrato, ModelMap modelo) throws MiException {
 
