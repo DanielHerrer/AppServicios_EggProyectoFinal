@@ -25,16 +25,16 @@ public interface ContratoRepository extends JpaRepository<Contrato, String> {
     @Query("SELECT c FROM Contrato c WHERE c.alta = false")
     public List<Contrato> findContratosByAltaFalse();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = 'PENDIENTE'")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo::text = 'PENDIENTE'")
     public List<Contrato> findContratosByEstadoTrabajoPendiente();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = 'RECHAZADO'")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo::text = 'RECHAZADO'")
     public List<Contrato> findContratosByEstadoTrabajoRechazado();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = 'ACEPTADO'")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo::text = 'ACEPTADO'")
     public List<Contrato> findContratosByEstadoTrabajoAceptado();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = 'FINALIZADO'")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo::text = 'FINALIZADO'")
     public List<Contrato> findContratosByEstadoTrabajoFinalizado();
 
     @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.oferta.servicio.proveedor.id = :idProveedor")

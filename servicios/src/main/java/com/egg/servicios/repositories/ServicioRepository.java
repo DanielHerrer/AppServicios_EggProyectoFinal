@@ -26,7 +26,7 @@ public interface ServicioRepository extends JpaRepository<Servicio, String> {
     @Query("SELECT s FROM Servicio s WHERE s.alta = false")
     public List<Servicio> findServiciosByAltaFalse();
 
-    @Query("SELECT s FROM Servicio s WHERE s.alta = true AND s.descripcion LIKE :descripcion")
+    @Query("SELECT s FROM Servicio s WHERE s.alta = true AND s.descripcion ILIKE :descripcion")
     public List<Servicio> findServiciosByDescripcion(@Param("descripcion") String descripcion);
 
     // Selecciona los servicios que estan asociados al proveedor proporcionado
@@ -40,15 +40,15 @@ public interface ServicioRepository extends JpaRepository<Servicio, String> {
             "SELECT c.oferta.servicio.id " +
             "FROM Contrato c " +
             "WHERE c.oferta.cliente.id = :idCliente " +
-            "AND (c.estadoTrabajo = 'PENDIENTE' OR c.estadoTrabajo = 'ACEPTADO'))")
+            "AND (c.estadoTrabajo::text = 'PENDIENTE' OR c.estadoTrabajo::text = 'ACEPTADO'))")
     public List<Servicio> findServiciosDisponibleByIdCliente(@Param("idCliente") String idCliente);
 
     // Selecciona servicios relacionados según la lupa de búsqueda
     @Query("SELECT s FROM Servicio s " +
             "WHERE s.alta = true " +
-            "AND (s.categoria.nombre LIKE %:input% " +
-            "OR s.proveedor.nombre LIKE %:input% " +
-            "OR s.descripcion LIKE %:input%)")
+            "AND (s.categoria.nombre ILIKE %:input% " +
+            "OR s.proveedor.nombre ILIKE %:input% " +
+            "OR s.descripcion ILIKE %:input%)")
     public List<Servicio> findServiciosByBusqueda(@Param("input") String input);
 
     // Selecciona servicios relacionados según la lupa de búsqueda y que el cliente NO HAYA SOLICITADO
@@ -57,14 +57,14 @@ public interface ServicioRepository extends JpaRepository<Servicio, String> {
             "SELECT c.oferta.servicio.id " +
             "FROM Contrato c " +
             "WHERE c.oferta.cliente.id = :idCliente) " +
-            "AND (s.categoria.nombre LIKE %:input% " +
-            "OR s.proveedor.nombre LIKE %:input% " +
-            "OR s.proveedor.ubicacion LIKE %:input% " +
-            "OR s.descripcion LIKE %:input%)")
+            "AND (s.categoria.nombre ILIKE %:input% " +
+            "OR s.proveedor.nombre ILIKE %:input% " +
+            "OR s.proveedor.ubicacion::text ILIKE %:input% " +
+            "OR s.descripcion ILIKE %:input%)")
     public List<Servicio> findServiciosByBusquedaDisponibleCliente(@Param("idCliente") String idCliente, @Param("input") String input);
 
     @Query("SELECT s FROM Servicio s WHERE s.alta = true " +
-            "AND s.proveedor.ubicacion = :input")
+            "AND s.proveedor.ubicacion::text = :input")
     public List<Servicio> findServiciosByBusquedaZona(@Param("input") Ubicacion ubicacion);
 
 }
