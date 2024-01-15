@@ -49,6 +49,7 @@ public class ServicioControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR', 'ROLE_ADMIN')")
     @GetMapping("/registrar") // localhost:8080/servicio/registrar
+    @Transactional
     public String registrarServicio(ModelMap modelo, HttpSession session) {
 
         cargarModeloConCategorias(modelo);
@@ -62,6 +63,7 @@ public class ServicioControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR','ROLE_ADMIN')")
     @PostMapping("/registro") // localhost:8080/servicio/registro
+    @Transactional
     public String registroServicio(@RequestParam String descripcion, @RequestParam Double honorariosHora,
             MultipartFile matricula, @RequestParam String idCategoria,
             @RequestParam String idProveedor, ModelMap modelo, HttpSession session) {
@@ -104,6 +106,7 @@ public class ServicioControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE')")
     @PostMapping("/contratar") // localhost:8080/servicio/contratar
+    @Transactional
     public String registroContrato(@RequestParam String descripcion, @RequestParam String idServicio,
             ModelMap modelo, HttpSession session) {
 
@@ -132,6 +135,7 @@ public class ServicioControlador {
     //AGREGADO 13/12 PARA ADMIN CONTROLADOR
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listarservicios")
+    @Transactional
     public String listarServiciosADM(ModelMap modelo) {
         List<Servicio> servicios = servicioService.getServiciosAll();
         modelo.addAttribute("servicios", servicios);
@@ -140,6 +144,7 @@ public class ServicioControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/estados/{id}")
+    @Transactional
     public String modificarServicio(@PathVariable String id, ModelMap modelo) {
 
         Servicio servicio = servicioService.getServicioById(id);
@@ -152,6 +157,7 @@ public class ServicioControlador {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/estados/{id}")
+    @Transactional
     public String darBaja(@PathVariable String id, ModelMap modelo) {
 
         try {
