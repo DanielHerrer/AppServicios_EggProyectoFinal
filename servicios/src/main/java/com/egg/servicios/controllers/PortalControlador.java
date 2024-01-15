@@ -7,6 +7,8 @@ import com.egg.servicios.exceptions.MiException;
 import com.egg.servicios.services.UsuarioService;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,7 @@ public class PortalControlador {
     UsuarioService usuarioService;
 
     // Primer metodo que se va a ejecutar en el localhost
+    @Transactional
     @GetMapping("/")// Mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
     public String index(ModelMap modelo, HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
@@ -46,6 +49,7 @@ public class PortalControlador {
         return "index.html";
     }
 
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
     @GetMapping("/inicio")
     public String inicio(ModelMap modelo, HttpSession session) {
