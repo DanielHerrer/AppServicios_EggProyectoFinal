@@ -25,16 +25,16 @@ public interface ContratoRepository extends JpaRepository<Contrato, String> {
     @Query("SELECT c FROM Contrato c WHERE c.alta = false")
     public List<Contrato> findContratosByAltaFalse();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo.name() = 'PENDIENTE'")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = com.egg.servicios.enums.Estados.PENDIENTE")
     public List<Contrato> findContratosByEstadoTrabajoPendiente();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo.name() = 'RECHAZADO'")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = com.egg.servicios.enums.Estados.RECHAZADO")
     public List<Contrato> findContratosByEstadoTrabajoRechazado();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo.name() = 'ACEPTADO'")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = com.egg.servicios.enums.Estados.ACEPTADO")
     public List<Contrato> findContratosByEstadoTrabajoAceptado();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo.name() = 'FINALIZADO'")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = com.egg.servicios.enums.Estados.FINALIZADO")
     public List<Contrato> findContratosByEstadoTrabajoFinalizado();
 
     @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.oferta.servicio.proveedor.id = :idProveedor")

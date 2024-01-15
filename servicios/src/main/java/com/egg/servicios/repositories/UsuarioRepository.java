@@ -32,13 +32,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     @Query("SELECT u FROM Usuario u WHERE u.alta = false")
     public List<Usuario> findUsuariosByAltaFalse();
 
-    @Query("SELECT u FROM Usuario u WHERE u.rol.name() = 'CLIENTE' ORDER BY u.nombre ASC")
+    @Query("SELECT u FROM Usuario u WHERE u.rol = com.egg.servicios.enums.Rol.CLIENTE ORDER BY u.nombre ASC")
     public List<Usuario> findUsuariosCliente();
 
-    @Query("SELECT u FROM Usuario u WHERE u.rol.name() = 'PROVEEDOR' ORDER BY u.nombre ASC")
+    @Query("SELECT u FROM Usuario u WHERE u.rol = com.egg.servicios.enums.Rol.PROVEEDOR ORDER BY u.nombre ASC")
     public List<Usuario> findUsuariosProveedor();
 
-    @Query("SELECT u FROM Usuario u WHERE u.rol.name() = 'ADMIN' ORDER BY u.nombre ASC")
+    @Query("SELECT u FROM Usuario u WHERE u.rol = com.egg.servicios.enums.Rol.ADMIN ORDER BY u.nombre ASC")
     public List<Usuario> findUsuariosAdmin();
 
 }

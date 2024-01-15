@@ -40,7 +40,8 @@ public interface ServicioRepository extends JpaRepository<Servicio, String> {
             "SELECT c.oferta.servicio.id " +
             "FROM Contrato c " +
             "WHERE c.oferta.cliente.id = :idCliente " +
-            "AND (c.estadoTrabajo.name() = 'PENDIENTE' OR c.estadoTrabajo.name() = 'ACEPTADO'))")
+            "AND (c.estadoTrabajo = com.egg.servicios.enums.Estados.PENDIENTE " +
+            "OR c.estadoTrabajo = com.egg.servicios.enums.Estados.ACEPTADO))")
     public List<Servicio> findServiciosDisponibleByIdCliente(@Param("idCliente") String idCliente);
 
     // Selecciona servicios relacionados según la lupa de búsqueda
@@ -63,7 +64,7 @@ public interface ServicioRepository extends JpaRepository<Servicio, String> {
     public List<Servicio> findServiciosByBusquedaDisponibleCliente(@Param("idCliente") String idCliente, @Param("input") String input);
 
     @Query("SELECT s FROM Servicio s WHERE s.alta = true " +
-            "AND s.proveedor.ubicacion.name() = :input")
+            "AND s.proveedor.ubicacion = :input")
     public List<Servicio> findServiciosByBusquedaZona(@Param("input") Ubicacion ubicacion);
 
 }
