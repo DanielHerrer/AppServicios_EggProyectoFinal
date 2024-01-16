@@ -5,9 +5,9 @@ import com.egg.servicios.exceptions.MiException;
 import com.egg.servicios.repositories.CalificacionRepository;
 import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -34,6 +34,7 @@ public class CalificacionService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<Calificacion> getCalificaciones() {
         List<Calificacion> calificaciones = calificacionRepository.getCalificacionesAll();
         return calificaciones;

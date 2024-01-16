@@ -331,6 +331,7 @@ public class UsuarioService implements UserDetailsService {
         }
     }
 
+    @Transactional
     public Integer countNotificaciones (String id) {
 
         Optional<Usuario> usuarioRespuesta = usuarioRepository.findById(id);

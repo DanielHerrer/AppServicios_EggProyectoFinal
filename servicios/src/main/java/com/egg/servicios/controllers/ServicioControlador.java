@@ -133,18 +133,18 @@ public class ServicioControlador {
     }
 
     //AGREGADO 13/12 PARA ADMIN CONTROLADOR
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/listarservicios")
-    @Transactional
     public String listarServiciosADM(ModelMap modelo) {
         List<Servicio> servicios = servicioService.getServiciosAll();
         modelo.addAttribute("servicios", servicios);
         return "listar-servicios-adm.html";
     }
 
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/estados/{id}")
-    @Transactional
     public String modificarServicio(@PathVariable String id, ModelMap modelo) {
 
         Servicio servicio = servicioService.getServicioById(id);
@@ -155,9 +155,9 @@ public class ServicioControlador {
         return "test_servicio_update.html";
     }
 
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/estados/{id}")
-    @Transactional
     public String darBaja(@PathVariable String id, ModelMap modelo) {
 
         try {
@@ -175,8 +175,8 @@ public class ServicioControlador {
         }
     }
 
-    @GetMapping("/listar")
     @Transactional
+    @GetMapping("/listar")
     public String listarServicios(ModelMap modelo, HttpSession session) {
 
         try {
@@ -202,9 +202,9 @@ public class ServicioControlador {
 
     }
 
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_ADMIN')")
     @GetMapping("/listar/cliente")
-    @Transactional
     public String listarServiciosCliente(ModelMap modelo, HttpSession session) {
 
         try {
@@ -229,9 +229,9 @@ public class ServicioControlador {
 
     }
 
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR','ROLE_ADMIN')")
     @GetMapping("/listar/proveedor")
-    @Transactional
     public String listarServiciosProveedor(ModelMap modelo, HttpSession session) {
 
         try {
@@ -256,8 +256,8 @@ public class ServicioControlador {
 
     }
 
-    @GetMapping("/listar/buscar")
     @Transactional
+    @GetMapping("/listar/buscar")
     public String listarServiciosBuscar(@RequestParam String input, ModelMap modelo, HttpSession session) {
 
         try {
@@ -282,9 +282,9 @@ public class ServicioControlador {
         }
     }
 
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_ADMIN')")
     @GetMapping("/listar/cliente/buscar")
-    @Transactional
     public String listarServiciosBuscarCliente(@RequestParam String input, ModelMap modelo, HttpSession session) {
 
         try {
@@ -309,9 +309,9 @@ public class ServicioControlador {
 
     }
 
+    @Transactional
     @PreAuthorize("hasAnyRole('ROLE_PROVEEDOR','ROLE_ADMIN')")
     @GetMapping("/listar/proveedor/buscar")
-    @Transactional
     public String listarServiciosBuscarProveedor(@RequestParam String input, ModelMap modelo, HttpSession session) {
 
         try {
@@ -336,8 +336,8 @@ public class ServicioControlador {
 
     }
 
-    @GetMapping("/listar/zona/buscar")
     @Transactional
+    @GetMapping("/listar/zona/buscar")
     public String listarServiciosBuscarZona(@RequestParam("input") Ubicacion ubicacion, ModelMap modelo, HttpSession session) {
 
         try {

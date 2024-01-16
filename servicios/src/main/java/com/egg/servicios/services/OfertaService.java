@@ -7,8 +7,8 @@ import com.egg.servicios.repositories.ServicioRepository;
 import com.egg.servicios.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,6 +87,7 @@ public class OfertaService {
         return ofertaRepository.getOfertaById(idOferta);
     }
 
+    @Transactional(readOnly = true)
     public List<Oferta> findOfertasByAltaTrue() {
         return ofertaRepository.findOfertasByAltaTrue();
     }

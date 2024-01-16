@@ -11,13 +11,13 @@ import com.egg.servicios.repositories.CalificacionRepository;
 import com.egg.servicios.repositories.OfertaRepository;
 
 import java.util.Optional;
-import javax.transaction.Transactional;
 
 import com.egg.servicios.repositories.UsuarioRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.egg.servicios.repositories.ContratoRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -62,16 +62,19 @@ public class ContratoService {
         return contratoRepository.getContratoById(idContrato);
     }
 
+    @Transactional(readOnly = true)
     public List<Contrato> getContratosAll() {
         List<Contrato> contratos = contratoRepository.findAll();
         return contratos;
     }
 
+    @Transactional(readOnly = true)
     public List<Contrato> findContratosByIdProveedor(String idProveedor) {
             List<Contrato> contratos = contratoRepository.findContratosByIdProveedor(idProveedor);
             return contratos;
     }
-    
+
+    @Transactional(readOnly = true)
     public List<Contrato> findContratosByIdCliente(String idCliente) {
         List<Contrato> contratos = contratoRepository.findContratosByIdCliente(idCliente);
         return contratos;
@@ -102,6 +105,7 @@ public class ContratoService {
         return contratos;
     }
 
+    @Transactional(readOnly = true)
     public List<Contrato> findContratosFinalizados() {
         List<Contrato> contratos = contratoRepository.findContratosByEstadoTrabajoFinalizado();
         return contratos;

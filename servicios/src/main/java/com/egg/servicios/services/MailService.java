@@ -2,6 +2,7 @@ package com.egg.servicios.services;
 
 import com.egg.servicios.infra.MailManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -16,6 +17,7 @@ public class MailService {
         this.mailManager = mailManager;
     }
 
+    @Transactional
     public void sendMessageUser(String email, String code) {
         mailManager.sendMessage(email, code);
     }

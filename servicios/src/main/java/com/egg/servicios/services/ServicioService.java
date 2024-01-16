@@ -12,9 +12,9 @@ import com.egg.servicios.exceptions.MiException;
 import com.egg.servicios.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,35 +61,43 @@ public class ServicioService {
             throw new MiException(e.getMessage());
         }
     }
-    
+
+    @Transactional
     public Servicio getServicioById(String idServicio) {
         return servicioRepository.getServicioById(idServicio);
     }
 
+    @Transactional
     public List<Servicio> getServiciosAll() {
         return servicioRepository.findAll();
     }
-    
+
+    @Transactional(readOnly = true)
     public List<Servicio> findServiciosByAltaTrue() {
         return servicioRepository.findServiciosByAltaTrue();
     }
 
+    @Transactional(readOnly = true)
     public List<Servicio> findServiciosDisponibleByIdCliente(String idCliente) {
         return servicioRepository.findServiciosDisponibleByIdCliente(idCliente);
     }
 
+    @Transactional(readOnly = true)
     public List<Servicio> findServiciosByIdProveedor(String idProveedor) {
         return servicioRepository.findServiciosByIdProveedor(idProveedor);
     }
 
+    @Transactional(readOnly = true)
     public List<Servicio> findServiciosByBusqueda(String input) {
         return servicioRepository.findServiciosByBusqueda(input);
     }
 
+    @Transactional(readOnly = true)
     public List<Servicio> findServiciosByBusquedaDisponibleCliente(String idCliente, String input) {
         return servicioRepository.findServiciosByBusquedaDisponibleCliente(idCliente, input);
     }
 
+    @Transactional(readOnly = true)
     public List<Servicio> findServiciosByBusquedaZona(Ubicacion ubicacion) {
         return servicioRepository.findServiciosByBusquedaZona(ubicacion);
     }
@@ -196,6 +204,7 @@ public class ServicioService {
         }
     }
 
+    @Transactional
     public boolean existsByDescripcion(String descripcion) throws MiException {
         try {
             List<Servicio> servicios = servicioRepository.findServiciosByDescripcion(descripcion);
