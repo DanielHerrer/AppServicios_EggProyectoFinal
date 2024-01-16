@@ -103,15 +103,28 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                             <div th:text="${contrato.oferta.descripcion}"
                                  class="descripcion-card py-2"></div>
                         </div>
-
+                        <div class="row py-3">
+                            <div class="col-8 align-self-center fs-5">
+                                <h5 class="fs-5 m-0">Profesional:</h5>
+                                <!-- nombre proveedor -->
+                                <h5 class="fs-5" th:text="${contrato.oferta.servicio.proveedor.nombre}"></h5>
+                                <!-- categoria trabajo -->
+                                <p class="card-text mb-3 text-info-emphasis" th:text="${contrato.oferta.servicio.categoria.nombre}"></p>
+                            </div>
+                            <div class="col-4 d-flex justify-content-center align-self-end">
+                                <!-- imagen proveedor -->
+                                <img th:src="@{/imagen/usuario/__${contrato.oferta.servicio.proveedor.id}__}"
+                                     class="img_perfil align-self-end" alt="imagen de perfil" /> <!-- foto cliente -->
+                            </div>
+                        </div>
                         <div class="card-body">
 
-                            <h5 class="fs-5 m-0">Profesional:</h5>
-                            <!-- nombre proveedor -->
-                            <h5 class="fs-5 m-0"
-                                th:text="${contrato.oferta.servicio.proveedor.nombre}"></h5>
-                            <!-- categoria trabajo -->
-                            <p class="card-text mb-3 text-info-emphasis" th:text="${contrato.oferta.servicio.categoria.nombre}"></p>
+<!--                            <h5 class="fs-5 m-0">Profesional:</h5>-->
+<!--                            &lt;!&ndash; nombre proveedor &ndash;&gt;-->
+<!--                            <h5 class="fs-5 m-0"-->
+<!--                                th:text="${contrato.oferta.servicio.proveedor.nombre}"></h5>-->
+<!--                            &lt;!&ndash; categoria trabajo &ndash;&gt;-->
+<!--                            <p class="card-text mb-3 text-info-emphasis" th:text="${contrato.oferta.servicio.categoria.nombre}"></p>-->
 
                             <!-- botones tarjeta -->
                             <div class="d-flex justify-content-end gap-2">
