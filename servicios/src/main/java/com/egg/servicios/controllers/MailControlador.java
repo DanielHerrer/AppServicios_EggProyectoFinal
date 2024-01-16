@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.transaction.Transactional;
+
 /**
  * @Martin
  */
@@ -23,12 +25,13 @@ public class MailControlador {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/email")
+    @GetMapping("/recuperar")
     public String recuperarPassword() {
 
-        return "test_recuperar_password.html";
+        return "recuperar_password.html";
     }
 
+    @Transactional
     @PostMapping("/enviado")
     public String autenticar(@RequestParam String email) throws MiException {
 
