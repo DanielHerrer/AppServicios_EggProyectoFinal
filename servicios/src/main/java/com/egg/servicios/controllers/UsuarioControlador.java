@@ -86,6 +86,19 @@ public class UsuarioControlador {
 
     }
 
+    @PostMapping("/modificar/{id}")
+    public String modificar(@PathVariable String id, Boolean alta, ModelMap modelo) {
+        try {
+            usuarioService.updateUsuarioAlta(id, alta);
+            return "redirect:../listacompleta";
+
+        } catch (Exception ex) {
+            modelo.put("error", ex.getMessage());
+
+            return "modificar-usuario.html";
+        }
+    }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("/rol/{id}")
     public String modificarRolAdmin(@PathVariable String id, ModelMap modelo) {
@@ -99,22 +112,6 @@ public class UsuarioControlador {
 
             return "usuario_modificar.html";
         }
-
-    }
-
-    @PostMapping("/modificar/{id}")
-    public String modificar(@PathVariable String id, Boolean alta, ModelMap modelo) {
-        try {
-            usuarioService.updateUsuarioAlta(id, alta);
-
-            return "redirect:../listacompleta";
-
-        } catch (Exception ex) {
-            modelo.put("error", ex.getMessage());
-
-            return "modificar-usuario.html";
-        }
-
     }
 
     @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")

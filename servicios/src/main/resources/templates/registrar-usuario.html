@@ -102,7 +102,7 @@
                                         <label for="exampleInputUserName" class="form-label">Ubicación</label>
                                         <select class="form-select" aria-label="Default select" name="ubicacion" th:value="${ubicacion}" required>
                                             <option selected disabled value="">Ubicacion</option>
-                                            <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion.name()}"></option>
+                                            <option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion.name()}" th:selected="${ubicacion == ubicacionSelect}"></option>
                                         </select>
                                     </div>
 

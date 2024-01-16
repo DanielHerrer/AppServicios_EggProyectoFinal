@@ -99,9 +99,13 @@
 
 							<div class="form-group my-0">
 								<label for="ubicacion" class="form-label">Ubicación</label>
-								<select class="form-select" aria-label="Default select" id="ubicacion" name="ubicacion" th:value="${usuario.ubicacion}" required>
+<!--								<select class="form-select" aria-label="Default select" id="ubicacion" name="ubicacion" th:value="${usuario.ubicacion}" required>-->
+<!--									<option selected disabled value="">Ubicacion</option>-->
+<!--									<option th:each="ubicacion : ${ubicaciones}" th:value="${usuario.ubicacion}" th:text="${ubicacion.name()}"></option>-->
+<!--								</select>-->
+								<select class="form-select" aria-label="Default select" id="ubicacion" name="ubicacion" required>
 									<option selected disabled value="">Ubicacion</option>
-									<option th:each="ubicacion : ${ubicaciones}" th:value="${usuario.ubicacion}" th:text="${ubicacion.name()}"></option>
+									<option th:each="ubicacion : ${ubicaciones}" th:value="${ubicacion}" th:text="${ubicacion.name()}" th:selected="${ubicacion == usuario.ubicacion}"></option>
 								</select>
 							</div>
 

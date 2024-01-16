@@ -93,6 +93,7 @@
                                             th:each="categoria : ${categorias}"
                                             th:value="${categoria.id}"
                                             th:text="${categoria.nombre}"
+                                            th:selected="${categoria.id == idCategoria}"
                                             />
                                     </select>
                                 </div>
