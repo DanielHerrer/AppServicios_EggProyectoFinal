@@ -76,7 +76,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                             sec:authorize="hasRole('CLIENTE')" class="card-header border-bottom border-primary">Oferta</h5>
 
                         <div class="row py-3">
-                            <div class="col-4 d-flex justify-content-center align-self-end">
+                            <div class="col-4 mb-auto d-flex justify-content-center align-self-end">
                                 <!-- imagen cliente -->
                                 <img th:src="@{/imagen/usuario/__${contrato.oferta.cliente.id}__}"
                                      class="img_perfil align-self-end" alt="imagen de perfil" /> <!-- foto cliente -->
@@ -103,18 +103,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                             <div th:text="${contrato.oferta.descripcion}"
                                  class="descripcion-card py-2"></div>
                         </div>
-                        <div class="row py-3">
-                            <div class="col-8 align-self-center fs-5">
+                        <div class="row border-top border-primary py-3 mx-2">
+                            <div class="col-8 text-end fs-5">
                                 <h5 class="fs-5 m-0">Profesional:</h5>
                                 <!-- nombre proveedor -->
                                 <h5 class="fs-5" th:text="${contrato.oferta.servicio.proveedor.nombre}"></h5>
                                 <!-- categoria trabajo -->
                                 <p class="card-text mb-3 text-info-emphasis" th:text="${contrato.oferta.servicio.categoria.nombre}"></p>
                             </div>
-                            <div class="col-4 d-flex justify-content-center align-self-end">
+                            <div class="col-4 mb-auto d-flex justify-content-center align-self-end">
                                 <!-- imagen proveedor -->
                                 <img th:src="@{/imagen/usuario/__${contrato.oferta.servicio.proveedor.id}__}"
-                                     class="img_perfil align-self-end" alt="imagen de perfil" /> <!-- foto cliente -->
+                                     class="img_perfil align-self-end" alt="imagen de perfil" />
                             </div>
                         </div>
                         <div class="card-body">
