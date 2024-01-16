@@ -59,7 +59,6 @@ public interface ServicioRepository extends JpaRepository<Servicio, String> {
             "WHERE c.oferta.cliente.id = :idCliente) " +
             "AND (LOWER(s.categoria.nombre) LIKE LOWER(CONCAT('%', :input, '%')) " +
             "OR LOWER(s.proveedor.nombre) LIKE LOWER(CONCAT('%', :input, '%')) " +
-            "OR LOWER(s.proveedor.ubicacion.name()) LIKE LOWER(CONCAT('%', :input, '%')) " +
             "OR LOWER(s.descripcion) LIKE LOWER(CONCAT('%', :input, '%')))")
     public List<Servicio> findServiciosByBusquedaDisponibleCliente(@Param("idCliente") String idCliente, @Param("input") String input);
 
