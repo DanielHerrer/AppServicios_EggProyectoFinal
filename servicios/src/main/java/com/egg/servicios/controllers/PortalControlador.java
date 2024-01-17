@@ -39,17 +39,16 @@ public class PortalControlador {
 
         if (logueado != null) {
             if (logueado.getRol().equals(Rol.ADMIN)) {
-                return "admin/dashboard"; //"redirect:/admin/dashboard";
+                return "redirect:/admin/dashboard";
             } else if (logueado.getRol().equals(Rol.PROVEEDOR) || logueado.getRol().equals(Rol.CLIENTE)) {
-                return "inicio"; //"redirect:/inicio";
+                return "redirect:/inicio";
             }
         }
-
         return "index.html";
     }
 
     @Transactional
-    @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_CLIENTE','ROLE_PROVEEDOR')")
     @GetMapping("/inicio")
     public String inicio(ModelMap modelo, HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
@@ -57,8 +56,6 @@ public class PortalControlador {
         modelo.put("ubicaciones",Ubicacion.values());
 
         System.out.println("Usuario en sesión: " + logueado);
-        modelo.addAttribute("logueado", logueado);
-
         return "inicio.html";
     }
 
@@ -70,7 +67,7 @@ public class PortalControlador {
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
 
         if (logueado != null) {
-            return "redirect:/inicio";
+            return "redirect:/";
         }
         if (error != null) {
             modelo.put("error", "Usuario o Contraseña inválidos!");
