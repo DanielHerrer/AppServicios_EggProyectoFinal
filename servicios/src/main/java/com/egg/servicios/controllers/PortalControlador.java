@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author Nico
  */
 @Controller
-@RequestMapping("/") // localhost:8080/
+@RequestMapping("/")
 public class PortalControlador {
 
     @Autowired
@@ -39,9 +39,9 @@ public class PortalControlador {
 
         if (logueado != null) {
             if (logueado.getRol().equals(Rol.ADMIN)) {
-                return "redirect:/admin/dashboard";
+                return "admin/dashboard"; //"redirect:/admin/dashboard";
             } else if (logueado.getRol().equals(Rol.PROVEEDOR) || logueado.getRol().equals(Rol.CLIENTE)) {
-                return "redirect:/inicio";
+                return "inicio"; //"redirect:/inicio";
             }
         }
 
