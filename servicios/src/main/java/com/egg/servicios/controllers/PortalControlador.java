@@ -36,12 +36,11 @@ public class PortalControlador {
     @GetMapping("/")// Mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
     public String index(ModelMap modelo, HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
-        modelo.put("ubicaciones",Ubicacion.values());
 
         if (logueado != null) {
             if (logueado.getRol().equals(Rol.ADMIN)) {
                 return "redirect:/admin/dashboard";
-            } else {
+            } else if (logueado.getRol().equals(Rol.PROVEEDOR) || logueado.getRol().equals(Rol.CLIENTE)) {
                 return "redirect:/inicio";
             }
         }
@@ -55,15 +54,11 @@ public class PortalControlador {
     public String inicio(ModelMap modelo, HttpSession session) {
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
         modelo.put("notificaciones", usuarioService.countNotificaciones(logueado.getId()));
-
         modelo.put("ubicaciones",Ubicacion.values());
 
         System.out.println("Usuario en sesión: " + logueado);
         modelo.addAttribute("logueado", logueado);
 
-        if (logueado.getRol().equals(Rol.ADMIN)) {
-            return "redirect:/admin/dashboard";
-        }
         return "inicio.html";
     }
 
