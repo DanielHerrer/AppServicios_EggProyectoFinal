@@ -39,9 +39,13 @@ public class PortalControlador {
 
         if (logueado != null) {
             if (logueado.getRol().equals(Rol.ADMIN)) {
-                return "redirect:/admin/dashboard";
+                //return "redirect:/admin/dashboard";
+                return "panel.html";
             } else if (logueado.getRol().equals(Rol.PROVEEDOR) || logueado.getRol().equals(Rol.CLIENTE)) {
-                return "redirect:/inicio";
+                //return "redirect:/inicio";
+                modelo.put("notificaciones", usuarioService.countNotificaciones(logueado.getId()));
+                modelo.put("ubicaciones",Ubicacion.values());
+                return "inicio.html";
             }
         }
         return "index.html";
