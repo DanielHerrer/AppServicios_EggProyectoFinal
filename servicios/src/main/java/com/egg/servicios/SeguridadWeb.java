@@ -50,7 +50,6 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 .and().logout()
                 .logoutUrl("/logout")
                 .logoutSuccessHandler(logoutSuccessHandler()) // Configuramos un manejador personalizado
-                .logoutSuccessUrl("/login")
                 .permitAll()
                 .and().csrf().disable();
     }
@@ -61,10 +60,11 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
             // Limpiamos la sesión al hacer logout
             HttpSession session = httpServletRequest.getSession(false);
             if (session != null) {
+                session.removeAttribute("usuarioSession");
                 session.invalidate();
             }
             // Redirigimos a la página de login
-//            httpServletResponse.sendRedirect("/login?logout=true");
+            httpServletResponse.sendRedirect("/login?logout=true");
         };
     }
 }

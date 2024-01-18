@@ -6,11 +6,17 @@ import com.egg.servicios.enums.Ubicacion;
 import com.egg.servicios.exceptions.MiException;
 import com.egg.servicios.services.UsuarioService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +38,8 @@ public class PortalControlador {
 
     @Autowired
     UsuarioService usuarioService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     // Primer metodo que se va a ejecutar en el localhost
     @Transactional
@@ -62,6 +70,7 @@ public class PortalControlador {
         return "inicio.html";
     }
 
+    @Transactional
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error,
                         @RequestParam(required = false) String logout,
@@ -79,6 +88,29 @@ public class PortalControlador {
             modelo.put("exito", "Cierre de sesión exitoso!");
         }
         return "login.html";
+    }
+
+    @Transactional
+    @PostMapping("/logincheck")
+    public String loginCheck(@RequestParam("email") String email,
+                             @RequestParam("password") String password,
+                             HttpServletRequest request, ModelMap model) {
+
+        try {
+            // Autenticar al usuario
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, password));
+
+            // Establecer la autenticación en el contexto de seguridad
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Redirigir a la página después de un inicio de sesión exitoso
+            return "redirect:/";
+        } catch (AuthenticationException e) {
+            // Manejar la autenticación fallida
+            model.addAttribute("error", "Usuario o contraseña incorrectos");
+            return "login.html";
+        }
     }
 
     @GetMapping("/registrar")
