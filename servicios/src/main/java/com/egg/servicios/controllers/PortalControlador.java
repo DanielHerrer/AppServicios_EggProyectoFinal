@@ -100,16 +100,21 @@ public class PortalControlador {
             // Autenticar al usuario
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(email, password));
-
             // Establecer la autenticación en el contexto de seguridad
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
             // Redirigir a la página después de un inicio de sesión exitoso
             return "redirect:/";
+
         } catch (AuthenticationException e) {
             // Manejar la autenticación fallida
-            model.addAttribute("error", "Usuario o contraseña incorrectos");
-            return "login.html";
+            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+            HttpSession session = attr.getRequest().getSession(false);
+            if (session != null) {
+                session.removeAttribute("usuarioSession");
+                session.invalidate();
+            }
+//            model.addAttribute("error", "Usuario o contraseña incorrectos");
+            return "redirect:/login?error=true";
         }
     }
 
