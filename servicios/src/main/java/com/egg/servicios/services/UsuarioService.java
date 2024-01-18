@@ -382,18 +382,18 @@ public class UsuarioService implements UserDetailsService {
             // Utilizamos los atributos que nos otorga el pedido al servlet, para poder guardar la
             // información de nuestra HttpSession.
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-            HttpSession session = attr.getRequest().getSession(false);
-            if (session != null) {
-                // Limpiamos la sesión al hacer login
-                session.removeAttribute("usuarioSession");
-            }
-            session = attr.getRequest().getSession(true);
+//            HttpSession session = attr.getRequest().getSession(false);
+//            if (session != null) {
+//                // Limpiamos la sesión al hacer login
+//                session.removeAttribute("usuarioSession");
+//            }
+            HttpSession session = attr.getRequest().getSession(true);
             session.setAttribute("usuarioSession", usuario);
 
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);
 
         } else {
-            return null;
+            throw new UsernameNotFoundException("Usuario no encontrado: " + email);
         }
 
     }

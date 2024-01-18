@@ -60,7 +60,7 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
             // Limpiamos la sesión al hacer logout
             HttpSession session = httpServletRequest.getSession(false);
             if (session != null) {
-                session.removeAttribute("usuarioSession");
+                session.invalidate();
             }
             // Redirigimos a la página de login
             httpServletResponse.sendRedirect("/login?logout");
