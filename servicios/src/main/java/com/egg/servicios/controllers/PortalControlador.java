@@ -44,15 +44,15 @@ public class PortalControlador {
     // Primer metodo que se va a ejecutar en el localhost
     @Transactional
     @GetMapping("/")// Mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
-    public String index(ModelMap modelo) {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpSession session = attr.getRequest().getSession(false);
+    public String index(ModelMap modelo, HttpSession session) {
         if (session != null) {
             Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
-            if (logueado.getRol().equals(Rol.ADMIN)) {
-                return "redirect:/admin/dashboard";
-            } else if (logueado.getRol().equals(Rol.PROVEEDOR) || logueado.getRol().equals(Rol.CLIENTE)) {
-                return "redirect:/inicio";
+            if (logueado != null) {
+                if (logueado.getRol().equals(Rol.ADMIN)) {
+                    return "redirect:/admin/dashboard";
+                } else if (logueado.getRol().equals(Rol.PROVEEDOR) || logueado.getRol().equals(Rol.CLIENTE)) {
+                    return "redirect:/inicio";
+                }
             }
         }
         return "index.html";
