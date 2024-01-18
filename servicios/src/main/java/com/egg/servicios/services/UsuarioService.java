@@ -13,6 +13,7 @@ import com.egg.servicios.repositories.UsuarioRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
@@ -354,14 +355,7 @@ public class UsuarioService implements UserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
         Optional<Usuario> user = usuarioRepository.findByEmail(email);
-
-        if (user.isPresent()) {
-            System.out.println("El user está presente: " + user.get().getNombre());
-        } else {
-            System.out.println("No se encontró el usuario");
-        }
 
         if (user.isPresent()) {
             Usuario usuario = user.get();
@@ -372,29 +366,14 @@ public class UsuarioService implements UserDetailsService {
             }
 
             List<GrantedAuthority> permisos = new ArrayList<>();
-
-            // Verificar si la autenticación fue exitosa antes de almacenar la sesión
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication != null && authentication.isAuthenticated()) {
-                // Utilizamos los atributos que nos otorga el pedido al servlet para guardar la información de la HttpSession.
-                ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-                HttpSession session = attr.getRequest().getSession(true);
-                session.setAttribute("usuarioSession", usuario);
-                // Se añaden los permisos
-                GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
-                permisos.add(p);
-                System.out.println("Permisos añadidos!, " + permisos.get(0).toString());
-            } else {
-                System.out.println("No se pudo autenticar!");
-            }
+            // Se añaden los permisos
+            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
+            permisos.add(p);
 
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);
-
         } else {
             throw new UsernameNotFoundException("Usuario no encontrado: " + email);
         }
     }
 
-
 }
-

@@ -11,8 +11,12 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,7 +33,7 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
     public UsuarioService usuarioService;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
+    public void configure(AuthenticationManagerBuilder auth) throws Exception{
         auth.userDetailsService(usuarioService)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
@@ -44,15 +48,14 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/admin/*").hasRole("ADMIN")
-                .antMatchers("/css/*", "/js/*", "/img/*", "/**")
-                .permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/css/**", "/js/**", "/img/**", "/**").permitAll()
                 .and().formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/logincheck")
                 .usernameParameter("email")
                 .passwordParameter("password")
-//                .defaultSuccessUrl("/")
+                .successHandler(authenticationSuccessHandler())
                 .permitAll()
                 .and().logout()
                 .logoutUrl("/logout")
@@ -62,17 +65,27 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    public AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return (httpServletRequest, httpServletResponse, authentication) -> {
+            if (authentication.getPrincipal() instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                // Guardar la información de usuario en la sesión
+                httpServletRequest.getSession().setAttribute("usuarioSession", userDetails);
+            }
+
+            // Redirigir a la página después de un inicio de sesión exitoso
+            httpServletResponse.sendRedirect("/");
+        };
+    }
+
+    @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
         return (httpServletRequest, httpServletResponse, authentication) -> {
-            // Limpiamos la sesión al hacer logout
-            HttpSession session = httpServletRequest.getSession(false);
-            if (session != null) {
-                session.removeAttribute("usuarioSession");
-                session.invalidate();
-            }
-            // Redirigimos a la página de login
+            // Limpiar la sesión al hacer logout
+            httpServletRequest.getSession().removeAttribute("usuarioSession");
             httpServletResponse.sendRedirect("/login?logout=true");
         };
     }
+
 }
 
