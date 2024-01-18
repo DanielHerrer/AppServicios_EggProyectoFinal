@@ -383,10 +383,6 @@ public class UsuarioService implements UserDetailsService {
             // información de nuestra HttpSession.
             ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
             HttpSession session = attr.getRequest().getSession(true);
-            if (session != null) {
-                // Limpiamos la sesión al hacer login
-                session.removeAttribute("usuarioSession");
-            }
             session.setAttribute("usuarioSession", usuario);
 
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);

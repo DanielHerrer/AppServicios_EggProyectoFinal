@@ -39,13 +39,13 @@ public class PortalControlador {
 
         if (logueado != null) {
             if (logueado.getRol().equals(Rol.ADMIN)) {
-                //return "redirect:/admin/dashboard";
-                return "panel.html";
+                return "redirect:/admin/dashboard";
+//                return "panel.html";
             } else if (logueado.getRol().equals(Rol.PROVEEDOR) || logueado.getRol().equals(Rol.CLIENTE)) {
-                //return "redirect:/inicio";
-                modelo.put("notificaciones", usuarioService.countNotificaciones(logueado.getId()));
-                modelo.put("ubicaciones",Ubicacion.values());
-                return "inicio.html";
+                return "redirect:/inicio";
+//                modelo.put("notificaciones", usuarioService.countNotificaciones(logueado.getId()));
+//                modelo.put("ubicaciones",Ubicacion.values());
+//                return "inicio.html";
             }
         }
         return "index.html";
@@ -87,7 +87,7 @@ public class PortalControlador {
 
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
         if (logueado != null) {
-            return "redirect:/inicio";
+            return "redirect:/";
         }
         return "eleccion-usuario.html";
 
@@ -102,7 +102,7 @@ public class PortalControlador {
 
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
         if (logueado != null) {
-            return "redirect:/inicio";
+            return "redirect:/";
         }
 
         return "registrar-usuario.html";
@@ -117,7 +117,7 @@ public class PortalControlador {
 
         Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
         if (logueado != null) {
-            return "redirect:/inicio";
+            return "redirect:/";
         }
 
         return "registrar-proveedor.html";
