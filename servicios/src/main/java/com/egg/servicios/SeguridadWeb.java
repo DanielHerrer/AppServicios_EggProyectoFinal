@@ -66,7 +66,7 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable();
     }
 
-    @Bean
+    //@Bean
     @Transactional
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return (httpServletRequest, httpServletResponse, authentication) -> {
@@ -76,11 +76,11 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 // Guardar la información de usuario en la sesión
                 httpServletRequest.getSession().setAttribute("usuarioSession", usuario);
             }
-
             // Redirigir a la página después de un inicio de sesión exitoso
             httpServletResponse.sendRedirect("/");
         };
     }
+
 
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {

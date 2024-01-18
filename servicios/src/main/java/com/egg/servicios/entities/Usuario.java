@@ -2,13 +2,8 @@ package com.egg.servicios.entities;
 
 import com.egg.servicios.enums.Rol;
 import com.egg.servicios.enums.Ubicacion;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 
 
 import org.hibernate.annotations.GenericGenerator;
@@ -28,7 +23,7 @@ public class Usuario {
     private String accUsuario;
     private String password;
     private String nombre;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Imagen imagen;
     private String email;
     private Ubicacion ubicacion;
