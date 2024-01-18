@@ -78,6 +78,15 @@ public class UsuarioService implements UserDetailsService {
         return usuarios;
     }
 
+    public Usuario findUsuarioByEmail(String email) {
+        Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+        if (usuario.isPresent()) {
+            return usuario.get();
+        } else {
+            return null;
+        }
+    }
+
     public List<Usuario> findUsuariosByAltaTrue() {
         List<Usuario> usuarios = usuarioRepository.findUsuariosByAltaTrue();
         return usuarios;

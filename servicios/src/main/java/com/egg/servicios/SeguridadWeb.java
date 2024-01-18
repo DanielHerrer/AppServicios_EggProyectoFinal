@@ -1,6 +1,7 @@
 
 package com.egg.servicios;
 
+import com.egg.servicios.entities.Usuario;
 import com.egg.servicios.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -69,8 +70,9 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
         return (httpServletRequest, httpServletResponse, authentication) -> {
             if (authentication.getPrincipal() instanceof UserDetails) {
                 UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                Usuario usuario = usuarioService.findUsuarioByEmail(userDetails.getUsername());
                 // Guardar la información de usuario en la sesión
-                httpServletRequest.getSession().setAttribute("usuarioSession", userDetails);
+                httpServletRequest.getSession().setAttribute("usuarioSession", usuario);
             }
 
             // Redirigir a la página después de un inicio de sesión exitoso
