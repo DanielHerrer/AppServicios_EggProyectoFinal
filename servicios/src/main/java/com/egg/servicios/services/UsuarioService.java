@@ -17,8 +17,10 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -356,13 +358,12 @@ public class UsuarioService implements UserDetailsService {
         Optional<Usuario> user = usuarioRepository.findByEmail(email);
 
         if (user.isPresent()) {
-            System.out.println("el user esta presente: "+user.get().getNombre());
+            System.out.println("el user está presente: " + user.get().getNombre());
         } else {
-            System.out.println("no se encontro el user");
+            System.out.println("no se encontró el user");
         }
 
         if (user.isPresent()) {
-
             Usuario usuario = user.get();
 
             // Si el usuario tiene el alta en 'false'
@@ -370,28 +371,28 @@ public class UsuarioService implements UserDetailsService {
                 throw new UsernameNotFoundException("La cuenta ha sido baneada o eliminada: " + email);
             }
 
-            List<GrantedAuthority> permisos = new ArrayList();
-
+            List<GrantedAuthority> permisos = new ArrayList<>();
             GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
-
             permisos.add(p);
 
-            System.out.println("Permisos añadidos!, "+p.toString());
+            System.out.println("Permisos añadidos!, " + p.toString());
 
-
-            // Utilizamos los atributos que nos otorga el pedido al servlet, para poder guardar la
-            // información de nuestra HttpSession.
-            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-            HttpSession session = attr.getRequest().getSession(true);
-            session.setAttribute("usuarioSession", usuario);
+            // Verificar si la autenticación fue exitosa antes de almacenar la sesión
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (authentication != null && authentication.isAuthenticated()) {
+                // Utilizamos los atributos que nos otorga el pedido al servlet para guardar la información de la HttpSession.
+                ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+                HttpSession session = attr.getRequest().getSession(true);
+                session.setAttribute("usuarioSession", usuario);
+            }
 
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);
 
         } else {
             throw new UsernameNotFoundException("Usuario no encontrado: " + email);
         }
-
     }
+
 
 }
 

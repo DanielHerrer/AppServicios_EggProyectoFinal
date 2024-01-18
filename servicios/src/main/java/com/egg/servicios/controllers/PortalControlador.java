@@ -113,7 +113,6 @@ public class PortalControlador {
                 session.removeAttribute("usuarioSession");
                 session.invalidate();
             }
-//            model.addAttribute("error", "Usuario o contraseña incorrectos");
             return "redirect:/login?error=true";
         }
     }
