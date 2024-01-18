@@ -20,6 +20,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 /**
  *
@@ -66,6 +67,7 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    @Transactional
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         return (httpServletRequest, httpServletResponse, authentication) -> {
             if (authentication.getPrincipal() instanceof UserDetails) {
