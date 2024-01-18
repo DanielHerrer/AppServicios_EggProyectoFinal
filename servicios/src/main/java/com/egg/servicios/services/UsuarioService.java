@@ -358,9 +358,9 @@ public class UsuarioService implements UserDetailsService {
         Optional<Usuario> user = usuarioRepository.findByEmail(email);
 
         if (user.isPresent()) {
-            System.out.println("el user está presente: " + user.get().getNombre());
+            System.out.println("El user está presente: " + user.get().getNombre());
         } else {
-            System.out.println("no se encontró el user");
+            System.out.println("No se encontró el usuario");
         }
 
         if (user.isPresent()) {
@@ -372,10 +372,6 @@ public class UsuarioService implements UserDetailsService {
             }
 
             List<GrantedAuthority> permisos = new ArrayList<>();
-            GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
-            permisos.add(p);
-
-            System.out.println("Permisos añadidos!, " + p.toString());
 
             // Verificar si la autenticación fue exitosa antes de almacenar la sesión
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -384,6 +380,12 @@ public class UsuarioService implements UserDetailsService {
                 ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
                 HttpSession session = attr.getRequest().getSession(true);
                 session.setAttribute("usuarioSession", usuario);
+                // Se añaden los permisos
+                GrantedAuthority p = new SimpleGrantedAuthority("ROLE_" + usuario.getRol().toString());
+                permisos.add(p);
+                System.out.println("Permisos añadidos!, " + permisos.get(0).toString());
+            } else {
+                System.out.println("No se pudo autenticar!");
             }
 
             return new User(usuario.getEmail(), usuario.getPassword(), permisos);

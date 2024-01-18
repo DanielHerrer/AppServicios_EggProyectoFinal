@@ -93,8 +93,7 @@ public class PortalControlador {
     @Transactional
     @PostMapping("/logincheck")
     public String loginCheck(@RequestParam("email") String email,
-                             @RequestParam("password") String password,
-                             HttpServletRequest request, ModelMap model) {
+                             @RequestParam("password") String password) {
 
         try {
             // Autenticar al usuario
