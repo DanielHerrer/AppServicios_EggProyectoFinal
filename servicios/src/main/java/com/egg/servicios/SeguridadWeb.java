@@ -40,8 +40,6 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/*").hasRole("ADMIN")
                 .antMatchers("/css/*", "/js/*", "/img/*", "/**")
                 .permitAll()
-                .antMatchers("/login", "/login?logout") // añadido
-                .permitAll() // añadido
                 .and().formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/logincheck")
@@ -52,8 +50,8 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 .and().logout()
                 .logoutUrl("/logout")
                 .logoutSuccessHandler(logoutSuccessHandler()) // Configuramos un manejador personalizado
-                .permitAll()
-                .and().csrf().disable();
+                .permitAll();
+//                .and().csrf().disable();
     }
 
     @Bean
