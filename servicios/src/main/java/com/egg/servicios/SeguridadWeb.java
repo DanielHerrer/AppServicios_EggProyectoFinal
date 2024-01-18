@@ -63,7 +63,7 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 session.invalidate();
             }
             // Redirigimos a la página de login
-            httpServletResponse.sendRedirect("/login?logout");
+            httpServletResponse.sendRedirect("/login?logout=true");
         };
     }
 }

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -34,18 +36,15 @@ public class PortalControlador {
     // Primer metodo que se va a ejecutar en el localhost
     @Transactional
     @GetMapping("/")// Mapea url cuando se ingresa la / asi se ejecuta el cuerpo del metodo
-    public String index(ModelMap modelo, HttpSession session) {
-        Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
-
-        if (logueado != null) {
+    public String index(ModelMap modelo) {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(false);
+        if (session != null) {
+            Usuario logueado = (Usuario) session.getAttribute("usuarioSession");
             if (logueado.getRol().equals(Rol.ADMIN)) {
                 return "redirect:/admin/dashboard";
-//                return "panel.html";
             } else if (logueado.getRol().equals(Rol.PROVEEDOR) || logueado.getRol().equals(Rol.CLIENTE)) {
                 return "redirect:/inicio";
-//                modelo.put("notificaciones", usuarioService.countNotificaciones(logueado.getId()));
-//                modelo.put("ubicaciones",Ubicacion.values());
-//                return "inicio.html";
             }
         }
         return "index.html";
