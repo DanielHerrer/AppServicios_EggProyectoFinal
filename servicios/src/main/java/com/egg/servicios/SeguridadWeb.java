@@ -50,8 +50,8 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 .and().logout()
                 .logoutUrl("/logout")
                 .logoutSuccessHandler(logoutSuccessHandler()) // Configuramos un manejador personalizado
-                .permitAll();
-//                .and().csrf().disable();
+                .permitAll()
+                .and().csrf().disable();
     }
 
     @Bean

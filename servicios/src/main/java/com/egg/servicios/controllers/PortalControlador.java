@@ -77,7 +77,7 @@ public class PortalControlador {
             modelo.put("error", "Usuario o Contraseña inválidos!");
         }
         if (logout != null) {
-            modelo.put("message", "¡Logout exitoso!");
+            modelo.put("exito", "Cierre de sesión exitoso!");
         }
         return "login.html";
     }
