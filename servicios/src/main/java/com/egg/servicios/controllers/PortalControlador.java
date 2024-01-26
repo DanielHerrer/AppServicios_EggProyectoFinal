@@ -55,6 +55,7 @@ public class PortalControlador {
                 }
             }
         }
+        modelo.put("ubicaciones",Ubicacion.values());
         return "index.html";
     }
 
@@ -155,7 +156,6 @@ public class PortalControlador {
         }
 
         return "registrar-proveedor.html";
-
     }
 
     @PostMapping("/registro")
