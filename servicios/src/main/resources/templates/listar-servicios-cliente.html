@@ -136,10 +136,12 @@
                                 </b>
                             </div>
                         </div>
-                        <div class="row border-top py-2">
+                        <div class="row border-top py-2"
+                             th:if="${session.usuarioSession.rol.name == 'CLIENTE'}"
+                                  sec:authorize="hasRole('CLIENTE')">
                             <div class="col-12 py-2 text-center">
                                 <button
-                                        class="btn btn-sm boton-card"
+                                        class="btn btn-sm boton-card bg-primary text-light px-3 rounded-pill"
                                         data-bs-toggle="modal"
                                         th:data-bs-target="'#ofertaModal_' + ${iterStat.index}">
                                     Contratar
@@ -186,7 +188,11 @@
                             </div>
                         </div>
                         <!-- ======= FECHA PUBLICADO ======= -->
-                        <span th:text="${'Publicado el ' + (#temporals?.format(servicio.fecha, 'dd/MM/yyyy') ?: 'N/A')}" class="badge bg-primary rounded-pill mx-2"></span>
+                        <div class="row border-top py-2">
+                            <div class="col-12 pb-2 text-end">
+                                <span th:text="${'Publicado el ' + (#temporals?.format(servicio.fecha, 'dd/MM/yyyy') ?: 'N/A')}" class="badge text-secondary"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

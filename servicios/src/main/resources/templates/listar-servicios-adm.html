@@ -80,6 +80,7 @@
                                         <tr class="texto-tabla">
                                             <!--<th scope="col">ID</th>-->
                                             <th class="fs-5 fw-bold" scope="col">Acciones</th>
+                                            <th class="fs-5 fw-bold" scope="col">Fecha</th>
                                             <th class="fs-5 fw-bold" scope="col">Proveedor</th>
                                             <th class="fs-5 fw-bold" scope="col">Categoria</th>
                                             <th class="fs-5 fw-bold" scope="col">Descripcion</th>
@@ -97,6 +98,7 @@
                                                    sec:authorize="hasRole('ADMIN')"
                                                    th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"><i class="bi bi-pencil-square"></i> Modificar </a>
                                             </td>
+                                            <td class="text-primary fw-bold" th:text="${(#temporals?.format(servicio.fecha, 'dd/MM/yyyy') ?: 'N/A')}"></td>
                                             <td class="text-primary fw-bold" th:text="${servicio.proveedor.nombre}"></td>
                                             <td class="text-primary fw-bold" th:text="${servicio.categoria.nombre}"></td>
                                             <td class="text-primary fw-bold" th:text="${servicio.descripcion}"></td>

@@ -79,6 +79,7 @@
                                 <tr class="texto-tabla">
                                     <!--<th scope="col">ID</th>-->
                                     <th class="fs-5 fw-bold" scope="col">Acciones</th>
+                                    <th class="fs-5 fw-bold" scope="col">Fecha</th>
                                     <th class="fs-5 fw-bold" scope="col">Cliente</th>
                                     <th class="fs-5 fw-bold" scope="col">Descripcion</th>
                                     <th class="fs-5 fw-bold" scope="col">Proveedor</th>
@@ -94,6 +95,7 @@
                                         <a  sec:authorize="hasRole('ADMIN')" class="btn btn-outline-primary" th:href= "@{/oferta/modificar/__${oferta.id}__}"
                                             th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"><i class="bi bi-pencil-square"></i> Modificar </a>
                                     </td>
+                                    <td class="text-primary fw-bold" th:text="${(#temporals?.format(oferta.fecha, 'dd/MM/yyyy') ?: 'N/A')}"></td>
                                     <td class="text-primary fw-bold" th:text="${oferta.cliente.nombre}"></td>
                                     <td class="text-primary fw-bold" th:text="${oferta.descripcion}"></td>
                                     <td class="text-primary fw-bold" th:text="${oferta.servicio.proveedor.nombre}"></td>

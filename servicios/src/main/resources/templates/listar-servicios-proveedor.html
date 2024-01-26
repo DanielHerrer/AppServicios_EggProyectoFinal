@@ -167,13 +167,12 @@
                                 </b>
                             </div>
                         </div>
+                        <!-- ======= FECHA PUBLICADO ======= -->
                         <div class="row border-top py-2">
-                            <div class="col-12 py-2 text-center">
-                                <!-- Sin boton de Contratar ya que esta vista es para PROVEEDORES -->
+                            <div class="col-12 pb-2 text-end">
+                                <span th:text="${'Publicado el ' + (#temporals?.format(servicio.fecha, 'dd/MM/yyyy') ?: 'N/A')}" class="badge text-secondary"></span>
                             </div>
                         </div>
-                        <!-- ======= FECHA PUBLICADO ======= -->
-                        <span th:text="${'Publicado el ' + (#temporals?.format(servicio.fecha, 'dd/MM/yyyy') ?: 'N/A')}" class="badge bg-primary rounded-pill mx-2"></span>
                     </div>
                 </div>
             </div>
