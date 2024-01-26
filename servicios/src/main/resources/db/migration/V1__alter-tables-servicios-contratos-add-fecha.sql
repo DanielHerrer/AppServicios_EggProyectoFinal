@@ -1,0 +1,5 @@
+ALTER TABLE servicios
+ADD COLUMN fecha TIMESTAMP;
+
+ALTER TABLE contratos
+ADD COLUMN fecha TIMESTAMP;

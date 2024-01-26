@@ -86,6 +86,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Migraciones Flyway -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
+
     </dependencies>
     <build>
         <plugins>

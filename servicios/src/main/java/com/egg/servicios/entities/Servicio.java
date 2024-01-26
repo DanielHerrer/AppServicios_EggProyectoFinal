@@ -2,6 +2,7 @@ package com.egg.servicios.entities;
 
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -23,19 +24,23 @@ public class Servicio {
     private Categoria categoria;
     @ManyToOne
     private Usuario proveedor;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime fecha;
     private Boolean alta;
 
     public Servicio() {
-        this.alta = true;
+        fecha = LocalDateTime.now();
+        alta = true;
     }
 
-    public Servicio(String descripcion, Double honorariosHora, Imagen matricula, Categoria categoria, Usuario proveedor) {
+    public Servicio(String descripcion, Double honorariosHora, Imagen matricula, Categoria categoria, Usuario proveedor, LocalDateTime fecha) {
         this.descripcion = descripcion;
         this.honorariosHora = honorariosHora;
         this.matricula = matricula;
         this.categoria = categoria;
         this.proveedor = proveedor;
-        this.alta = true;
+        this.fecha = fecha;
+        alta = true;
     }
 
     public String getId() {
@@ -84,6 +89,18 @@ public class Servicio {
 
     public void setProveedor(Usuario proveedor) {
         this.proveedor = proveedor;
+    }
+
+    public void setHonorariosHora(Double honorariosHora) {
+        this.honorariosHora = honorariosHora;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
     }
 
     public Boolean getAlta() {

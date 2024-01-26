@@ -131,6 +131,8 @@
                                             <!-- Sin boton de Contratar ya que esta vista es para GUESTS -->
                                         </div>
                                     </div>
+                                    <!-- ======= FECHA PUBLICADO ======= -->
+                                    <span th:text="${'Publicado el '+ #temporals.format(servicio.fecha, 'dd/MM/yyyy')}" class="badge bg-primary rounded-pill mx-2"></span>
                                 </div>
                             </div>
                         </div>

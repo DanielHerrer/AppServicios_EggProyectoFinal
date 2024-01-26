@@ -7,6 +7,8 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDateTime;
+
 
 /**
  *
@@ -25,18 +27,22 @@ public class Contrato {
     private Oferta oferta;
     @OneToOne
     private Calificacion aptitud;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime fecha;
     private boolean alta;
 
     public Contrato() {
-        this.alta = true;
+        fecha = LocalDateTime.now();
+        alta = true;
     }
 
-    public Contrato(String id, Estados estadoTrabajo, Oferta oferta, Calificacion aptitud) {
+    public Contrato(String id, Estados estadoTrabajo, Oferta oferta, Calificacion aptitud, LocalDateTime fecha) {
         this.id = id;
         this.estadoTrabajo = estadoTrabajo;
         this.oferta = oferta;
         this.aptitud = aptitud;
-        this.alta = true;
+        this.fecha = fecha;
+        alta = true;
     }
 
     public String getId() {
@@ -69,6 +75,14 @@ public class Contrato {
 
     public void setAptitud(Calificacion aptitud) {
         this.aptitud = aptitud;
+    }
+
+    public LocalDateTime getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDateTime fecha) {
+        this.fecha = fecha;
     }
 
     public boolean isAlta() {

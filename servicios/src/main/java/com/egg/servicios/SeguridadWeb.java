@@ -57,7 +57,7 @@ public class SeguridadWeb extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/logincheck")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .successHandler(authenticationSuccessHandler())
+                .successHandler(authenticationSuccessHandler()) // Configuramos un manejador personalizado
                 .permitAll()
                 .and().logout()
                 .logoutUrl("/logout")

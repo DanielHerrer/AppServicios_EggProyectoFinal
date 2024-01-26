@@ -154,7 +154,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                         Calificar</button>
                                 </form>
                             </div>
-
+                            <!-- ======= FECHA PUBLICADO ======= -->
+                            <span th:text="${'Solicitado el '+ #temporals.format(contrato.fecha, 'dd/MM/yyyy')}" class="badge bg-primary rounded-pill mx-2"></span>
                         </div>
                     </div>
 
