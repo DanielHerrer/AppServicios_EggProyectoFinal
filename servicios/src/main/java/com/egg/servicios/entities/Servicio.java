@@ -24,7 +24,6 @@ public class Servicio {
     private Categoria categoria;
     @ManyToOne
     private Usuario proveedor;
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime fecha;
     private Boolean alta;
 

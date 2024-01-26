@@ -27,7 +27,6 @@ public class Contrato {
     private Oferta oferta;
     @OneToOne
     private Calificacion aptitud;
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime fecha;
     private boolean alta;
 
