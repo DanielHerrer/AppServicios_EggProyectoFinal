@@ -19,28 +19,28 @@ public interface ContratoRepository extends JpaRepository<Contrato, String> {
     @Query("SELECT c FROM Contrato c WHERE c.id = :id")
     public Contrato getContratoById(@Param("id") String id);
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true ORDER BY c.fecha DESC")
     public List<Contrato> findContratosByAltaTrue();
 
     @Query("SELECT c FROM Contrato c WHERE c.alta = false")
     public List<Contrato> findContratosByAltaFalse();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = com.egg.servicios.enums.Estados.PENDIENTE")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = com.egg.servicios.enums.Estados.PENDIENTE ORDER BY c.fecha DESC")
     public List<Contrato> findContratosByEstadoTrabajoPendiente();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = com.egg.servicios.enums.Estados.RECHAZADO")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = com.egg.servicios.enums.Estados.RECHAZADO ORDER BY c.fecha DESC")
     public List<Contrato> findContratosByEstadoTrabajoRechazado();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = com.egg.servicios.enums.Estados.ACEPTADO")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = com.egg.servicios.enums.Estados.ACEPTADO ORDER BY c.fecha DESC")
     public List<Contrato> findContratosByEstadoTrabajoAceptado();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = com.egg.servicios.enums.Estados.FINALIZADO")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.estadoTrabajo = com.egg.servicios.enums.Estados.FINALIZADO ORDER BY c.fecha DESC")
     public List<Contrato> findContratosByEstadoTrabajoFinalizado();
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.oferta.servicio.proveedor.id = :idProveedor")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.oferta.servicio.proveedor.id = :idProveedor ORDER BY c.fecha DESC")
     public List<Contrato> findContratosByIdProveedor(@Param("idProveedor") String idProveedor);
 
-    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.oferta.cliente.id = :idCliente")
+    @Query("SELECT c FROM Contrato c WHERE c.alta = true AND c.oferta.cliente.id = :idCliente ORDER BY c.fecha DESC")
     public List<Contrato> findContratosByIdCliente(@Param("idCliente") String idCliente);
 
     @Query("SELECT c FROM Contrato c " +

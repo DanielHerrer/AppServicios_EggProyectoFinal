@@ -69,14 +69,13 @@
                                         <h6 class="text-primary pb-3 text-center">Servicios</h6>
                                         <a th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"
                                             sec:authorize="hasRole('ADMIN')" href="/admin/listarservicios" class="btn  boton my-1">Listar Servicios</a>
-                                        <!--<a sec:authorize="hasRole('ADMIN')" href="/servicio/listar/cliente" class="btn  boton my-1">Modificar Servicios x</a>-->
                                     </div>
                                     <div class="col-md-3 d-flex flex-column">
                                         <h6 class="text-primary pb-3 text-center">Contratos</h6>
                                         <a th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"
-                                            sec:authorize="hasRole('ADMIN')" href="/calificacion/listar" class="btn  boton my-1">Listar Calificaciones</a>
+                                           sec:authorize="hasRole('ADMIN')" href="/admin/contrato/listar" class="btn  boton my-1">Listar Contratos</a>
                                         <a th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"
-                                            sec:authorize="hasRole('ADMIN')" href="/oferta/listar" class="btn  boton my-1">Listar Ofertas</a>
+                                            sec:authorize="hasRole('ADMIN')" href="/calificacion/listar" class="btn  boton my-1">Listar Calificaciones</a>
                                     </div>
                                 </div>
                             </div>

@@ -20,7 +20,7 @@ public interface ServicioRepository extends JpaRepository<Servicio, String> {
     @Query("SELECT s FROM Servicio s WHERE s.id = :id ")
     public Servicio getServicioById(@Param("id") String id);
 
-    @Query("SELECT s FROM Servicio s WHERE s.alta = true ")
+    @Query("SELECT s FROM Servicio s WHERE s.alta = true ORDER BY s.fecha DESC")
     public List<Servicio> findServiciosByAltaTrue();
 
     @Query("SELECT s FROM Servicio s WHERE s.alta = false")
@@ -41,14 +41,16 @@ public interface ServicioRepository extends JpaRepository<Servicio, String> {
             "FROM Contrato c " +
             "WHERE c.oferta.cliente.id = :idCliente " +
             "AND (c.estadoTrabajo = com.egg.servicios.enums.Estados.PENDIENTE " +
-            "OR c.estadoTrabajo = com.egg.servicios.enums.Estados.ACEPTADO))")
+            "OR c.estadoTrabajo = com.egg.servicios.enums.Estados.ACEPTADO)) " +
+            "ORDER BY s.fecha DESC")
     public List<Servicio> findServiciosDisponibleByIdCliente(@Param("idCliente") String idCliente);
 
     // Selecciona servicios relacionados según la lupa de búsqueda
     @Query("SELECT s FROM Servicio s WHERE s.alta = true " +
             "AND (LOWER(s.categoria.nombre) LIKE LOWER(CONCAT('%', :input, '%')) " +
             "OR LOWER(s.proveedor.nombre) LIKE LOWER(CONCAT('%', :input, '%')) " +
-            "OR LOWER(s.descripcion) LIKE LOWER(CONCAT('%', :input, '%')))")
+            "OR LOWER(s.descripcion) LIKE LOWER(CONCAT('%', :input, '%'))) " +
+            "ORDER BY s.fecha DESC")
     public List<Servicio> findServiciosByBusqueda(@Param("input") String input);
 
     // Selecciona servicios relacionados según la lupa de búsqueda y que el cliente NO HAYA SOLICITADO
@@ -59,11 +61,13 @@ public interface ServicioRepository extends JpaRepository<Servicio, String> {
             "WHERE c.oferta.cliente.id = :idCliente) " +
             "AND (LOWER(s.categoria.nombre) LIKE LOWER(CONCAT('%', :input, '%')) " +
             "OR LOWER(s.proveedor.nombre) LIKE LOWER(CONCAT('%', :input, '%')) " +
-            "OR LOWER(s.descripcion) LIKE LOWER(CONCAT('%', :input, '%')))")
+            "OR LOWER(s.descripcion) LIKE LOWER(CONCAT('%', :input, '%'))) " +
+            "ORDER BY s.fecha DESC")
     public List<Servicio> findServiciosByBusquedaDisponibleCliente(@Param("idCliente") String idCliente, @Param("input") String input);
 
     @Query("SELECT s FROM Servicio s WHERE s.alta = true " +
-            "AND s.proveedor.ubicacion = :input")
+            "AND s.proveedor.ubicacion = :input " +
+            "ORDER BY s.fecha DESC")
     public List<Servicio> findServiciosByBusquedaZona(@Param("input") Ubicacion ubicacion);
 
 }

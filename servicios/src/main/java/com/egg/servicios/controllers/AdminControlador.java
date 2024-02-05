@@ -1,6 +1,7 @@
 package com.egg.servicios.controllers;
 
 import com.egg.servicios.entities.Calificacion;
+import com.egg.servicios.entities.Contrato;
 import com.egg.servicios.entities.Oferta;
 import com.egg.servicios.entities.Servicio;
 import com.egg.servicios.enums.Rol;
@@ -33,6 +34,8 @@ public class AdminControlador {
     private CategoriaService categoriaService;
     @Autowired
     private OfertaService ofertaService;
+    @Autowired
+    private ContratoService contratoService;
     @Autowired
     private CalificacionService calificacionService;
     @Autowired
@@ -221,29 +224,29 @@ public class AdminControlador {
         return "redirect:/admin/listarservicios";
     }
 
-    //OFERTAS ------------------------------------->
+    // CONTRATOS ------------------------------------->
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/listarofertas")
-    public String listarOfertasADM(ModelMap modelo) {
-        List<Oferta> ofertas = ofertaService.findOfertasByAltaTrue();
-        modelo.addAttribute("ofertas", ofertas);
-        return "listar-ofertas-adm.html";
+    @GetMapping("/contrato/listar")
+    public String listarContratosAdm(ModelMap modelo) {
+        List<Contrato> contratos = contratoService.findContratosByAltaTrue();
+        modelo.addAttribute("contratos", contratos);
+        return "listar-contratos-adm.html";
     }
 
     //BOTON DAR DE BAJA OFERTA
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @PostMapping("/oferta/baja/{id}")
-    public String darBajaOferta(@PathVariable String id, ModelMap modelo) throws MiException {
-        ofertaService.deleteOfertaById(id);
-        return "redirect:/admin/listarofertas";
+    @PostMapping("/contrato/baja/{id}")
+    public String darBajaContrato(@PathVariable String id, ModelMap modelo) throws MiException {
+        contratoService.deleteContratoById(id);
+        return "redirect:/admin/contrato/listar";
     }
 
     //BOTON DAR DE ALTA OFERTA
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @PostMapping("/oferta/alta/{id}")
-    public String darAltaOferta(@PathVariable String id, ModelMap modelo) throws MiException {
-        ofertaService.updateOfertaAltaTrue(id);
-        return "redirect:/admin/listarofertas";
+    @PostMapping("/contrato/alta/{id}")
+    public String darAltaContrato(@PathVariable String id, ModelMap modelo) throws MiException {
+        contratoService.updateContratoAlta(id,true);
+        return "redirect:/admin/contrato/listar";
     }
 
     // CALIFICACIONES ------------------------------------->
