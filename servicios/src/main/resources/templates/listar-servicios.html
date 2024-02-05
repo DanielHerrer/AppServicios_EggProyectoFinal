@@ -120,7 +120,7 @@
                                     <!-- ======= FECHA PUBLICADO ======= -->
                                     <div class="row border-top py-2">
                                         <div class="col-12 pb-2 text-end">
-                                            <span th:text="${'Publicado el ' + (servicio.fecha != null ? servicio.fecha.format(java.time.format.DateTimeFormatter.ofPattern('dd/MM/yyyy')) : 'N/A')}" class="badge text-secondary"></span>
+                                            <span th:text="${'Publicado el ' + (servicio.fecha != null ? servicio.fecha : 'N/A')}" class="badge text-secondary"></span>
                                         </div>
                                     </div>
                                 </div>
