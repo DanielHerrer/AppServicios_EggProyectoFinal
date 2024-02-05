@@ -117,7 +117,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                      class="img_perfil align-self-end" alt="imagen de perfil" />
                             </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body pt-0">
 
 <!--                            <h5 class="fs-5 m-0">Profesional:</h5>-->
 <!--                            &lt;!&ndash; nombre proveedor &ndash;&gt;-->
@@ -156,7 +156,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                             </div>
                             <!-- ======= FECHA PUBLICADO ======= -->
                             <div class="row border-top pt-2">
-                                <div class="col-12 pb-2 text-end">
+                                <div class="col-12 text-end">
                                     <span th:text="${'Solicitado el ' + (#temporals?.format(contrato.fecha, 'dd/MM/yyyy') ?: 'N/A')}" class="badge text-secondary"></span>
                                 </div>
                             </div>
