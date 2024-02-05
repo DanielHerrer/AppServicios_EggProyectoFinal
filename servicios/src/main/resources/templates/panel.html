@@ -75,7 +75,7 @@
                                         <a th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"
                                            sec:authorize="hasRole('ADMIN')" href="/admin/contrato/listar" class="btn  boton my-1">Listar Contratos</a>
                                         <a th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"
-                                            sec:authorize="hasRole('ADMIN')" href="/calificacion/listar" class="btn  boton my-1">Listar Calificaciones</a>
+                                            sec:authorize="hasRole('ADMIN')" href="/admin/calificacion/listar" class="btn  boton my-1">Listar Calificaciones</a>
                                     </div>
                                 </div>
                             </div>

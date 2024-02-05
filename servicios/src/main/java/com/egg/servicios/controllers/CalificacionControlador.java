@@ -56,14 +56,6 @@ public class CalificacionControlador {
             return "registrar-calificacion.html";
         }
     }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/listar")
-    public String listarCalificaciones(ModelMap modelo){
-        List<Calificacion> calificaciones = calificacionService.getCalificaciones();
-        modelo.put("calificaciones", calificaciones);
-        return "listar-calificaciones-adm.html";
-    }
     
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/modificar/{id}")

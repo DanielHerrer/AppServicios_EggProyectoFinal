@@ -80,6 +80,7 @@ public class ContratoService {
         return contratos;
     }
 
+    @Transactional
     public List<Contrato> findContratosByAltaTrue() {
         List<Contrato> contratos = contratoRepository.findContratosByAltaTrue();
         return contratos;

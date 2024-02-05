@@ -177,7 +177,7 @@ public class AdminControlador {
 
     //CATEGORIAS------------------------------------->
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @GetMapping("/listarcategorias")
+    @GetMapping("/categoria/listar")
     public String listarCategorias(ModelMap modelo) {
         return "redirect:/categoria/listar";
 
@@ -228,7 +228,7 @@ public class AdminControlador {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/contrato/listar")
     public String listarContratosAdm(ModelMap modelo) {
-        List<Contrato> contratos = contratoService.findContratosByAltaTrue();
+        List<Contrato> contratos = contratoService.getContratosAll();
         modelo.addAttribute("contratos", contratos);
         return "listar-contratos-adm.html";
     }
@@ -250,6 +250,14 @@ public class AdminControlador {
     }
 
     // CALIFICACIONES ------------------------------------->
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @GetMapping("/calificacion/listar")
+    public String listarCalificacionesAdm(ModelMap modelo) {
+        List<Calificacion> calificaciones = calificacionService.getCalificaciones();
+        modelo.put("calificaciones", calificaciones);
+        return "listar-calificaciones-adm.html";
+    }
 
     //BOTON DAR DE ALTA CALIFICACION
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")

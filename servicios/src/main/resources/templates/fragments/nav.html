@@ -110,7 +110,7 @@
                             Agregar Categoria</a></li>
                     <li><a class="dropdown-item"
                            th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"
-                           sec:authorize="hasRole('ADMIN')" th:href="@{/categoria/listar}" >
+                           sec:authorize="hasRole('ADMIN')" th:href="@{/admin/categoria/listar}" >
                             Categorias</a></li>
 
                     <li><a class="dropdown-item" 
