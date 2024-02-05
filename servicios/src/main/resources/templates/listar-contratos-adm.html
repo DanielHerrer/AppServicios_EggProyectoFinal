@@ -96,7 +96,7 @@
                                     <a  sec:authorize="hasRole('ADMIN')" class="btn btn-outline-primary" th:href= "@{/contrato/modificar/__${contrato.id}__}"
                                         th:if="${session.usuarioSession != null and session.usuarioSession.rol.name == 'ADMIN'}"><i class="bi bi-pencil-square"></i> Modificar </a>
                                 </td>
-                                <td class="text-primary fw-bold" th:text="${contrato.fecha != null ? contrato.fecha : 'N/A'}"></td>
+                                <td class="text-primary fw-bold" th:text="${'' + (contrato.fecha != null ? contrato.fecha : 'N/A')}"></td>
                                 <td class="text-primary fw-bold" th:text="${contrato.oferta.cliente.nombre}"></td>
                                 <td class="text-primary fw-bold" th:text="${contrato.oferta.descripcion}"></td>
                                 <td class="text-primary fw-bold" th:text="${contrato.oferta.servicio.proveedor.nombre}"></td>
