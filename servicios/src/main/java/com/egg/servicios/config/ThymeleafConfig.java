@@ -32,13 +32,4 @@ public class ThymeleafConfig implements WebMvcConfigurer {
         return templateResolver;
     }
 
-    // Configuración para formateo de fecha en las plantillas HTML
-    @Bean
-    public FormattingConversionService formattingConversionService() {
-        DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
-        DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
-        registrar.setUseIsoFormat(true); // Puedes personalizar esto según tu necesidad
-        registrar.registerFormatters(conversionService);
-        return conversionService;
-    }
 }

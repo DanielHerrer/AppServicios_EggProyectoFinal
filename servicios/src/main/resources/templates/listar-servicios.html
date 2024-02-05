@@ -98,19 +98,16 @@
                                                 th:if="${servicio.proveedor.imagen != null}"
                                                 th:src="@{/imagen/usuario/__${servicio.proveedor.id}__}"
                                                 class="img_perfil align-self-end"
-                                                alt="imagen de perfil"
-                                                />
+                                                alt="imagen de perfil" />
                                         </div>
                                         <div
                                             th:text="${servicio.proveedor.nombre}"
-                                            class="col-8 align-self-center fs-5"
-                                            ></div>
+                                            class="col-8 align-self-center fs-5"></div>
                                     </div>
                                     <div class="row border-top border-primary">
                                         <div
                                             th:text="${servicio.descripcion}"
-                                            class="text-secundary descripcion-card py-2"
-                                            ></div>
+                                            class="text-secundary descripcion-card py-2"></div>
                                     </div>
                                     <div class="row border-top py-2">
                                         <div class="col-7 align-self-end">Calificación Proveedor:</div>
@@ -118,15 +115,14 @@
                                             <b>
                                                 <i
                                                     th:each="estrellita : ${#numbers.sequence(1, 5)}"
-                                                    th:class="${estrellita le puntuaciones[iterStat.index]} ? 'bi bi-star-fill' : 'bi bi-star'"
-                                                    ></i>
+                                                    th:class="${estrellita le puntuaciones[iterStat.index]} ? 'bi bi-star-fill' : 'bi bi-star'"></i>
                                             </b>
                                         </div>
                                     </div>
                                     <!-- ======= FECHA PUBLICADO ======= -->
                                     <div class="row border-top py-2">
                                         <div class="col-12 pb-2 text-end">
-                                            <span th:text="${'Publicado el ' + (#temporals?.format(servicio.fecha, 'dd/MM/yyyy') ?: 'N/A')}" class="badge text-secondary"></span>
+                                            <span th:text="${'Publicado el ' + (#temporals.format(servicio.fecha, 'dd/MM/yyyy') ?: 'N/A')}" class="badge text-secondary"></span>
                                         </div>
                                     </div>
                                 </div>
