@@ -157,7 +157,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                             <!-- ======= FECHA PUBLICADO ======= -->
                             <div class="row border-top pt-2">
                                 <div class="col-12 text-end">
-                                    <span th:text="${'Solicitado el ' + (contrato.fecha != null ? #temporals.format(contrato.fecha, 'dd/MM/yyyy') : 'N/A')}" class="badge text-secondary"></span>
+                                    <span th:text="${'Solicitado el ' + (contrato.fecha != null ? #temporals.format(contrato.fecha, 'dd/MM/yyyy HH:mm') : 'N/A')}" class="badge text-secondary"></span>
                                 </div>
                             </div>
                         </div>
